@@ -1,7 +1,15 @@
+.header-calendary {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* margin-top: 30px; */
+}
+
 .img-user {
   width: 100px;
   height: 100px;
-  background-color: blanchedalmond;
+  background-color: #FFC100;
   border-radius: 50%;
   display: flex;
   color: black;
@@ -13,17 +21,24 @@
   /* padding: 5px; */
 }
 
-.img-user p {
-  /* padding-bottom: 3px; */
-}
-
-.header-calendary {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .name-user {
   color: white;
   font-weight: bold;
+}
+
+
+.back {
+  display: flex;
+  width: 100%;
+  margin-left: 30px;
+  margin-top: 20px;
+}
+
+.back a {
+  color: white;
+  text-decoration: none;
+}
+
+.back img {
+  width: 13px;
 }

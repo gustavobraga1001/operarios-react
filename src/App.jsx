@@ -1,15 +1,17 @@
 // src/App.jsx
-
-import CustomCalendar from "./components/CustomCalendar/CustomCalendar";
-import "./App.css";
-import Header from "./components/Header/Header";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// import Home from "./pages/Home";
+import Calendar from "./pages/Calendar/Calendar";
+import Home from "./pages/Home/Home";
 
 function App() {
   return (
-    <div className="container">
-      <Header />
-      <CustomCalendar />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/calendar" element={<Calendar />} />
+      </Routes>
+    </Router>
   );
 }
 

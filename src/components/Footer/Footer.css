@@ -1,0 +1,15 @@
+nav {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #ffc100;
+  padding: 30px 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+nav a {
+    color: black;
+    text-decoration: none;
+}

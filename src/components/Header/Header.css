@@ -9,7 +9,7 @@
 .img-user {
   width: 100px;
   height: 100px;
-  background-color: #FFC100;
+  background-color: #ffc100;
   border-radius: 50%;
   display: flex;
   color: black;
@@ -21,11 +21,14 @@
   /* padding: 5px; */
 }
 
+.img-user p {
+  margin: 0;
+}
+
 .name-user {
   color: white;
   font-weight: bold;
 }
-
 
 .back {
   display: flex;

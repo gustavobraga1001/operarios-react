@@ -1,0 +1,29 @@
+.img-user {
+  width: 100px;
+  height: 100px;
+  background-color: blanchedalmond;
+  border-radius: 50%;
+  display: flex;
+  color: black;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+  margin: 0;
+  font-weight: bold;
+  /* padding: 5px; */
+}
+
+.img-user p {
+  padding-bottom: 3px;
+}
+
+.header-calendary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.name-user {
+  color: white;
+  font-weight: bold;
+}

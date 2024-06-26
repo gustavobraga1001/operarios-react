@@ -1,0 +1,134 @@
+/* src/components/CustomCalendar.css */
+
+/* Exemplo usando a fonte Roboto */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+.custom-calendar {
+  font-family: "Roboto", sans-serif; /* Aplica a fonte Roboto ao calendário */
+}
+
+.calendar-container {
+  background-color: #000;
+  color: #fff;
+  /* padding: 20px; */
+  border-radius: 10px;
+}
+
+.react-calendar {
+  background-color: #000;
+  color: #fff;
+  border: none;
+}
+
+.react-calendar__tile {
+  background: none;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* Garantindo que o tamanho do tile seja consistente */
+  aspect-ratio: 1; /* Garante proporções iguais */
+}
+
+.react-calendar__tile--now {
+  background: none;
+  color: #fff;
+  font-weight: bold;
+}
+
+.react-calendar__tile--active {
+  background: red;
+  /* border-radius: 50%; */
+  color: #fff;
+}
+
+.events-container {
+  display: flex;
+  justify-content: center;
+  gap: 3px; /* Espaçamento entre bolinhas */
+  flex-wrap: wrap; /* Permite quebra de linha */
+  margin-top: 1px;
+}
+
+.event-dot {
+  width: 8px;
+  height: 8px;
+  background-color: red;
+  border-radius: 50%;
+}
+
+.event-day {
+  position: relative;
+}
+
+.react-calendar__tile-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Remover sublinhado dos dias da semana */
+.react-calendar__month-view__weekdays__weekday abbr {
+  text-decoration: none; /* Remove sublinhado */
+  font-size: 0.875rem; /* Tamanho da fonte para os dias da semana */
+}
+
+/* Centralizar os dias da semana */
+.react-calendar__month-view__weekdays__weekday {
+  display: flex;
+  justify-content: center;
+}
+
+/* CustomCalendar.css */
+.react-calendar__navigation__prev2-button,
+.react-calendar__navigation__next2-button {
+  display: none;
+}
+
+/* CustomCalendar.css */
+.react-calendar__navigation__label {
+  cursor: default; /* Altera o cursor para padrão */
+  pointer-events: none; /* Desativa eventos de clique */
+}
+
+.custom-navigation {
+  text-align: center;
+  /* margin-bottom: 10px; */
+}
+
+.react-calendar__navigation__prev2-button,
+.react-calendar__navigation__next2-button {
+  display: none; /* Oculta os botões de navegação de mês anterior e próximo */
+}
+
+.month-year {
+  font-weight: bold;
+}
+
+.selected-events {
+  margin-top: 10px;
+}
+
+.react-calendar__tile--active {
+  background-color: #ff0000 !important; /* Vermelho */
+  color: white; /* Cor do texto branco para contraste */
+}
+
+.react-calendar__tile--active:hover {
+  background-color: #ff0000 !important; /* Vermelho escuro ao passar o mouse */
+}
+
+.custom-navigation .month-year {
+  font-weight: bold; /* Negrito */
+  color: #ffffff; /* Cor do texto */
+  text-transform: capitalize; /* Capitaliza a primeira letra */
+  text-align: center; /* Centraliza o texto */
+}
+
+.custom-navigation {
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  padding: 10px 0; /* Espaçamento vertical */
+}

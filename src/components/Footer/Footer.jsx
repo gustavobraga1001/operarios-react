@@ -28,8 +28,6 @@ const Footer = () => {
     }
   };
 
-  console.log(location.pathname, iconHome, getIcon("/").iconHome);
-
   return (
     <nav className="nav-bar">
       <Link to="/home">

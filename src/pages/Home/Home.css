@@ -16,4 +16,16 @@
     margin-bottom: 20px;
 }
 
+.helcome-home {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 2px;
+}
+
+.helcome-home h1 {
+  font-size: 18px;
+  font-weight: 400;
+}
+
 

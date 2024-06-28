@@ -1,30 +1,27 @@
-/* src/components/CustomCalendar.css */
-
-/* Exemplo usando a fonte Roboto */
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
-
 .custom-calendar {
-  font-family: "Roboto", sans-serif; /* Aplica a fonte Roboto ao calendário */
+  font-family: "Plus Jakarta Sans", sans-serif;
 }
 
 .calendar-container {
-  background-color: #000;
   color: #fff;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-bottom: 20%;
 }
 
 .react-calendar {
-  background-color: #000;
-  color: #fff;
+  background-color: #3e3c41;
+  border-radius: 10px;
+  color: #b2afb6;
   border: none;
+  padding: 15px;
 }
 
 .react-calendar__tile {
   background: none;
-  color: #fff;
+  color: #b2afb6;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -33,18 +30,61 @@
   aspect-ratio: 1; /* Garante proporções iguais */
 }
 
+/* Dia atual com sublinhado personalizado */
 .react-calendar__tile--now {
-  background: none;
-  color: #fff;
-  font-weight: bold;
+  position: relative;
+  font-weight: bold; /* Negrito */
+  color: #ffffff; /* Texto branco */
+}
+
+.react-calendar__tile--now::after {
+  content: "";
+  position: absolute;
+  bottom: 13px; /* Ajuste o valor para controlar o espaçamento */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10%; /* Largura do sublinhado */
+  height: 1px; /* Espessura do sublinhado */
+  background-color: #ffffff; /* Cor do sublinhado */
+}
+
+.react-calendar__navigation button {
+  font-size: 30px;
+}
+
+.month-year {
+  cursor: default; /* Altera o cursor para padrão */
+  pointer-events: none; /* Desativa eventos de clique */
+  font-size: 20px;
+  font-family: "Plus Jakarta Sans", sans-serif;
 }
 
 .react-calendar__tile--active {
-  background: rgb(27, 22, 22);
-  /* border-radius: 50%; */
-  color: #fff;
+  background-color: #504c4c !important; 
+  color: #ffc100 !important; 
+  border: 1px solid #ffc100 !important;
+  border-radius: 10px;
+  /* font-weight: bold; */
 }
 
+.custom-calendar .react-calendar__tile {
+  height: 45px; /* Ajuste a altura mínima conforme necessário */
+}
+
+
+/* Remover sublinhado do dia atual quando selecionado */
+.react-calendar__tile--now.react-calendar__tile--active::after {
+  display: none;
+}
+
+.custom-navigation {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.react-calendar__navigation__label {
+  cursor: default; /* Altera o cursor para padrão */
+  pointer-events: none; /* Desativa eventos de clique */
+}
 .events-container {
   display: flex;
   justify-content: center;
@@ -56,7 +96,7 @@
 .event-dot {
   width: 8px;
   height: 8px;
-  background-color: #FFC100;
+  background-color: #ffc100;
   border-radius: 50%;
 }
 
@@ -88,12 +128,6 @@
   display: none;
 }
 
-/* CustomCalendar.css */
-.react-calendar__navigation__label {
-  cursor: default; /* Altera o cursor para padrão */
-  pointer-events: none; /* Desativa eventos de clique */
-}
-
 .custom-navigation {
   text-align: center;
   /* margin-bottom: 10px; */
@@ -112,13 +146,8 @@
   margin-top: 10px;
 }
 
-.react-calendar__tile--active {
-  background-color: #FFC100 !important; /* Vermelho */
-  color: white; /* Cor do texto branco para contraste */
-}
-
 .react-calendar__tile--active:hover {
-  background-color: #FFC100 !important; /* Vermelho escuro ao passar o mouse */
+  background-color: #504c4c !important;
 }
 
 .custom-navigation .month-year {

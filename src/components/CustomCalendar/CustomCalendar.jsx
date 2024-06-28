@@ -5,14 +5,40 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./CustomCalendar.css";
 import EventCard from "../EventCard/EventCard";
+import Footer from "../Footer/Footer";
 
 const events = [
-  { date: "2024-06-04", description: "Evento 1", sector: "Recepção" },
-  { date: "2024-06-04", description: "Evento 2", sector: "Financeiro" },
-  { date: "2024-06-11", description: "Evento 3", sector: "Marketing" },
-  { date: "2024-06-11", description: "Evento 4", sector: "TI" },
-  { date: "2024-06-18", description: "Evento 5", sector: "Vendas" },
-  { date: "2024-06-19", description: "Evento 6", sector: "Vendas" },
+  {
+    date: "2024-06-04",
+    description: "Evento 1",
+    sector: "Recepção",
+    hour: "16:00",
+  },
+  {
+    date: "2024-06-04",
+    description: "Evento 2",
+    sector: "Financeiro",
+    hour: "16:00",
+  },
+  {
+    date: "2024-06-11",
+    description: "Evento 3",
+    sector: "Marketing",
+    hour: "16:00",
+  },
+  { date: "2024-06-11", description: "Evento 4", sector: "TI", hour: "16:00" },
+  {
+    date: "2024-06-18",
+    description: "Evento 5",
+    sector: "Vendas",
+    hour: "16:00",
+  },
+  {
+    date: "2024-06-19",
+    description: "Evento 6",
+    sector: "Vendas",
+    hour: "16:00",
+  },
   // Adicione mais eventos aqui
 ];
 
@@ -23,7 +49,7 @@ const parseDate = (dateString) => {
 };
 
 const CustomCalendar = () => {
-  const [value, setValue] = useState(new Date());
+  const [value, setValue] = useState(null); // Inicializa como null
   const [selectedEvents, setSelectedEvents] = useState([]);
 
   const getEventsForDate = (date) => {
@@ -31,13 +57,14 @@ const CustomCalendar = () => {
     return events.filter((event) => event.date === normalizedDate);
   };
 
-  const handleDayClick = (value) => {
-    const eventsForDate = getEventsForDate(value);
+  const handleDayClick = (date) => {
+    setValue(date); // Atualiza o valor selecionado
+    const eventsForDate = getEventsForDate(date);
     setSelectedEvents(eventsForDate);
   };
 
   const formatShortWeekday = (locale, date) => {
-    const weekdays = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+    const weekdays = ["S", "T", "Q", "Q", "S", "S", "D"];
     return weekdays[date.getDay()];
   };
 
@@ -75,7 +102,7 @@ const CustomCalendar = () => {
         }}
         tileClassName={({ date, view }) => {
           if (view === "month") {
-            // Adiciona a classe "react-calendar__tile--active" ao dia selecionado
+            // Adiciona a classe "react-calendar__tile--active" apenas quando value não é nulo
             if (value && date.toDateString() === value.toDateString()) {
               return "react-calendar__tile--active";
             }
@@ -84,18 +111,15 @@ const CustomCalendar = () => {
               return "event-day";
             }
           }
-          return null;
+          return "";
         }}
       />
       <div className="selected-events">
         {selectedEvents.map((event, index) => (
-          <EventCard
-            key={index}
-            description={event.description}
-            sector={event.sector}
-          />
+          <EventCard key={index} description={event.description} hour={event.hour}/>
         ))}
       </div>
+      <Footer />
     </div>
   );
 };

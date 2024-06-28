@@ -3,8 +3,8 @@ export const manifestForPlugIn = {
     registerType:'prompt',
     includeAssests:['favicon.ico', "apple-touc-icon.png", "masked-icon.svg"],
     manifest:{
-      name:"React-vite-app",
-      short_name:"react-vite-app",
+      name:"Operários",
+      short_name:"Operários",
       description:"I am a simple vite app",
       icons:[{
         src: '/android-chrome-192x192.png',
@@ -31,8 +31,8 @@ export const manifestForPlugIn = {
         purpose:'any maskable',
       }
     ],
-    theme_color:'#171717',
-    background_color:'#f0e7db',
+    theme_color:'#ffc100',
+    background_color:'#3e3c41',
     display:"standalone",
     scope:'/',
     start_url:"/",

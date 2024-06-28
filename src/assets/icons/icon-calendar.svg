@@ -1,8 +1,8 @@
-<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="3.25" y="6.5" width="19.5" height="16.25" rx="2" stroke="#FFC100" stroke-width="2"/>
-<path d="M4.33334 11.9167H21.6667" stroke="#FFC100" stroke-width="2" stroke-linecap="round"/>
-<path d="M10.8333 17.3333H15.1667" stroke="#FFC100" stroke-width="2" stroke-linecap="round"/>
-<path d="M13 15.1667L13 19.5" stroke="#FFC100" stroke-width="2" stroke-linecap="round"/>
-<path d="M8.66666 3.25L8.66666 7.58333" stroke="#FFC100" stroke-width="2" stroke-linecap="round"/>
-<path d="M17.3333 3.25L17.3333 7.58333" stroke="#FFC100" stroke-width="2" stroke-linecap="round"/>
+<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="1" y="6.66667" width="34" height="28.3333" rx="2" stroke="#FFC100" stroke-width="2"/>
+<path d="M2.88891 16.1111H33.1111" stroke="#FFC100" stroke-width="2" stroke-linecap="round"/>
+<path d="M14.2222 25.5556H21.7778" stroke="#FFC100" stroke-width="2" stroke-linecap="round"/>
+<path d="M18 21.7778L18 29.3333" stroke="#FFC100" stroke-width="2" stroke-linecap="round"/>
+<path d="M10 1L10 8.55556" stroke="#FFC100" stroke-width="2" stroke-linecap="round"/>
+<path d="M26 1L26 8.55556" stroke="#FFC100" stroke-width="2" stroke-linecap="round"/>
 </svg>

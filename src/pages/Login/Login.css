@@ -46,7 +46,7 @@ p {
 }
 
 .container-login input::placeholder {
-  color: #ffc100; /* Escolha a cor desejada */
+  color: #a57d04; /* Escolha a cor desejada */
 }
 
 .container-login button {

@@ -1,0 +1,63 @@
+/* Container Principal */
+.grid-time-picker {
+  position: relative;
+  width: 100%; /* Ajuste conforme necessário */
+}
+
+/* Estilo da Caixa de Entrada */
+.time-picker-input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* padding: 10px; */
+  border-radius: 5px;
+  color: #f1f1f1;
+  cursor: pointer;
+}
+
+.time-picker-input.active {
+  border-color: #f1c40f;
+}
+
+.time-picker-input .icon {
+  margin-left: 10px;
+}
+
+/* Estilo da Dropdown */
+.time-picker-dropdown {
+  position: absolute;
+  bottom: 10;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  border: 1px solid #444;
+  border-radius: 5px;
+  background: #2c2c2c;
+  margin-top: 5px;
+  max-height: 200px; /* Altura máxima */
+  overflow-y: auto; /* Rolagem apenas vertical */
+  overflow-x: hidden; /* Oculta a rolagem horizontal */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 colunas */
+  gap: 10px; /* Espaçamento entre itens */
+  padding: 10px;
+}
+
+/* Estilo de Cada Item */
+.time-picker-item {
+  padding: 10px;
+  cursor: pointer;
+  color: #f1f1f1;
+  text-align: center;
+  background: #333;
+  border-radius: 5px;
+  font-size: ;
+}
+
+.time-picker-item:hover {
+  background: #3c3c3c;
+}
+
+.icon-arrow{
+    width: 18px;
+}

@@ -7,12 +7,12 @@ import {
 } from "react-router-dom";
 import { Fragment, Suspense, useEffect, useState } from "react";
 import useAuth from "../Hooks/useAuth";
-import Calendar from "../pages/Calendar/Calendar";
-import Settings from "../pages/Settings/Settings";
-import Home from "../pages/Home/Home";
-import Login from "../pages/Login/Login";
+import Settings from "../Pages/Settings/Settings";
+import Home from "../Pages/Home/Home";
+import Login from "../Pages/Login/Login";
 import LoadingSpinner from "../components/Loading/Loading";
-import Scales from "../pages/Scales/Scales";
+import Scales from "../Pages/Scales/Scales";
+import Calendar from "../Pages/Calendar/Calendar";
 
 const Private = ({ Item }) => {
   const { signed } = useAuth();

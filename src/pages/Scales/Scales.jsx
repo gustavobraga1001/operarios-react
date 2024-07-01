@@ -2,6 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import "./Scales.css";
 import Calendar from "react-calendar";
 import iconSclales from "../../assets/icons/icon-scales.svg";
+import iconClock from "../../assets/icons/icon-clock.svg";
+import TimePicker from "../../components/TimePicker/TimePicker";
+import btnVoltar from "../../assets/icons/btn-voltar.svg";
+import { Link } from "react-router-dom";
 
 const Scales = () => {
   const [date, setDate] = useState(new Date());
@@ -41,6 +45,11 @@ const Scales = () => {
 
   return (
     <div className="scales-container">
+      <header>
+        <Link to={"/settings"}>
+          <img src={btnVoltar} alt="Botão de voltar de página" />
+        </Link>
+      </header>
       <div className="scales-header">
         <h1>Abra uma escala</h1>
         <p>
@@ -100,12 +109,23 @@ const Scales = () => {
             )}
           </div>
         </section>
-        <section>
-          <p>Horários</p>
-          <select>
-            <option value="16:00">16:00</option>
-          </select>
+        <section className="scales-hour">
+          <p className="scales-hour-title">Horários</p>
+          <div className="sclales-hour-box">
+            <img className="icon-clock" src={iconClock} />
+            <TimePicker />
+          </div>
         </section>
+        <section className="scales-workers scales-hour">
+          <p className="scales-hour-title">Operários</p>
+          <div className="sclales-hour-box">
+            <img className="icon-clock" src={iconClock} />
+            <p className="scales-names">Guilherme Oliveira, Lucas Madie. </p>
+          </div>
+        </section>
+        <div className="scales-button">
+          <button>AGENDAR</button>
+        </div>
       </div>
     </div>
   );

@@ -4,10 +4,19 @@
   margin: 30px 15px;
   background-color: rgba(35, 34, 37, 1);
   border-radius: 12px;
+  padding-bottom: 10px;
+}
+
+.scales-container header {
+  padding: 15px 15px;
+}
+
+.scales-container header img {
+  width: 13px;
 }
 
 .scales-header {
-  padding-top: 39px;
+  padding-top: 10px;
   padding-left: 21px;
 }
 .scales-header h1 {
@@ -24,7 +33,7 @@
 }
 
 .scales-sections {
-  margin: 41px 8px;
+  margin: 20px 8px;
 }
 
 .scales-date p {
@@ -47,4 +56,63 @@
 .scales-calendar {
   font-family: "Plus Jakarta Sans", sans-serif;
   font-size: 14px; /* Define o tamanho da fonte */
+}
+
+.scales-hour {
+  margin-top: 20px;
+}
+
+.scales-hour-title {
+  color: rgba(178, 175, 182, 1);
+  font-size: 16px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.sclales-hour-box {
+  border: 2px solid rgba(51, 54, 63, 1);
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-clock {
+  width: 24px;
+}
+
+.scales-hour select {
+  appearance: none;
+  border: none;
+  background-color: transparent;
+  font-size: 16px;
+  color: rgba(178, 175, 182, 1);
+}
+
+.scales-workers p {
+  color: rgba(178, 175, 182, 1);
+}
+
+.scales-names {
+  margin: 0;
+}
+
+
+.scales-button {
+  margin-top: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.scales-button button{
+  background-color: #FFC100;
+  width: 162px;
+  height: 56px;
+  color: black;
+  border-radius: 8px;
+  border: none;
+  font-weight: 700;
+  font-size: 14px;
 }

@@ -1,18 +1,24 @@
 import { Link } from "react-router-dom";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import "./Home.css";
 import Saudacao from "../../components/Saudacao/Saudacao";
 import Footer from "../../components/Footer/Footer";
-import iconDia from "../../assets/icons/icon-dia.svg"
-import iconTarde from "../../assets/icons/icon-tarde.svg"
-import iconNoite from "../../assets/icons/icon-noite.svg"
+import iconDia from "../../assets/icons/icon-dia.svg";
+import iconTarde from "../../assets/icons/icon-tarde.svg";
+import iconNoite from "../../assets/icons/icon-noite.svg";
 import logo from "../../assets/images/logo.svg";
+import useAuth from "../../Hooks/useAuth";
 
 const Home = () => {
-
   const [currentHour, setCurrentHour] = useState(new Date().getHours());
   const [message, setMessage] = useState("");
-  const [image, setImage] = useState("")
+  const [image, setImage] = useState("");
+
+  const { getUser } = useAuth();
+
+  const user  = getUser()
+
+  const nameFomatted = user[0].name.split(' ')
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -20,14 +26,14 @@ const Home = () => {
     }, 1000 * 60 * 60); // Atualiza a cada hora
 
     if (currentHour <= 12) {
-      setMessage("Bom Dia")
-      setImage(iconDia)
-    } else if (currentHour >= 13 && currentHour <= 18){
-      setMessage("Boa Tarde")
-      setImage(iconTarde)
+      setMessage("Bom Dia");
+      setImage(iconDia);
+    } else if (currentHour >= 13 && currentHour <= 18) {
+      setMessage("Boa Tarde");
+      setImage(iconTarde);
     } else {
-      setMessage("Boa Noite")
-      setImage(iconNoite)
+      setMessage("Boa Noite");
+      setImage(iconNoite);
     }
 
     return () => clearInterval(interval); // Limpa o intervalo quando o componente é desmontado
@@ -41,7 +47,7 @@ const Home = () => {
       <main className="main-home">
         <div className="helcome-home">
           <img src={image} alt="Imagem da hora atual" />
-          <h1>{message}, Braga</h1>
+          <h1>{message}, {nameFomatted[1]}</h1>
         </div>
         <Saudacao
           message="Seu próximo dia de servir é:"

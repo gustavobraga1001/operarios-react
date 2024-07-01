@@ -6,18 +6,22 @@ const App = () => {
   useEffect(() => {
     const newUser = [
       {
+        name: "Gustavo Braga",
         email: "braga@bompastor.com",
         password: "braga@bompastor",
       },
       {
+        name: "Gustavo Almeida",
         email: "almeida@bompastor.com",
         password: "almeida@bompastor",
       },
       {
+        name: "Matheus Torres",
         email: "torres@bompastor.com",
         password: "torres@bompastor",
       },
       {
+        name: "Gustavo Braga",
         email: "gu@dev.com",
         password: "gu@dev",
       },

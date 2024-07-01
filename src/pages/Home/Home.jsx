@@ -44,9 +44,9 @@ const Home = () => {
           <h1>{message}, Braga</h1>
         </div>
         <Saudacao
-          message="Hoje é dia de servir!"
-          setor="Recepção"
-          horario="16:00 pm"
+          message="Seu próximo dia de servir é:"
+          day="HOJE!"
+          horario="16:00"
         />
       </main>
       <Footer />

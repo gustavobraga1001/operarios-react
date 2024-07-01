@@ -11,9 +11,9 @@
 }
 
 .container-home header {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
 .helcome-home {
@@ -21,11 +21,22 @@
   align-items: center;
   gap: 6px;
   margin-left: 2px;
+  animation: slideIn 1.5s ease-out forwards;
+}
+
+/* Keyframes para a animação */
+@keyframes slideIn {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .helcome-home h1 {
   font-size: 18px;
   font-weight: 400;
 }
-
-

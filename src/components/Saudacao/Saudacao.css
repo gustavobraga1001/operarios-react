@@ -10,6 +10,7 @@
   height: 130px;
   position: relative;
   margin: 20px 0;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
 }
 
 .profile-image {
@@ -25,19 +26,19 @@
 }
 
 .message {
-  font-weight: bold;
-  font-size: 30px;
+  color: black;
+  font-size: 20px;
   margin: 0;
 }
 
-.setor {
-  font-size: 23px;
-  margin-top: 4px;
+.day {
+  font-weight: bold;
+  font-size: 25px;
 }
 
 .timestamp {
   font-size: 1.3em;
-  color: black;
+  color: #00000070;
   position: absolute;
   right: 10px;
   bottom: 10px;

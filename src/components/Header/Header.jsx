@@ -1,6 +1,4 @@
-import { Link } from "react-router-dom";
 import "./Header.css";
-import btnVoltar from "../../assets/icons/btn-voltar.svg";
 
 const Header = () => {
   return (

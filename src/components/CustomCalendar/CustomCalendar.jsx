@@ -9,32 +9,32 @@ import Footer from "../Footer/Footer";
 
 const events = [
   {
-    date: "2024-06-04",
+    date: "2024-07-04",
     description: "Evento 1",
     sector: "Recepção",
     hour: "16:00",
   },
   {
-    date: "2024-06-04",
+    date: "2024-07-04",
     description: "Evento 2",
     sector: "Financeiro",
     hour: "16:00",
   },
   {
-    date: "2024-06-11",
+    date: "2024-07-11",
     description: "Evento 3",
     sector: "Marketing",
     hour: "16:00",
   },
-  { date: "2024-06-11", description: "Evento 4", sector: "TI", hour: "16:00" },
+  { date: "2024-07-11", description: "Evento 4", sector: "TI", hour: "16:00" },
   {
-    date: "2024-06-18",
+    date: "2024-07-18",
     description: "Evento 5",
     sector: "Vendas",
     hour: "16:00",
   },
   {
-    date: "2024-06-19",
+    date: "2024-07-19",
     description: "Evento 6",
     sector: "Vendas",
     hour: "16:00",
@@ -116,7 +116,11 @@ const CustomCalendar = () => {
       />
       <div className="selected-events">
         {selectedEvents.map((event, index) => (
-          <EventCard key={index} description={event.description} hour={event.hour}/>
+          <EventCard
+            key={index}
+            description={event.description}
+            hour={event.hour}
+          />
         ))}
       </div>
       <Footer />

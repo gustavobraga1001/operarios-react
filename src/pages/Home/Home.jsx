@@ -19,10 +19,10 @@ const Home = () => {
       setCurrentHour(new Date().getHours());
     }, 1000 * 60 * 60); // Atualiza a cada hora
 
-    if (currentHour <= 13) {
+    if (currentHour <= 12) {
       setMessage("Bom Dia")
       setImage(iconDia)
-    } else if (currentHour > 13 && currentHour < 18){
+    } else if (currentHour >= 13 && currentHour <= 18){
       setMessage("Boa Tarde")
       setImage(iconTarde)
     } else {

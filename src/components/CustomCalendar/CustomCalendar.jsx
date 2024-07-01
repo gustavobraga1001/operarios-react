@@ -1,4 +1,3 @@
-// src/components/CustomCalendar.jsx
 
 import { useState } from "react";
 import Calendar from "react-calendar";
@@ -77,7 +76,7 @@ const CustomCalendar = () => {
         showNeighboringMonth={false}
         onClickDay={handleDayClick}
         navigationLabel={({ date }) => (
-          <div className="custom-navigation">
+          <div className="custom-navigation"> 
             <span className="month-year">
               <strong>
                 {date.toLocaleDateString("pt-BR", { month: "long" })}

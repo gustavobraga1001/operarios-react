@@ -12,6 +12,7 @@ import Settings from "../pages/Settings/Settings";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import LoadingSpinner from "../components/Loading/Loading";
+import Scales from "../pages/Scales/Scales";
 
 const Private = ({ Item }) => {
   const { signed } = useAuth();
@@ -40,8 +41,9 @@ const RoutesApp = () => {
               <Route exact path="/home" element={<Private Item={Home} />} />
               <Route path="/" element={<Login />} />
               <Route path="*" element={<Login />} />
-              <Route path="/calendar" element={<Calendar />} />
-              <Route path="/settings" element={<Settings />} />
+              <Route path="/calendar" element={<Private Item={Calendar} />} />
+              <Route path="/settings" element={<Private Item={Settings} />} />
+              <Route path="/scales" element={<Private Item={Scales} />} />
             </Routes>
           </Fragment>
         )}

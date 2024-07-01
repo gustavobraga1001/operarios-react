@@ -7,18 +7,18 @@ const App = () => {
     const newUser = [
       {
         name: "Gustavo Braga",
-        email: "braga@bompastor.com",
-        password: "braga@bompastor",
+        email: "braga@bp.com",
+        password: "braga@bp",
       },
       {
         name: "Gustavo Almeida",
-        email: "almeida@bompastor.com",
-        password: "almeida@bompastor",
+        email: "almeida@bp.com",
+        password: "almeida@bp",
       },
       {
         name: "Matheus Torres",
-        email: "torres@bompastor.com",
-        password: "torres@bompastor",
+        email: "torres@bp.com",
+        password: "torres@bp",
       },
       {
         name: "Gustavo Braga",

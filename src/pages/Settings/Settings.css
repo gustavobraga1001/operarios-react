@@ -1,0 +1,8 @@
+.settings-container {
+  margin: 15px;
+}
+
+.settings-container a {
+  font-size: 40px;
+  text-decoration: underline;
+}

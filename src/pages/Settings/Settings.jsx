@@ -1,13 +1,15 @@
 import React from "react";
 import Footer from "../../components/Footer/Footer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../../Hooks/useAuth";
+import "./Settings.css"
 
 const Settings = () => {
+  const { signout } = useAuth();
+  const navigate = useNavigate();
   return (
-    <div>
-      <Link to={"/"}>
-        <h1>Logout</h1>
-      </Link>
+    <div className="settings-container">
+      <a onClick={() => [signout(), navigate("/")]}>Logout</a>
       <Footer />
     </div>
   );

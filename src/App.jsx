@@ -1,41 +1,40 @@
-// src/App.jsx
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import Home from "./pages/Home";
-import Calendar from "./pages/Calendar/Calendar";
-import Home from "./pages/Home/Home";
-import Login from "./pages/Login/Login";
-import Settings from "./pages/Settings/Settings";
-import LoadingSpinner from "./components/Loading/Loading";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect } from "react";
+import { AuthProvider } from "./contexts/auth";
+import RoutesApp from "./Routes";
 
-function App() {
-  const [loading, setLoading] = useState(true);
-
+const App = () => {
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1000); // Simula um atraso de 1 segundo
+    const newUser = [
+      {
+        email: "braga@bompastor.com",
+        password: "braga@bompastor",
+      },
+      {
+        email: "almeida@bompastor.com",
+        password: "almeida@bompastor",
+      },
+      {
+        email: "torres@bompastor.com",
+        password: "torres@bompastor",
+      },
+      {
+        email: "gu@dev.com",
+        password: "gu@dev",
+      },
+    ];
+    // Verifica se já existem dados no localStorage
+    const existingData = localStorage.getItem("user_bd");
 
-    return () => clearTimeout(timer);
+    // Se não houver dados, inicializa com alguns dados padrão
+    if (!existingData) {
+      localStorage.setItem("users_bd", JSON.stringify(newUser));
+    }
   }, []);
-
   return (
-    <Router>
-      <Suspense fallback={<LoadingSpinner />}>
-      {loading ? (
-        <LoadingSpinner /> // Mostra o loading spinner enquanto as páginas estão sendo carregadas
-        ) : (
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/calendar" element={<Calendar />} />
-          <Route path="/settings" element={<Settings />} />
-        </Routes>
-        )}
-
-      </Suspense>
-    </Router>
+    <AuthProvider>
+      <RoutesApp />
+    </AuthProvider>
   );
-}
+};
 
 export default App;

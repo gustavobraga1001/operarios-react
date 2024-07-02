@@ -13,6 +13,7 @@ const Home = () => {
   const [currentHour, setCurrentHour] = useState(new Date().getHours());
   const [message, setMessage] = useState("");
   const [image, setImage] = useState("");
+  console.log("teste")
 
   const { getUser } = useAuth();
 

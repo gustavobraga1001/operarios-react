@@ -6,6 +6,7 @@ import Footer from "../../components/Footer/Footer";
 import iconDia from "../../assets/icons/icon-dia.svg";
 import iconTarde from "../../assets/icons/icon-tarde.svg";
 import iconNoite from "../../assets/icons/icon-noite.svg";
+import iconHand from "../../assets/icons/icon-hand.svg";
 import logo from "../../assets/images/logo.svg";
 import useAuth from "../../Hooks/useAuth";
 
@@ -13,13 +14,13 @@ const Home = () => {
   const [currentHour, setCurrentHour] = useState(new Date().getHours());
   const [message, setMessage] = useState("");
   const [image, setImage] = useState("");
-  console.log("teste")
+  console.log("teste");
 
   const { getUser } = useAuth();
 
-  const user  = getUser()
+  const user = getUser();
 
-  const nameFomatted = user[0].name.split(' ')
+  const nameFomatted = user[0].name.split(" ");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -48,13 +49,21 @@ const Home = () => {
       <main className="main-home">
         <div className="helcome-home">
           <img src={image} alt="Imagem da hora atual" />
-          <h1>{message}, {nameFomatted[1]}</h1>
+          <h1>
+            {message}, {nameFomatted[1]}
+          </h1>
         </div>
         <Saudacao
           message="Seu próximo dia de servir é:"
           day="HOJE!"
           horario="16:00"
         />
+        <Link to={"/scales"}>
+          <button className="btn-scales">
+            {" "}
+            <img src={iconHand} alt="" />
+          </button>
+        </Link>
       </main>
       <Footer />
     </div>

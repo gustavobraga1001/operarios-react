@@ -1,33 +1,52 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Scales.css";
 import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import iconSclales from "../../assets/icons/icon-scales.svg";
 import iconClock from "../../assets/icons/icon-clock.svg";
 import TimePicker from "../../components/TimePicker/TimePicker";
 import btnVoltar from "../../assets/icons/btn-voltar.svg";
 import { Link } from "react-router-dom";
+import WorkersPicker from "../../components/WorkersPicker/WorkersPicker";
+import useEvents from "../../Hooks/useEvents";
 
 const Scales = () => {
   const [date, setDate] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
   const calendarRef = useRef(null);
+  const { workers, setWorkers, createEvent, time } = useEvents();
+
+  const [newEvent, setNewEvent] = useState({
+    id: "", // Adicione um identificador único, ex: UUID ou timestamp
+    date: "",
+    description: "",
+    sector: "",
+  });
+
+  const formatDateTime = (date) => {
+    // Converte a data para uma string ISO e extrai apenas a parte da data (YYYY-MM-DD)
+    return date.toISOString().split("T")[0];
+  };
 
   const handleDateChange = (newDate) => {
     setDate(newDate);
-    setShowCalendar(false);
+    setShowCalendar(false); // Fecha o calendário após selecionar a data
+    formatDateTime(date);
   };
 
   const toggleCalendar = () => {
-    setShowCalendar(!showCalendar);
+    setShowCalendar(!showCalendar); // Mostra ou esconde o calendário ao clicar no input
   };
 
   const handleClickOutside = (event) => {
+    // Fecha o calendário ao clicar fora dele
     if (calendarRef.current && !calendarRef.current.contains(event.target)) {
       setShowCalendar(false);
     }
   };
 
   useEffect(() => {
+    // Adiciona e remove o listener para fechar o calendário ao clicar fora dele
     if (showCalendar) {
       document.addEventListener("mousedown", handleClickOutside);
     } else {
@@ -43,10 +62,31 @@ const Scales = () => {
     return weekdays[date.getDay()];
   };
 
+  const handleSchedule = () => {
+    const formattedDate = formatDateTime(date);
+    const idEvent = Math.floor(Math.random() * 100000)
+      .toString()
+      .padStart(5, "0");
+    const dateTime = `${formattedDate}T${time}`;
+
+    // Cria o objeto do evento localmente
+    const newEventObject = {
+      id: idEvent,
+      date: dateTime,
+      sector: "Midia", // ou o setor apropriado
+      workers: workers,
+    };
+
+    // Atualiza o estado e cria o evento
+    setNewEvent(newEventObject);
+    createEvent(newEventObject);
+    console.log(newEventObject);
+  };
+
   return (
     <div className="scales-container">
       <header>
-        <Link to={"/settings"}>
+        <Link to={"/home"}>
           <img src={btnVoltar} alt="Botão de voltar de página" />
         </Link>
       </header>
@@ -112,19 +152,20 @@ const Scales = () => {
         <section className="scales-hour">
           <p className="scales-hour-title">Horários</p>
           <div className="sclales-hour-box">
-            <img className="icon-clock" src={iconClock} />
+            <img
+              className="icon-clock"
+              src={iconClock}
+              alt="Ícone de relógio"
+            />
             <TimePicker />
           </div>
         </section>
         <section className="scales-workers scales-hour">
           <p className="scales-hour-title">Operários</p>
-          <div className="sclales-hour-box">
-            <img className="icon-clock" src={iconClock} />
-            <p className="scales-names">Guilherme Oliveira, Lucas Madie. </p>
-          </div>
+          <WorkersPicker />
         </section>
         <div className="scales-button">
-          <button>AGENDAR</button>
+          <button onClick={() => handleSchedule()}>AGENDAR</button>
         </div>
       </div>
     </div>

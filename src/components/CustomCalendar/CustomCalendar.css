@@ -37,7 +37,7 @@
   color: #ffffff; /* Texto branco */
 }
 
-.react-calendar__tile--now::after {
+/* .react-calendar__tile--now::after {
   content: "";
   position: absolute;
   bottom: 13px; /* Ajuste o valor para controlar o espaçamento */
@@ -46,7 +46,7 @@
   width: 10%; /* Largura do sublinhado */
   height: 1px; /* Espessura do sublinhado */
   background-color: #ffffff; /* Cor do sublinhado */
-}
+} */
 
 .react-calendar__navigation button {
   font-size: 30px;
@@ -57,6 +57,8 @@
   pointer-events: none; /* Desativa eventos de clique */
   font-size: 20px;
   font-family: "Plus Jakarta Sans", sans-serif;
+  width: 250px;
+  height: 30px;
 }
 
 .react-calendar__tile--active {

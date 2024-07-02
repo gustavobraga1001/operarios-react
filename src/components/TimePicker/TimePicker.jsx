@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./TimePicker.css"; // Estilos CSS separados
 import iconArrow from "../../assets/icons/icon-arrow.svg";
+import useEvents from "../../Hooks/useEvents";
 
 const times = [
   "01:00",
@@ -56,6 +57,8 @@ const GridTimePicker = () => {
   const [selectedTime, setSelectedTime] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
+  const { setTime } = useEvents();
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -63,6 +66,7 @@ const GridTimePicker = () => {
   const handleSelectTime = (time) => {
     setSelectedTime(time);
     setIsOpen(false);
+    setTime(time);
   };
 
   return (
@@ -75,7 +79,11 @@ const GridTimePicker = () => {
           {selectedTime || "Selecione um horário"}
         </span>
         <span className="icon">
-          <img className="icon-arrow" src={iconArrow} alt="Icone de seta para baixo" />
+          <img
+            className="icon-arrow"
+            src={iconArrow}
+            alt="Icone de seta para baixo"
+          />
         </span>
       </div>
       {isOpen && (

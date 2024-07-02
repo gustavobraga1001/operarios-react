@@ -1,59 +1,50 @@
-
-import { useState } from "react";
+// src/components/CustomCalendar.jsx
+import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./CustomCalendar.css";
 import EventCard from "../EventCard/EventCard";
 import Footer from "../Footer/Footer";
+import useEvents from "../../Hooks/useEvents";
 
-const events = [
-  {
-    date: "2024-07-04",
-    description: "Evento 1",
-    sector: "Recepção",
-    hour: "16:00",
-  },
-  {
-    date: "2024-07-04",
-    description: "Evento 2",
-    sector: "Financeiro",
-    hour: "16:00",
-  },
-  {
-    date: "2024-07-11",
-    description: "Evento 3",
-    sector: "Marketing",
-    hour: "16:00",
-  },
-  { date: "2024-07-11", description: "Evento 4", sector: "TI", hour: "16:00" },
-  {
-    date: "2024-07-18",
-    description: "Evento 5",
-    sector: "Vendas",
-    hour: "16:00",
-  },
-  {
-    date: "2024-07-19",
-    description: "Evento 6",
-    sector: "Vendas",
-    hour: "16:00",
-  },
-  // Adicione mais eventos aqui
-];
-
-// Função para converter string de data para objeto Date em UTC
-const parseDate = (dateString) => {
-  const parts = dateString.split("-");
-  return new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]));
-};
+// const events = [
+//   {
+//     id: 1,
+//     date: "2024-07-02T16:00",
+//     description: "Evento 1",
+//   },
+//   {
+//     id: 2,
+//     date: "2024-07-10T16:00",
+//     description: "Evento 2",
+//   },
+//   {
+//     id: 3,
+//     date: "2024-07-22T16:00",
+//     description: "Evento 3",
+//   },
+//   {
+//     id: 4,
+//     date: "2024-07-02T16:00",
+//     description: "Evento 4",
+//   },
+// ];
 
 const CustomCalendar = () => {
   const [value, setValue] = useState(null); // Inicializa como null
   const [selectedEvents, setSelectedEvents] = useState([]);
 
+  const { getEvent, createEvent } = useEvents();
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    setEvents(getEvent);
+  });
+
+
   const getEventsForDate = (date) => {
     const normalizedDate = date.toISOString().split("T")[0]; // YYYY-MM-DD
-    return events.filter((event) => event.date === normalizedDate);
+    return events.filter((event) => event.date.startsWith(normalizedDate));
   };
 
   const handleDayClick = (date) => {
@@ -63,7 +54,7 @@ const CustomCalendar = () => {
   };
 
   const formatShortWeekday = (locale, date) => {
-    const weekdays = ["S", "T", "Q", "Q", "S", "S", "D"];
+    const weekdays = ["D", "S", "T", "Q", "Q", "S", "S"];
     return weekdays[date.getDay()];
   };
 
@@ -76,7 +67,7 @@ const CustomCalendar = () => {
         showNeighboringMonth={false}
         onClickDay={handleDayClick}
         navigationLabel={({ date }) => (
-          <div className="custom-navigation"> 
+          <div className="custom-navigation">
             <span className="month-year">
               <strong>
                 {date.toLocaleDateString("pt-BR", { month: "long" })}
@@ -114,14 +105,23 @@ const CustomCalendar = () => {
         }}
       />
       <div className="selected-events">
-        {selectedEvents.map((event, index) => (
-          <EventCard
-            key={index}
-            description={event.description}
-            hour={event.hour}
-          />
-        ))}
+        {selectedEvents.map((event, index) => {
+          // Separando a hora da data
+          const eventDate = new Date(event.date);
+          const hour = eventDate.toLocaleTimeString("pt-BR", {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+          return (
+            <EventCard
+              key={index}
+              description={event.sector}
+              hour={hour}
+            />
+          );
+        })}
       </div>
+      {/* <button onClick={handleCreateEvent}>Criar Evento</button> */}
       <Footer />
     </div>
   );

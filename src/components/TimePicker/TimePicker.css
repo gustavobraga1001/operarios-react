@@ -1,7 +1,7 @@
 /* Container Principal */
 .grid-time-picker {
   position: relative;
-  width: 100%; /* Ajuste conforme necessário */
+  width: 100%;
 }
 
 /* Estilo da Caixa de Entrada */
@@ -9,7 +9,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* padding: 10px; */
   border-radius: 5px;
   color: #f1f1f1;
   cursor: pointer;
@@ -51,7 +50,6 @@
   text-align: center;
   background: #333;
   border-radius: 5px;
-  font-size: ;
 }
 
 .time-picker-item:hover {
@@ -60,4 +58,8 @@
 
 .icon-arrow{
     width: 18px;
+}
+
+.selected-time {
+  font-weight: 100;
 }

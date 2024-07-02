@@ -1,0 +1,63 @@
+.worker-picker-dropdown {
+  position: absolute;
+  bottom: 10;
+  right: 0;
+  margin-right: 20px;
+  z-index: 1;
+  border: 1px solid #444;
+  border-radius: 5px;
+  background: #2c2c2c;
+  margin-top: 5px;
+  width: 250px;
+  max-height: 100px; /* Altura máxima */
+  overflow-y: auto; /* Rolagem apenas vertical */
+  overflow-x: hidden; /* Oculta a rolagem horizontal */
+  display: grid;
+  gap: 10px; /* Espaçamento entre itens */
+  padding: 10px;
+}
+
+.worker-picker-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  cursor: pointer;
+  color: #f1f1f1;
+  background: #333;
+  border-radius: 5px;
+}
+
+/* WorkersPicker.css */
+.workers-picker {
+  position: relative;
+  cursor: pointer;
+}
+
+.scales-worker-box {
+  display: flex;
+  align-items: center;
+  border: 2px solid rgba(51, 54, 63, 1);
+  padding: 10px;
+  border-radius: 5px;
+  gap: 10px;
+}
+
+/* .worker-picker-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  border-radius: 5px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+} */
+
+.worker-picker-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+

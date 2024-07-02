@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { AuthProvider } from "./contexts/auth";
 import RoutesApp from "./Routes";
+import { EventsProvider } from "./contexts/events";
 
 const App = () => {
   useEffect(() => {
@@ -35,9 +36,11 @@ const App = () => {
     }
   }, []);
   return (
-    <AuthProvider>
-      <RoutesApp />
-    </AuthProvider>
+    <EventsProvider>
+      <AuthProvider>
+        <RoutesApp />
+      </AuthProvider>
+    </EventsProvider>
   );
 };
 

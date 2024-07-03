@@ -42,21 +42,18 @@ const Home = () => {
     return diffInDays;
   }
 
-  const dayNow = new Date();
+  const CurrentDay = () => {
+    const dayNow = new Date();
 
-  const days = filteredEvents
-    .map((event) => countDaysBetweenDates(dayNow, event.date))
-    .filter((day) => day >= 0);
+    const days = filteredEvents
+      .map((event) => countDaysBetweenDates(dayNow, event.date))
+      .filter((day) => day >= 0);
 
-  const nextEvent = Math.min(...days);
+    const nextEvent = Math.min(...days);
+    return nextEvent;
+  };
 
-  // if (nextEvent == 0) {
-  //   setMessageDays("Hoje");
-  // } else if (nextEvent == 1) {
-  //   setMessageDays("em 1 dia");
-  // } else {
-  //   setMessageDays(`Em ${nextEvent} dias`);
-  // }
+  const day = CurrentDay();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -75,8 +72,9 @@ const Home = () => {
     }
 
     setEvents(getEvent);
+    const updateDay = () => CurrentDay();
 
-    return () => clearInterval(interval); // Limpa o intervalo quando o componente é desmontado
+    console.log(updateDay())
   }, []);
 
   return (

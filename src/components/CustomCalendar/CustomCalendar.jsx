@@ -28,7 +28,22 @@ const CustomCalendar = () => {
 
   const getEventsForDate = (date) => {
     const normalizedDate = date.toISOString().split("T")[0]; // YYYY-MM-DD
-    if (user[0].role == "Lider") {
+    const filteredEvents = findEventsByWorker(events, user[0].name);
+
+    if (user[0].role == "Lider" && filteredEvents.length > 0) {
+      const eventsOwner = events.filter(
+        (event) => event.sector == user[0].sector
+      );
+
+      const filteredEvents = findEventsByWorker(events, user[0].name);
+
+      // Concatenando os dois arrays em um único array
+      const combinedArray = [...eventsOwner, ...filteredEvents];
+
+      return combinedArray.filter((event) =>
+        event.date.startsWith(normalizedDate)
+      );
+    } else if (user[0].role == "Lider") {
       const eventsOwner = events.filter(
         (event) => event.sector == user[0].sector
       );
@@ -109,11 +124,15 @@ const CustomCalendar = () => {
             minute: "2-digit",
           });
           return (
-            <EventCard key={index} description={event.sector} hour={hour} />
+            <EventCard
+              key={index}
+              description={event.sector}
+              hour={hour}
+              workers={event.workers}
+            />
           );
         })}
-      </div>
-      {/* <button onClick={handleCreateEvent}>Criar Evento</button> */}
+      </div>{" "}
       <Footer />
     </div>
   );

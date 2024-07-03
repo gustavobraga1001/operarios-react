@@ -4,7 +4,79 @@
   flex-direction: column;
 }
 
-.settings-container a {
-  font-size: 40px;
-  text-decoration: underline;
+.settings-box-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(51, 54, 63, 1);
+  border-radius: 8px;
+  padding: 8px 16px 8px 16px;
+  margin-top: 20px;
+}
+
+.settings-img {
+  background-color: rgba(255, 193, 0, 1);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.settings-img p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.settings-box-infos p {
+  color: white;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.settings-box-infos span {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.settings-options {
+  margin: 40px 8px;
+}
+
+.settings-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 13px;
+  margin-top: 37px;
+  padding-left: 5px;
+  border-bottom: 1px solid rgba(51, 54, 63, 1);
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.settings-option p {
+  color: rgba(255, 255, 255, 1);
+  font-size: 14px;
+}
+
+.settings-button-logout {
+  border: 1px solid rgba(255, 0, 0, 1);
+  border-radius: 8px;
+  text-align: center;
+  position: fixed;
+  width: calc(100% - 30px); /* Ajusta a largura com a margem */
+  padding: 16px 0;
+  bottom: 0;
+  margin-bottom: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 0, 0, 1);
+  font-size: 14px;
+  font-weight: 500;
 }

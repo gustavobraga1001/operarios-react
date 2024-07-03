@@ -15,51 +15,32 @@ const Home = () => {
   const [currentHour, setCurrentHour] = useState(new Date().getHours());
   const [message, setMessage] = useState("");
   const [image, setImage] = useState("");
-  const [messageDays, setMessageDays] = useState("");
+  const [messageDays, setMessageDays] = useState({
+    message: "",
+    days: "",
+    hour: "",
+  });
   const { getUser } = useAuth();
   const { getEvent } = useEvents();
   const [events, setEvents] = useState([]);
   const user = getUser();
-  const nameFomatted = user[0].name.split(" ");
-
-  function findEventsByWorker(events, workerName) {
-    return events.filter((event) => event.workers.includes(workerName));
-  }
-
-  const filteredEvents = findEventsByWorker(events, user[0].name);
-
-  function countDaysBetweenDates(date1, date2) {
-    // Converte as datas para objetos Date
-    const start = new Date(date1);
-    const end = new Date(date2);
-
-    // Calcula a diferença em milissegundos
-    const diffInMs = Math.abs(end - start);
-
-    // Converte milissegundos em dias
-    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
-
-    return diffInDays;
-  }
-
-  const CurrentDay = () => {
-    const dayNow = new Date();
-
-    const days = filteredEvents
-      .map((event) => countDaysBetweenDates(dayNow, event.date))
-      .filter((day) => day >= 0);
-
-    const nextEvent = Math.min(...days);
-    return nextEvent;
-  };
-
-  const day = CurrentDay();
+  const nameFormatted = user[0].name.split(" ");
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentHour(new Date().getHours());
     }, 1000 * 60 * 60); // Atualiza a cada hora
 
+    return () => clearInterval(interval); // Limpa o intervalo quando o componente é desmontado
+  }, []);
+
+  useEffect(() => {
+    const eventsFromStorage = getEvent();
+    setEvents(eventsFromStorage);
+  }, [getEvent]);
+
+  useEffect(() => {
     if (currentHour <= 12) {
       setMessage("Bom Dia");
       setImage(iconDia);
@@ -70,12 +51,72 @@ const Home = () => {
       setMessage("Boa Noite");
       setImage(iconNoite);
     }
+  }, [currentHour]);
 
-    setEvents(getEvent);
-    const updateDay = () => CurrentDay();
+  useEffect(() => {
+    const dayNow = new Date();
+    dayNow.setHours(0, 0, 0, 0); // Remove a hora para comparação correta
 
-    console.log(updateDay())
-  }, []);
+    const findEventsByWorker = (events, workerName) =>
+      events.filter((event) => event.workers.includes(workerName));
+
+    const countDaysBetweenDates = (date1, date2) => {
+      const start = new Date(date1);
+      const end = new Date(date2);
+      start.setHours(0, 0, 0, 0);
+      end.setHours(0, 0, 0, 0);
+      const diffInMs = end - start;
+      return Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+    };
+
+    const filteredEvents = findEventsByWorker(events, user[0].name);
+
+    if (filteredEvents.length > 0) {
+      const futureEvents = filteredEvents.filter(
+        (event) => new Date(event.date) >= dayNow
+      );
+
+      if (futureEvents.length > 0) {
+        const nextEvent = futureEvents.reduce((prev, current) =>
+          new Date(prev.date) < new Date(current.date) ? prev : current
+        );
+
+        const daysUntilEvent = countDaysBetweenDates(
+          dayNow,
+          new Date(nextEvent.date)
+        );
+
+        if (daysUntilEvent === 0) {
+          setMessageDays({
+            message: "Seu próximo dia de servir é:",
+            days: "Hoje!",
+            hour: nextEvent.date.split("T")[1].substring(0, 5), // Obtém apenas o horário HH:MM
+          });
+        } else {
+          const nextEventDate = new Date(nextEvent.date);
+          const formattedDate = nextEventDate.toLocaleDateString("pt-BR", {
+            day: "2-digit",
+            month: "2-digit",
+          });
+          setMessageDays({
+            message: "Seu próximo dia de servir é:",
+            days: formattedDate,
+            hour: nextEvent.date.split("T")[1].substring(0, 5), // Obtém apenas o horário HH:MM
+          });
+        }
+      } else {
+        setMessageDays({ message: "", days: "Sem eventos", hour: "" }); // Caso não haja eventos futuros
+      }
+    } else {
+      setMessageDays({ message: "", days: "Sem futuros eventos", hour: "" }); // Caso não haja eventos filtrados
+    }
+
+    const timer = setTimeout(() => {
+      setCount(count + 1);
+    }, 1000);
+
+    return () => clearTimeout(timer); // Limpa o timeout para evitar problemas de memória
+  }, [count]);
 
   return (
     <div className="container-home">
@@ -86,23 +127,20 @@ const Home = () => {
         <div className="helcome-home">
           <img src={image} alt="Imagem da hora atual" />
           <h1>
-            {message}, {nameFomatted[1]}
+            {message}, {nameFormatted[1]}
           </h1>
         </div>
         <Saudacao
-          message="Seu próximo dia de servir é:"
-          day={messageDays}
-          horario="16:00"
+          message={messageDays.message}
+          day={messageDays.days}
+          horario={messageDays.hour}
         />
-        {user[0].role == "Lider" || user[0].role == "Dev" ? (
+        {(user[0].role === "Lider" || user[0].role === "Dev") && (
           <Link to={"/scales"}>
             <button className="btn-scales">
-              {" "}
               <img src={iconHand} alt="" />
             </button>
           </Link>
-        ) : (
-          ""
         )}
       </main>
       <Footer />

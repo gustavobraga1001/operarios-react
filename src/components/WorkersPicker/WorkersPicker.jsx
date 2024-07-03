@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import iconClock from "../../assets/icons/icon-clock.svg";
 import "./WorkersPicker.css";
-import { Check, X } from "@phosphor-icons/react";
+import { Check, Lightning, X } from "@phosphor-icons/react";
 import useEvents from "../../Hooks/useEvents";
 
 const WorkersPicker = () => {
@@ -51,10 +51,9 @@ const WorkersPicker = () => {
           {users.map((user, index) => (
             <div key={index} className="worker-picker-item">
               {user}
-              <Check
+              <Lightning
                 size={32}
-                color="#35f500"
-                weight="fill"
+                color="#ffc100"
                 onClick={(e) => {
                   e.stopPropagation();
                   addWorker(user);
@@ -66,9 +65,9 @@ const WorkersPicker = () => {
           {workers.map((worker, index) => (
             <div key={index} className="worker-picker-item">
               {worker}
-              <X
+              <Lightning
                 size={32}
-                color="#ce0303"
+                color="#ffc100"
                 weight="fill"
                 onClick={(e) => {
                   e.stopPropagation();

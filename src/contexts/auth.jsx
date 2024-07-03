@@ -26,8 +26,12 @@ export const AuthProvider = ({ children }) => {
     if (hasUser?.length) {
       if (hasUser[0].email === email && hasUser[0].password === password) {
         const token = Math.random().toString(36).substring(2);
-        localStorage.setItem("user_token", JSON.stringify({ email, token }));
-        setUser({ email, password });
+        const role = hasUser[0].role;
+        localStorage.setItem(
+          "user_token",
+          JSON.stringify({ email, token, role })
+        );
+        setUser({ email, password, role });
         return;
       } else {
         return "E-mail ou senha incorretos";
@@ -69,11 +73,12 @@ export const AuthProvider = ({ children }) => {
     const usersStorage = JSON.parse(localStorage.getItem("users_bd"));
 
     // const hasUser = usersStorage?.filter((user) => user.email === email);
-    
 
-    const userDefine = usersStorage?.filter((user) => user.email === users.email);
+    const userDefine = usersStorage?.filter(
+      (user) => user.email === users.email
+    );
 
-    return userDefine
+    return userDefine;
   };
 
   return (

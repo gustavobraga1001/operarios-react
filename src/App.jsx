@@ -10,21 +10,21 @@ const App = () => {
         name: "Gustavo Braga",
         email: "braga@bp.com",
         password: "braga@bp",
+        role: "Lider",
+        sector: "Midia",
       },
       {
         name: "Gustavo Almeida",
         email: "almeida@bp.com",
         password: "almeida@bp",
+        role: "Operário",
       },
       {
         name: "Matheus Torres",
         email: "torres@bp.com",
         password: "torres@bp",
-      },
-      {
-        name: "Gustavo Braga",
-        email: "gu@dev.com",
-        password: "gu@dev",
+        role: "Lider",
+        sector: "Organização",
       },
     ];
     // Verifica se já existem dados no localStorage

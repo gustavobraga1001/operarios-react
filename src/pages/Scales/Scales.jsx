@@ -9,12 +9,16 @@ import btnVoltar from "../../assets/icons/btn-voltar.svg";
 import { Link } from "react-router-dom";
 import WorkersPicker from "../../components/WorkersPicker/WorkersPicker";
 import useEvents from "../../Hooks/useEvents";
+import useAuth from "../../Hooks/useAuth";
 
 const Scales = () => {
   const [date, setDate] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
   const calendarRef = useRef(null);
   const { workers, setWorkers, createEvent, time } = useEvents();
+  const { getUser } = useAuth();
+
+  const user = getUser();
 
   const [newEvent, setNewEvent] = useState({
     id: "", // Adicione um identificador único, ex: UUID ou timestamp
@@ -22,6 +26,7 @@ const Scales = () => {
     description: "",
     sector: "",
   });
+  console.log(user[0].sector);
 
   const formatDateTime = (date) => {
     // Converte a data para uma string ISO e extrai apenas a parte da data (YYYY-MM-DD)
@@ -73,13 +78,14 @@ const Scales = () => {
     const newEventObject = {
       id: idEvent,
       date: dateTime,
-      sector: "Midia", // ou o setor apropriado
+      sector: user[0].sector, // ou o setor apropriado
       workers: workers,
     };
 
     // Atualiza o estado e cria o evento
     setNewEvent(newEventObject);
     createEvent(newEventObject);
+    // alert("Evento Criado");
     console.log(newEventObject);
   };
 

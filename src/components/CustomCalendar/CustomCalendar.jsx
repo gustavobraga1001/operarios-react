@@ -6,33 +6,14 @@ import "./CustomCalendar.css";
 import EventCard from "../EventCard/EventCard";
 import Footer from "../Footer/Footer";
 import useEvents from "../../Hooks/useEvents";
-
-// const events = [
-//   {
-//     id: 1,
-//     date: "2024-07-02T16:00",
-//     description: "Evento 1",
-//   },
-//   {
-//     id: 2,
-//     date: "2024-07-10T16:00",
-//     description: "Evento 2",
-//   },
-//   {
-//     id: 3,
-//     date: "2024-07-22T16:00",
-//     description: "Evento 3",
-//   },
-//   {
-//     id: 4,
-//     date: "2024-07-02T16:00",
-//     description: "Evento 4",
-//   },
-// ];
+import useAuth from "../../Hooks/useAuth";
 
 const CustomCalendar = () => {
   const [value, setValue] = useState(null); // Inicializa como null
   const [selectedEvents, setSelectedEvents] = useState([]);
+  const { getUser } = useAuth();
+
+  const user = getUser();
 
   const { getEvent, createEvent } = useEvents();
   const [events, setEvents] = useState([]);
@@ -41,10 +22,25 @@ const CustomCalendar = () => {
     setEvents(getEvent);
   });
 
+  function findEventsByWorker(events, workerName) {
+    return events.filter((event) => event.workers.includes(workerName));
+  }
 
   const getEventsForDate = (date) => {
     const normalizedDate = date.toISOString().split("T")[0]; // YYYY-MM-DD
-    return events.filter((event) => event.date.startsWith(normalizedDate));
+    if (user[0].role == "Lider") {
+      const eventsOwner = events.filter(
+        (event) => event.sector == user[0].sector
+      );
+      return eventsOwner.filter((event) =>
+        event.date.startsWith(normalizedDate)
+      );
+    } else {
+      const filteredEvents = findEventsByWorker(events, user[0].name);
+      return filteredEvents.filter((event) =>
+        event.date.startsWith(normalizedDate)
+      );
+    }
   };
 
   const handleDayClick = (date) => {
@@ -113,11 +109,7 @@ const CustomCalendar = () => {
             minute: "2-digit",
           });
           return (
-            <EventCard
-              key={index}
-              description={event.sector}
-              hour={hour}
-            />
+            <EventCard key={index} description={event.sector} hour={hour} />
           );
         })}
       </div>

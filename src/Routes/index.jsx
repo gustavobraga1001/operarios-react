@@ -13,6 +13,7 @@ import Login from "../pages/Login/Login";
 import LoadingSpinner from "../components/Loading/Loading";
 import Scales from "../pages/Scales/Scales";
 import Calendar from "../pages/Calendar/Calendar";
+import Register from "../pages/Register/Register";
 
 const Private = ({ Item }) => {
   const { signed } = useAuth();
@@ -46,7 +47,7 @@ const RoutesApp = () => {
             <Routes>
               <Route path="*" element={<Teste Item={Login} />} />
               <Route path="/" element={<Teste Item={Login} />} />
-              <Route exact path="/home" element={<Private Item={Home} />} />
+              <Route exact path="/home" element={<Home />} />
               <Route
                 exact
                 path="/calendar"
@@ -58,6 +59,7 @@ const RoutesApp = () => {
                 element={<Private Item={Settings} />}
               />
               <Route exact path="/scales" element={<Private Item={Scales} />} />
+              <Route exact path="/register" element={<Register />} />
             </Routes>
           </Fragment>
         )}

@@ -5,27 +5,27 @@ import useAuth from "../../Hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { signin } = useAuth();
+  const { Login } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [error, setError] = useState("");
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!email | !senha) {
       setError("Preencha todos os campos");
       return;
     }
-
-    const res = signin(email, senha);
-
-    if (res) {
-      setError(res);
-      return;
+    try {
+      const result = await Login({
+        email: email,
+        password: senha,
+      });
+      navigate("/home");
+    } catch (error) {
+      console.error("Erro ao enviar dados", error);
     }
-
-    navigate("/home");
   };
 
   return (

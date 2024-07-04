@@ -20,14 +20,19 @@ const Home = () => {
     days: "",
     hour: "",
   });
-  const { getUser } = useAuth();
+
   const { getEvent } = useEvents();
   const [events, setEvents] = useState([]);
-  const user = getUser();
-  const nameFormatted = user[0].name.split(" ");
+  const nameFormatted = user.name.split(" ");
   const [count, setCount] = useState(0);
 
+  const { getUser } = useAuth();
+
+  const [user, setUser] = useState({});
+
   useEffect(() => {
+    setUser(getUser());
+    console.log(user)
     const interval = setInterval(() => {
       setCurrentHour(new Date().getHours());
     }, 1000 * 60 * 60); // Atualiza a cada hora
@@ -69,7 +74,7 @@ const Home = () => {
       return Math.floor(diffInMs / (1000 * 60 * 60 * 24));
     };
 
-    const filteredEvents = findEventsByWorker(events, user[0].name);
+    const filteredEvents = findEventsByWorker(events, user.name);
 
     if (filteredEvents.length > 0) {
       const futureEvents = filteredEvents.filter(
@@ -108,7 +113,7 @@ const Home = () => {
         setMessageDays({ message: "", days: "Sem eventos", hour: "" }); // Caso não haja eventos futuros
       }
     } else {
-      setMessageDays({ message: "", days: "Sem futuros eventos", hour: "" }); // Caso não haja eventos filtrados
+      setMessageDays({ message: "", days: "Sem eventos", hour: "" }); // Caso não haja eventos filtrados
     }
 
     const timer = setTimeout(() => {
@@ -135,7 +140,7 @@ const Home = () => {
           day={messageDays.days}
           horario={messageDays.hour}
         />
-        {(user[0].role === "Lider" || user[0].role === "Dev") && (
+        {(user.role === "LEADER" || user.role === "ADMIN") && (
           <Link to={"/scales"}>
             <button className="btn-scales">
               <img src={iconHand} alt="" />

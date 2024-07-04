@@ -12,17 +12,18 @@ const Footer = () => {
   const location = useLocation();
 
   const getIcon = (path) => {
+    if (path == "/home" || path == "/") {
+      return location.pathname == "/home" || location.pathname == "/"
+        ? iconHomeFill
+        : iconHome;
+    }
     switch (path) {
-      case "/":
-        return location.pathname == "/home" ? iconHomeFill : iconHome;
       case "/calendar":
         return location.pathname == "/calendar"
           ? iconCalendarFill
           : iconCalendar;
       case "/settings":
-        return location.pathname == "/settings"
-          ? iconConfigFill
-          : iconConfig;
+        return location.pathname == "/settings" ? iconConfigFill : iconConfig;
       default:
         return null;
     }
@@ -31,13 +32,10 @@ const Footer = () => {
   return (
     <nav className="nav-bar">
       <Link to="/home">
-        <img src={getIcon("/")} alt="Icone botão Home" />
+        <img src={getIcon("/home")} alt="Icone botão Home" />
       </Link>
       <Link to="/calendar">
-        <img
-          src={getIcon("/calendar")}
-          alt="Icone botão calendário"
-        />
+        <img src={getIcon("/calendar")} alt="Icone botão calendário" />
       </Link>
       <Link to="/settings">
         <img src={getIcon("/settings")} alt="Icone botão configuração" />

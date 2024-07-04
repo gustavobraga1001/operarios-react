@@ -6,6 +6,35 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
 
   useEffect(() => {
+    const newUser = [
+      {
+        name: "Gustavo Braga",
+        email: "braga@bp.com",
+        password: "braga@bp",
+        role: "Lider",
+        sector: "Midia",
+      },
+      {
+        name: "Gustavo Almeida",
+        email: "almeida@bp.com",
+        password: "almeida@bp",
+        role: "Operário",
+      },
+      {
+        name: "Matheus Torres",
+        email: "torres@bp.com",
+        password: "torres@bp",
+        role: "Lider",
+        sector: "Organização",
+      },
+    ];
+    // Verifica se já existem dados no localStorage
+    const existingData = localStorage.getItem("user_bd");
+
+    // Se não houver dados, inicializa com alguns dados padrão
+    if (!existingData) {
+      localStorage.setItem("users_bd", JSON.stringify(newUser));
+    }
     const userToken = localStorage.getItem("user_token");
     const usersStorage = localStorage.getItem("users_bd");
 
@@ -41,28 +70,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signup = (email, password) => {
-    const usersStorage = JSON.parse(localStorage.getItem("users_bd"));
-
-    const hasUser = usersStorage?.filter((user) => user.email === email);
-
-    if (hasUser?.length) {
-      return "Já tem uma conta com esse E-mail";
-    }
-
-    let newUser;
-
-    if (usersStorage) {
-      newUser = [...usersStorage, { email, password }];
-    } else {
-      newUser = [{ email, password }];
-    }
-
-    localStorage.setItem("users_bd", JSON.stringify(newUser));
-
-    return;
-  };
-
   const signout = () => {
     setUser(null);
     localStorage.removeItem("user_token");
@@ -71,8 +78,6 @@ export const AuthProvider = ({ children }) => {
   const getUser = () => {
     const users = JSON.parse(localStorage.getItem("user_token"));
     const usersStorage = JSON.parse(localStorage.getItem("users_bd"));
-
-    // const hasUser = usersStorage?.filter((user) => user.email === email);
 
     const userDefine = usersStorage?.filter(
       (user) => user.email === users.email
@@ -83,7 +88,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, signed: !!user, signin, signup, signout, getUser }}
+      value={{ user, signed: !!user, signin, signout, getUser }}
     >
       {children}
     </AuthContext.Provider>

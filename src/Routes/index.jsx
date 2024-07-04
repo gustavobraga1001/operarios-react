@@ -17,7 +17,13 @@ import Calendar from "../pages/Calendar/Calendar";
 const Private = ({ Item }) => {
   const { signed } = useAuth();
 
-  return signed > 0 ? <Item /> : <Login />;
+  return signed ? <Item /> : <Login />;
+};
+
+const Teste = ({ Item }) => {
+  const { signed } = useAuth();
+
+  return signed ? <Home /> : <Item />;
 };
 
 const RoutesApp = () => {
@@ -38,12 +44,20 @@ const RoutesApp = () => {
         ) : (
           <Fragment>
             <Routes>
+              <Route path="*" element={<Teste Item={Login} />} />
+              <Route path="/" element={<Teste Item={Login} />} />
               <Route exact path="/home" element={<Private Item={Home} />} />
-              <Route path="/" element={<Login />} />
-              <Route path="*" element={<Login />} />
-              <Route path="/calendar" element={<Private Item={Calendar} />} />
-              <Route path="/settings" element={<Private Item={Settings} />} />
-              <Route path="/scales" element={<Private Item={Scales} />} />
+              <Route
+                exact
+                path="/calendar"
+                element={<Private Item={Calendar} />}
+              />
+              <Route
+                exact
+                path="/settings"
+                element={<Private Item={Settings} />}
+              />
+              <Route exact path="/scales" element={<Private Item={Scales} />} />
             </Routes>
           </Fragment>
         )}

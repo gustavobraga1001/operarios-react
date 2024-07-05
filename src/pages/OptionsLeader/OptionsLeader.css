@@ -1,0 +1,41 @@
+.header-bottom-arrow {
+  margin: 20px 15px;
+}
+.box-card-options {
+  margin: 100px 15px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+.box-card-options a {
+    text-decoration: none;
+    color: none;
+}
+
+.card-amarelo,
+.card-cinza {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 12px;
+}
+
+.card-cinza {
+  background-color: #2e2c30;
+  color: #ffc100;
+}
+
+.card-amarelo {
+  background-color: #ffc100;
+}
+.card-cinza p {
+  color: #ffc100;
+}
+.card-amarelo p {
+  color: #000000;
+}

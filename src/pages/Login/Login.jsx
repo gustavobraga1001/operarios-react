@@ -1,16 +1,18 @@
 import "./Login.css";
 import logo from "../../assets/images/logo.svg";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import useAuth from "../../Hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { Login } = useAuth();
+  const { Login, users } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [error, setError] = useState("");
+
+  console.log(users);
 
   const handleLogin = async () => {
     if (!email | !senha) {

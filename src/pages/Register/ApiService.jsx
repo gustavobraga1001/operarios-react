@@ -11,7 +11,7 @@ const apiClient = axios.create({
 // Exemplo de requisição GET
 export const getData = async () => {
   try {
-    const response = await apiClient.get("/users");
+    const response = await apiClient.get("users");
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar dados", error);
@@ -31,11 +31,12 @@ export const postData = async (data) => {
 };
 
 export const Login = async (data) => {
-    try {
-      const response = await apiClient.post("/auth/login", data);
-      return response.data;
-    } catch (error) {
-      console.error("Erro ao enviar dados", error);
-      throw error;
-    }
-  };
+  try {
+    console.log("Dados enviados:", data);
+    const response = await apiClient.post("/auth/login", data);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao enviar dados", error);
+    throw error;
+  }
+};

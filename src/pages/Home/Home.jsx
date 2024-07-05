@@ -10,6 +10,7 @@ import iconHand from "../../assets/icons/icon-hand.svg";
 import logo from "../../assets/images/logo.svg";
 import useAuth from "../../Hooks/useAuth";
 import useEvents from "../../Hooks/useEvents";
+import FilterEvents from "../../components/FilterEvents/FilterEvents";
 
 const Home = () => {
   const [currentHour, setCurrentHour] = useState(new Date().getHours());
@@ -23,27 +24,18 @@ const Home = () => {
 
   const { getEvent } = useEvents();
   const [events, setEvents] = useState([]);
-  const nameFormatted = user.name.split(" ");
-  const [count, setCount] = useState(0);
-
-  const { getUser } = useAuth();
-
   const [user, setUser] = useState({});
 
-  useEffect(() => {
-    setUser(getUser());
-    console.log(user)
-    const interval = setInterval(() => {
-      setCurrentHour(new Date().getHours());
-    }, 1000 * 60 * 60); // Atualiza a cada hora
-
-    return () => clearInterval(interval); // Limpa o intervalo quando o componente é desmontado
-  }, []);
+  const { getUser } = useAuth();
 
   useEffect(() => {
     const eventsFromStorage = getEvent();
     setEvents(eventsFromStorage);
   }, [getEvent]);
+
+  useEffect(() => {
+    setUser(getUser());
+  }, [getUser]);
 
   useEffect(() => {
     if (currentHour <= 12) {
@@ -59,69 +51,9 @@ const Home = () => {
   }, [currentHour]);
 
   useEffect(() => {
-    const dayNow = new Date();
-    dayNow.setHours(0, 0, 0, 0); // Remove a hora para comparação correta
-
-    const findEventsByWorker = (events, workerName) =>
-      events.filter((event) => event.workers.includes(workerName));
-
-    const countDaysBetweenDates = (date1, date2) => {
-      const start = new Date(date1);
-      const end = new Date(date2);
-      start.setHours(0, 0, 0, 0);
-      end.setHours(0, 0, 0, 0);
-      const diffInMs = end - start;
-      return Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-    };
-
-    const filteredEvents = findEventsByWorker(events, user.name);
-
-    if (filteredEvents.length > 0) {
-      const futureEvents = filteredEvents.filter(
-        (event) => new Date(event.date) >= dayNow
-      );
-
-      if (futureEvents.length > 0) {
-        const nextEvent = futureEvents.reduce((prev, current) =>
-          new Date(prev.date) < new Date(current.date) ? prev : current
-        );
-
-        const daysUntilEvent = countDaysBetweenDates(
-          dayNow,
-          new Date(nextEvent.date)
-        );
-
-        if (daysUntilEvent === 0) {
-          setMessageDays({
-            message: "Seu próximo dia de servir é:",
-            days: "Hoje!",
-            hour: nextEvent.date.split("T")[1].substring(0, 5), // Obtém apenas o horário HH:MM
-          });
-        } else {
-          const nextEventDate = new Date(nextEvent.date);
-          const formattedDate = nextEventDate.toLocaleDateString("pt-BR", {
-            day: "2-digit",
-            month: "2-digit",
-          });
-          setMessageDays({
-            message: "Seu próximo dia de servir é:",
-            days: formattedDate,
-            hour: nextEvent.date.split("T")[1].substring(0, 5), // Obtém apenas o horário HH:MM
-          });
-        }
-      } else {
-        setMessageDays({ message: "", days: "Sem eventos", hour: "" }); // Caso não haja eventos futuros
-      }
-    } else {
-      setMessageDays({ message: "", days: "Sem eventos", hour: "" }); // Caso não haja eventos filtrados
-    }
-
-    const timer = setTimeout(() => {
-      setCount(count + 1);
-    }, 1000);
-
-    return () => clearTimeout(timer); // Limpa o timeout para evitar problemas de memória
-  }, [count]);
+    const filteredMessageDays = FilterEvents(user, events);
+    setMessageDays(filteredMessageDays);
+  }, [user, events]);
 
   return (
     <div className="container-home">
@@ -132,7 +64,8 @@ const Home = () => {
         <div className="helcome-home">
           <img src={image} alt="Imagem da hora atual" />
           <h1>
-            {message}, {nameFormatted[1]}
+            {/* {message}, {nameFormatted[1]} */}
+            {message}, {user.name}
           </h1>
         </div>
         <Saudacao
@@ -141,7 +74,7 @@ const Home = () => {
           horario={messageDays.hour}
         />
         {(user.role === "LEADER" || user.role === "ADMIN") && (
-          <Link to={"/scales"}>
+          <Link to={"/optionsleader"}>
             <button className="btn-scales">
               <img src={iconHand} alt="" />
             </button>

@@ -6,11 +6,12 @@ export const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
   const [users, setUsers] = useState();
+  const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getData();
+        const result = await getUsers();
         setUsers(result);
       } catch (error) {
         console.error("Erro ao buscar dados", error);
@@ -18,45 +19,6 @@ export const AuthProvider = ({ children }) => {
     };
 
     fetchData();
-    // const users = [
-    //   {
-    //     name: "Gustavo Braga",
-    //     email: "braga@bp.com",
-    //     password: "braga@bp",
-    //     role: "Lider",
-    //     sector: "Midia",
-    //   },
-    //   {
-    //     name: "Gustavo Almeida",
-    //     email: "almeida@bp.com",
-    //     password: "almeida@bp",
-    //     role: "Operário",
-    //   },
-    //   {
-    //     name: "Matheus Torres",
-    //     email: "torres@bp.com",
-    //     password: "torres@bp",
-    //     role: "Lider",
-    //     sector: "Organização",
-    //   },
-    // ];
-    // // Verifica se já existem dados no localStorage
-    // const existingData = localStorage.getItem("user_bd");
-
-    // // Se não houver dados, inicializa com alguns dados padrão
-    // if (!existingData) {
-    //   localStorage.setItem("users_bd", JSON.stringify(users));
-    // }
-    // const userToken = localStorage.getItem("user_token");
-    // const usersStorage = localStorage.getItem("users_bd");
-
-    // if (userToken && usersStorage) {
-    //   const hasUser = JSON.parse(usersStorage)?.filter(
-    //     (user) => user.email === JSON.parse(userToken).email
-    //   );
-
-    //   if (hasUser) setUser(hasUser[0]);
-    // }
   }, []);
 
   const apiClient = axios.create({
@@ -65,7 +27,7 @@ export const AuthProvider = ({ children }) => {
       "Content-Type": "application/json",
     },
   });
-  const getData = async () => {
+  const getUsers = async () => {
     try {
       const response = await apiClient.get("/users");
       return response.data;
@@ -81,6 +43,9 @@ export const AuthProvider = ({ children }) => {
       const response = await apiClient.post("/auth/login", data);
       setUser(response.data);
       localStorage.setItem("user", JSON.stringify(response.data));
+      const token = Math.random().toString(36).substring(2);
+      const email = data.email;
+      localStorage.setItem("user_token", JSON.stringify({ email, token }));
       return response.data;
     } catch (error) {
       console.error("Erro ao enviar dados", error);
@@ -114,22 +79,44 @@ export const AuthProvider = ({ children }) => {
   const signout = () => {
     setUser(null);
     localStorage.removeItem("user_token");
+    localStorage.removeItem("user");
   };
 
   const getUser = () => {
-    const users = JSON.parse(localStorage.getItem("user_token"));
-    const usersStorage = JSON.parse(localStorage.getItem("users_bd"));
+    const user = JSON.parse(localStorage.getItem("user"));
 
-    const userDefine = usersStorage?.filter(
-      (user) => user.email === users.email
-    );
+    // const userDefine = usersStorage?.filter(
+    //   (user) => user.email === users.email
+    // );
 
-    return userDefine;
+    return user;
   };
+
+  const signed = () => {
+    // const user = JSON.parse(localStorage.getItem("user"));
+    // const userName = user.username;
+    const token = JSON.parse(localStorage.getItem("user_token"));
+
+    if (token) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  // const signed = () => authenticated;
 
   return (
     <AuthContext.Provider
-      value={{ user, signed: !!user, signin, signout, getUser, users, Login }}
+      value={{
+        user,
+        signed,
+        signin,
+        signout,
+        getUser,
+        users,
+        Login,
+      }}
     >
       {children}
     </AuthContext.Provider>

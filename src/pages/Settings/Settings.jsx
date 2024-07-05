@@ -11,7 +11,7 @@ const Settings = () => {
   const navigate = useNavigate();
   const user = getUser();
 
-  const nameFomatted = user[0].name.split(" ");
+  const nameFomatted = user.name.split(" ");
 
   const getName = (nome) => {
     return nome
@@ -28,8 +28,8 @@ const Settings = () => {
           <p>{nameFirst}</p>
         </div>
         <div className="settings-box-infos">
-          <p>{user[0].name}</p>
-          <span>{user[0].email}</span>
+          <p>{user.name}</p>
+          <span>{user.email}</span>
         </div>
       </div>
       <div className="settings-options">

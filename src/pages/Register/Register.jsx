@@ -12,8 +12,8 @@ const Register = () => {
     role: "ADMIN",
   });
   const [login, setLogin] = useState({
-    email: "gustavo@email.com",
-    password: "gustavo123",
+    username: "emilys",
+    password: "emilyspass",
   });
   const [user, setUser] = useState({});
   const { users } = useAuth();
@@ -22,32 +22,30 @@ const Register = () => {
     const fetchData = async () => {
       try {
         const result = await getData();
-        setData(result);
+        setData(result.users.users);
       } catch (error) {
         console.error("Erro ao buscar dados", error);
       }
     };
 
-    console.log(users)
     fetchData();
+    // console.log(users);
   }, []);
 
   const handleSubmit = async () => {
     try {
       const result = await Login(login);
       setUser(result);
+
     } catch (error) {
       console.error("Erro ao enviar dados", error);
     }
   };
+  console.log(user)
 
   return (
     <div>
-      <ul>
-        {users.map((item) => (
-          <li key={item.id}>{item.name}</li>
-        ))}
-      </ul>
+      <ul></ul>
       <p>{user.name}</p>
       <button onClick={handleSubmit}>Enviar Dados</button>
     </div>

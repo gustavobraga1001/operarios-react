@@ -1,0 +1,39 @@
+.list-scales {
+  background-color: rgba(35, 34, 37, 1);
+  margin: 0 15px;
+  /* width: 100%; */
+  height: 75vh;
+  border-radius: 12px;
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow-y: auto; /* Adiciona a barra de rolagem vertical */
+}
+
+.card-list-data {
+  border: 1px solid rgba(46, 44, 48, 1);
+  border-radius: 12px 12px 0 0;
+  padding: 10px 20px;
+  color: rgba(122, 118, 127, 1);
+}
+
+.card-list-infos-scales {
+  display: flex;
+  gap: 20px;
+  border: 1px solid rgba(46, 44, 48, 1);
+  border-radius: 0 0 12px 12px;
+  padding: 20px;
+}
+
+.card-list-infos-scales p {
+  font-size: 16px;
+  color: rgba(178, 175, 182, 1);
+  font-weight: 700;
+}
+
+.card-list-infos-scales span {
+  font-size: 16px;
+  color: rgba(178, 175, 182, 1);
+  font-weight: 400;
+}

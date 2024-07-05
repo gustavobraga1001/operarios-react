@@ -6,24 +6,23 @@ const Header = () => {
 
   const user = getUser();
 
-  const nameFomatted = user[0].name.split(" ");
+  // const nameFomatted = user[0].name.split(" ");
 
   const getName = (nome) => {
     return nome
-      .filter(parte => parte) // Remove partes vazias
-      .map(parte => parte.charAt(0))
-      .join(''); // Junta as letras em uma string
+      .filter((parte) => parte) // Remove partes vazias
+      .map((parte) => parte.charAt(0))
+      .join(""); // Junta as letras em uma string
   };
 
-  const nameFirst = getName(nameFomatted)
-
+  // const nameFirst = getName(nameFomatted)
 
   return (
     <header className="header-calendary">
       <div className="img-user">
-        <p>{nameFirst}</p>
+        <p>BP</p>
       </div>
-      <p className="name-user">{user[0].name}</p>
+      <p className="name-user">{user.userName}</p>
     </header>
   );
 };

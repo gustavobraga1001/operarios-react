@@ -5,14 +5,12 @@ import useAuth from "../../Hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { Login, users } = useAuth();
+  const { Login } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [error, setError] = useState("");
-
-  console.log(users);
 
   const handleLogin = async () => {
     if (!email | !senha) {
@@ -24,8 +22,10 @@ const Login = () => {
         email: email,
         password: senha,
       });
+
       navigate("/home");
     } catch (error) {
+      setError("E-mail ou senha errados");
       console.error("Erro ao enviar dados", error);
     }
   };

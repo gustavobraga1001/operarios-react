@@ -14,19 +14,16 @@ import useAuth from "../../Hooks/useAuth";
 const Scales = () => {
   const [date, setDate] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
+  const [error, setError] = useState("");
   const calendarRef = useRef(null);
-  const { workers, setWorkers, createEvent, time } = useEvents();
-  const { getUser } = useAuth();
-
-  const user = getUser();
-
+  const { workers, setWorkers, createEvent, time, setTime } = useEvents();
+  const { getUser, getSector } = useAuth();
+  const [sector, setSector] = useState();
   const [newEvent, setNewEvent] = useState({
-    id: "", // Adicione um identificador único, ex: UUID ou timestamp
     date: "",
     description: "",
     sector: "",
   });
-  console.log(user[0].sector);
 
   const formatDateTime = (date) => {
     // Converte a data para uma string ISO e extrai apenas a parte da data (YYYY-MM-DD)
@@ -62,31 +59,48 @@ const Scales = () => {
     };
   }, [showCalendar]);
 
+  useEffect(() => {
+    const fetchSector = async () => {
+      const user = getUser();
+      try {
+        const sector = await getSector(user.id);
+        setSector(sector[0]);
+      } catch (error) {
+        console.error("Erro ao obter setores:", error);
+      }
+    };
+
+    fetchSector();
+  }, [getSector, getUser]);
+
   const formatShortWeekday = (locale, date) => {
     const weekdays = ["S", "T", "Q", "Q", "S", "S", "D"];
     return weekdays[date.getDay()];
   };
 
   const handleSchedule = () => {
-    const formattedDate = formatDateTime(date);
-    const idEvent = Math.floor(Math.random() * 100000)
-      .toString()
-      .padStart(5, "0");
-    const dateTime = `${formattedDate}T${time}`;
+    if (time != "Selecione um horário" && workers.length > 0) {
+      const formattedDate = formatDateTime(date);
+      const dateTime = `${formattedDate}T${time}`;
 
-    // Cria o objeto do evento localmente
-    const newEventObject = {
-      id: idEvent,
-      date: dateTime,
-      sector: user[0].sector, // ou o setor apropriado
-      workers: workers,
-    };
+      // Cria o objeto do evento localmente
+      const newEventObject = {
+        sector_id: sector.id,
+        date_time: dateTime,
+        workers: workers.map((worker) => worker.id),
+      };
 
-    // Atualiza o estado e cria o evento
-    setNewEvent(newEventObject);
-    createEvent(newEventObject);
-    // alert("Evento Criado");
-    console.log(newEventObject);
+      // Atualiza o estado e cria o evento
+      setNewEvent(newEventObject);
+      setDate(new Date());
+      setWorkers([]);
+      setTime("Selecione um horário");
+      setError("");
+      // createEvent(newEventObject);
+      console.log(newEventObject);
+    } else {
+      setError("Ajuste todas as opções");
+    }
   };
 
   return (
@@ -170,6 +184,7 @@ const Scales = () => {
           <p className="scales-hour-title">Operários</p>
           <WorkersPicker />
         </section>
+        <p>{error}</p>
         <div className="scales-button">
           <button onClick={() => handleSchedule()}>AGENDAR</button>
         </div>

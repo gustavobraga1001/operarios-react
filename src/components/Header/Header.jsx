@@ -6,7 +6,7 @@ const Header = () => {
 
   const user = getUser();
 
-  // const nameFomatted = user[0].name.split(" ");
+  const nameFomatted = user.name.split(" ");
 
   const getName = (nome) => {
     return nome
@@ -15,14 +15,14 @@ const Header = () => {
       .join(""); // Junta as letras em uma string
   };
 
-  // const nameFirst = getName(nameFomatted)
+  const nameFirst = getName(nameFomatted);
 
   return (
     <header className="header-calendary">
       <div className="img-user">
-        <p>BP</p>
+        <p>{nameFirst}</p>
       </div>
-      <p className="name-user">{user.userName}</p>
+      <p className="name-user">{user.name}</p>
     </header>
   );
 };

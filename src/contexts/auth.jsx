@@ -6,20 +6,19 @@ export const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
   const [users, setUsers] = useState();
-  const [authenticated, setAuthenticated] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getUsers();
-        setUsers(result);
-      } catch (error) {
-        console.error("Erro ao buscar dados", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const result = await getUsers();
+  //       setUsers(result);
+  //     } catch (error) {
+  //       console.error("Erro ao buscar dados", error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   const apiClient = axios.create({
     baseURL: "/api", // Agora você pode usar "/api" e o proxy irá redirecionar
@@ -30,6 +29,16 @@ export const AuthProvider = ({ children }) => {
   const getUsers = async () => {
     try {
       const response = await apiClient.get("/users");
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao buscar dados", error);
+      throw error;
+    }
+  };
+
+  const getSector = async (id) => {
+    try {
+      const response = await apiClient.get(`/sectors?leaderId=${id}`);
       return response.data;
     } catch (error) {
       console.error("Erro ao buscar dados", error);
@@ -80,21 +89,16 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem("user_token");
     localStorage.removeItem("user");
+    localStorage.removeItem("events_bd");
   };
 
   const getUser = () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
-    // const userDefine = usersStorage?.filter(
-    //   (user) => user.email === users.email
-    // );
-
     return user;
   };
 
   const signed = () => {
-    // const user = JSON.parse(localStorage.getItem("user"));
-    // const userName = user.username;
     const token = JSON.parse(localStorage.getItem("user_token"));
 
     if (token) {
@@ -110,12 +114,15 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
+        getUsers,
+        setUser,
         signed,
         signin,
         signout,
         getUser,
         users,
         Login,
+        getSector,
       }}
     >
       {children}

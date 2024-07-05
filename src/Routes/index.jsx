@@ -11,6 +11,7 @@ import Register from "../pages/Register/Register";
 import Home from "../pages/Home/Home";
 import OptionsLeader from "../pages/OptionsLeader/OptionsLeader";
 import ListScale from "../pages/ListScale/ListScale";
+import Members from "../pages/Members/Members";
 
 const Private = ({ Item }) => {
   const { signed } = useAuth();
@@ -63,6 +64,11 @@ const RoutesApp = () => {
                 exact
                 path="/listscale"
                 element={<Private Item={ListScale} />}
+              />
+              <Route
+                exact
+                path="/members"
+                element={<Private Item={Members} />}
               />
               <Route exact path="/register" element={<Register />} />
             </Routes>

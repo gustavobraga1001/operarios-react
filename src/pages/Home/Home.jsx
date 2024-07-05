@@ -21,21 +21,18 @@ const Home = () => {
     days: "",
     hour: "",
   });
-
-  const { getEvent } = useEvents();
-  const [events, setEvents] = useState([]);
+  const { getEvents, events } = useEvents();
+  // const [events, setEvents] = useState([]);
   const [user, setUser] = useState({});
 
   const { getUser } = useAuth();
-
-  useEffect(() => {
-    const eventsFromStorage = getEvent();
-    setEvents(eventsFromStorage);
-  }, [getEvent]);
-
   useEffect(() => {
     setUser(getUser());
   }, [getUser]);
+
+  useEffect(() => {
+    const eventsUser = getEvents(getUser());
+  }, []);
 
   useEffect(() => {
     if (currentHour <= 12) {
@@ -51,9 +48,9 @@ const Home = () => {
   }, [currentHour]);
 
   useEffect(() => {
-    const filteredMessageDays = FilterEvents(user, events);
+    const filteredMessageDays = FilterEvents(events);
     setMessageDays(filteredMessageDays);
-  }, [user, events]);
+  }, [events]);
 
   return (
     <div className="container-home">
@@ -64,7 +61,6 @@ const Home = () => {
         <div className="helcome-home">
           <img src={image} alt="Imagem da hora atual" />
           <h1>
-            {/* {message}, {nameFormatted[1]} */}
             {message}, {user.name}
           </h1>
         </div>

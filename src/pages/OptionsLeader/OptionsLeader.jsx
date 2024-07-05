@@ -26,7 +26,7 @@ const OptionsLeader = () => {
           <CalendarDots size={32} color="#000" />
           <p>Ver Escala</p>
         </Link>
-        <Link to={"/"} className="card-amarelo">
+        <Link to={"/members"} className="card-amarelo">
           <AddressBookTabs size={32} color="#000" />
           <p>Membros da Área</p>
         </Link>

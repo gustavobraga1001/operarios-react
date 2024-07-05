@@ -57,7 +57,7 @@ const GridTimePicker = () => {
   const [selectedTime, setSelectedTime] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
-  const { setTime } = useEvents();
+  const { setTime, time } = useEvents();
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -76,7 +76,7 @@ const GridTimePicker = () => {
         onClick={toggleDropdown}
       >
         <span className="selected-time">
-          {selectedTime || "Selecione um horário"}
+          {time == "Selecione um horário"? time : selectedTime}
         </span>
         <span className="icon">
           <img

@@ -1,17 +1,20 @@
+import axios from "axios";
 import { createContext, useEffect, useState } from "react";
+import useAuth from "../Hooks/useAuth";
 
 export const EventsContext = createContext({});
 
 export const EventsProvider = ({ children }) => {
   const [events, setEvents] = useState([]);
-  const [time, setTime] = useState("");
+  const [time, setTime] = useState("Selecione um horário");
   const [workers, setWorkers] = useState([]);
 
-  useEffect(() => {
-    // Recupera os eventos do localStorage ao inicializar
-    const storedEvents = JSON.parse(localStorage.getItem("events_bd")) || [];
-    setEvents(storedEvents);
-  }, []);
+  const apiClient = axios.create({
+    baseURL: "/api", // Agora você pode usar "/api" e o proxy irá redirecionar
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
   // Função para atualizar o localStorage e o estado de eventos
   const updateLocalStorageAndState = (updatedEvents) => {
@@ -19,8 +22,20 @@ export const EventsProvider = ({ children }) => {
     setEvents(updatedEvents);
   };
 
-  const getEvent = () => {
-    return events;
+  const getEvents = async (user) => {
+    try {
+      const response = await apiClient.get(`/events?userId=${user.id}`);
+      localStorage.setItem("events_bd", JSON.stringify(response.data));
+      setEvents(response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao buscar dados", error);
+      throw error;
+    }
+  };
+
+  const getEventLocal = () => {
+    return JSON.parse(localStorage.getItem("events_bd"));
   };
 
   const createEvent = (newEvent) => {
@@ -44,14 +59,12 @@ export const EventsProvider = ({ children }) => {
     <EventsContext.Provider
       value={{
         events,
-        getEvent,
-        createEvent,
-        deleteEvent,
-        editEvent,
-        workers,
-        setWorkers,
+        getEvents,
+        getEventLocal,
         time,
         setTime,
+        workers,
+        setWorkers,
       }}
     >
       {children}

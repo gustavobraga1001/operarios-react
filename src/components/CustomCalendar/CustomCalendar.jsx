@@ -12,50 +12,20 @@ const CustomCalendar = () => {
   const [value, setValue] = useState(null); // Inicializa como null
   const [selectedEvents, setSelectedEvents] = useState([]);
   const { getUser } = useAuth();
-
   const user = getUser();
 
-  const { getEvent, createEvent } = useEvents();
+  const { getEventLocal } = useEvents();
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    setEvents(getEvent);
-  });
+    // Certifique-se de obter eventos adequados e ajustar o estado corretamente.
+    setEvents(getEventLocal());
+  }, [getEventLocal]);
 
-  function findEventsByWorker(events, workerName) {
-    return events.filter((event) => event.workers.includes(workerName));
-  }
-
+  // Função para obter eventos para uma data específica
   const getEventsForDate = (date) => {
     const normalizedDate = date.toISOString().split("T")[0]; // YYYY-MM-DD
-    const filteredEvents = findEventsByWorker(events, user[0].name);
-
-    if (user[0].role == "Lider" && filteredEvents.length > 0) {
-      const eventsOwner = events.filter(
-        (event) => event.sector == user[0].sector
-      );
-
-      const filteredEvents = findEventsByWorker(events, user[0].name);
-
-      // Concatenando os dois arrays em um único array
-      const combinedArray = [...eventsOwner, ...filteredEvents];
-
-      return combinedArray.filter((event) =>
-        event.date.startsWith(normalizedDate)
-      );
-    } else if (user[0].role == "Lider") {
-      const eventsOwner = events.filter(
-        (event) => event.sector == user[0].sector
-      );
-      return eventsOwner.filter((event) =>
-        event.date.startsWith(normalizedDate)
-      );
-    } else {
-      const filteredEvents = findEventsByWorker(events, user[0].name);
-      return filteredEvents.filter((event) =>
-        event.date.startsWith(normalizedDate)
-      );
-    }
+    return events.filter((event) => event.date_time.startsWith(normalizedDate));
   };
 
   const handleDayClick = (date) => {
@@ -117,8 +87,7 @@ const CustomCalendar = () => {
       />
       <div className="selected-events">
         {selectedEvents.map((event, index) => {
-          // Separando a hora da data
-          const eventDate = new Date(event.date);
+          const eventDate = new Date(event.date_time);
           const hour = eventDate.toLocaleTimeString("pt-BR", {
             hour: "2-digit",
             minute: "2-digit",
@@ -126,9 +95,8 @@ const CustomCalendar = () => {
           return (
             <EventCard
               key={index}
-              description={event.sector}
+              description={event.sector.name}
               hour={hour}
-              workers={event.workers}
             />
           );
         })}

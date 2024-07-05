@@ -18,6 +18,7 @@
   font-size: 50px;
   margin-top: 40px;
   font-weight: bold;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra interna */
 }
 
 .img-user p {

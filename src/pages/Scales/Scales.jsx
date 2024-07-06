@@ -12,13 +12,13 @@ import useEvents from "../../Hooks/useEvents";
 import useAuth from "../../Hooks/useAuth";
 
 const Scales = () => {
+  const { getUser, getSector, setUsers, getUsers } = useAuth();
+  const { workers, setWorkers, createEvent, time, setTime } = useEvents();
   const [date, setDate] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
   const [error, setError] = useState("");
-  const calendarRef = useRef(null);
-  const { workers, setWorkers, createEvent, time, setTime } = useEvents();
-  const { getUser, getSector } = useAuth();
   const [sector, setSector] = useState();
+  const calendarRef = useRef(null);
 
   const formatDateTime = (date) => {
     // Converte a data para uma string ISO e extrai apenas a parte da data (YYYY-MM-DD)
@@ -91,6 +91,15 @@ const Scales = () => {
       setTime("Selecione um horário");
       setError("");
       createEvent(newEventObject);
+      const fetchData = async () => {
+        try {
+          const result = await getUsers();
+          setUsers(result);
+        } catch (error) {
+          console.error("Erro ao buscar dados", error);
+        }
+      };
+      fetchData();
       console.log(newEventObject);
     } else {
       setError("Ajuste todas as opções");
@@ -100,7 +109,7 @@ const Scales = () => {
   return (
     <div className="scales-container">
       <header>
-        <Link to={"/home"}>
+        <Link to={"/optionsleader"}>
           <img src={btnVoltar} alt="Botão de voltar de página" />
         </Link>
       </header>

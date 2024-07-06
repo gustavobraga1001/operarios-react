@@ -14,13 +14,13 @@ const CustomCalendar = () => {
   const { getUser } = useAuth();
   const user = getUser();
 
-  const { getEventLocal } = useEvents();
+  const { getEvents } = useEvents();
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
     // Certifique-se de obter eventos adequados e ajustar o estado corretamente.
-    setEvents(getEventLocal());
-  }, [getEventLocal]);
+    setEvents(getEvents(user.id));
+  }, [getEvents, user]);
 
   // Função para obter eventos para uma data específica
   const getEventsForDate = (date) => {

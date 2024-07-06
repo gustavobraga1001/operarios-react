@@ -108,6 +108,7 @@ export const AuthProvider = ({ children }) => {
         signout,
         getUser,
         users,
+        setUsers,
         Login,
         getSector,
       }}

@@ -22,9 +22,9 @@ export const EventsProvider = ({ children }) => {
     setEvents(updatedEvents);
   };
 
-  const getEvents = async (user) => {
+  const getEvents = async (id) => {
     try {
-      const response = await apiClient.get(`/events?workerId=${user.id}`);
+      const response = await apiClient.get(`/events?workerId=${id}`);
       localStorage.setItem("events_bd", JSON.stringify(response.data));
       setEvents(response.data);
       return response.data;
@@ -49,8 +49,7 @@ export const EventsProvider = ({ children }) => {
     return JSON.parse(localStorage.getItem("events_bd"));
   };
 
-  const createEvent =  async (newEvent) => {
-
+  const createEvent = async (newEvent) => {
     try {
       const response = await apiClient.post("/events/create", newEvent);
       return response.data;

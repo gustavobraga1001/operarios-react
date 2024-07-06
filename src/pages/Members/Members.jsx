@@ -3,11 +3,13 @@ import "./Members.css";
 import { Camera, CaretLeft, UserPlus } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
+import { getIcons } from "../../components/GetIcons/GetIcons";
 
 const Members = () => {
   const { getSector, getUser } = useAuth();
   const [sector, setSector] = useState({});
   const [workers, setWorkers] = useState([]);
+  const [icon, setIcon] = useState(null);
 
   useEffect(() => {
     const fetchSector = async () => {
@@ -23,6 +25,18 @@ const Members = () => {
 
     fetchSector();
   }, [getSector, getUser]);
+
+  useEffect(() => {
+    // Chame getIcons somente se sector não for nulo
+    if (sector) {
+      console.log("Sector for getIcons:", sector);
+      const iconElement = getIcons(sector.name, "#ffc100");
+      console.log("Icon:", iconElement);
+      setIcon(iconElement);
+    } else {
+      console.log("Sector is null or undefined.");
+    }
+  }, [sector]);
 
   const formattedName = (name) => {
     const nameFomatted = name
@@ -41,7 +55,7 @@ const Members = () => {
         </Link>
       </header>
       <div className="infos-sector-members">
-        <Camera size={52} color="rgba(255, 193, 0, 1)" weight="fill" />
+        {icon}
         <p>{sector ? sector.name : "Admin"}</p>
       </div>
       <div className="list-members">
@@ -65,7 +79,7 @@ const Members = () => {
                 </div>
               </div>
             ))
-          : ""} 
+          : ""}
       </div>
     </div>
   );

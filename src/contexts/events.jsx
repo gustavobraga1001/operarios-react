@@ -24,9 +24,20 @@ export const EventsProvider = ({ children }) => {
 
   const getEvents = async (user) => {
     try {
-      const response = await apiClient.get(`/events?userId=${user.id}`);
+      const response = await apiClient.get(`/events?workerId=${user.id}`);
       localStorage.setItem("events_bd", JSON.stringify(response.data));
       setEvents(response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao buscar dados", error);
+      throw error;
+    }
+  };
+
+  const getEventsLeader = async (leader) => {
+    try {
+      const response = await apiClient.get(`/events/leader/${leader}`);
+      localStorage.setItem("events_leader", JSON.stringify(response.data));
       return response.data;
     } catch (error) {
       console.error("Erro ao buscar dados", error);
@@ -38,9 +49,15 @@ export const EventsProvider = ({ children }) => {
     return JSON.parse(localStorage.getItem("events_bd"));
   };
 
-  const createEvent = (newEvent) => {
-    const updatedEvents = [...events, newEvent];
-    updateLocalStorageAndState(updatedEvents);
+  const createEvent =  async (newEvent) => {
+
+    try {
+      const response = await apiClient.post("/events/create", newEvent);
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao buscar dados", error);
+      throw error;
+    }
   };
 
   const deleteEvent = (eventId) => {
@@ -61,10 +78,12 @@ export const EventsProvider = ({ children }) => {
         events,
         getEvents,
         getEventLocal,
+        createEvent,
         time,
         setTime,
         workers,
         setWorkers,
+        getEventsLeader,
       }}
     >
       {children}

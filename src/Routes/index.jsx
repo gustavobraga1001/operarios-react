@@ -12,6 +12,7 @@ import Home from "../pages/Home/Home";
 import OptionsLeader from "../pages/OptionsLeader/OptionsLeader";
 import ListScale from "../pages/ListScale/ListScale";
 import Members from "../pages/Members/Members";
+import CalendarLeader from "../pages/CalendarLeader/CalendarLeader";
 
 const Private = ({ Item }) => {
   const { signed } = useAuth();
@@ -69,6 +70,11 @@ const RoutesApp = () => {
                 exact
                 path="/members"
                 element={<Private Item={Members} />}
+              />
+              <Route
+                exact
+                path="/calendarleader"
+                element={<Private Item={CalendarLeader} />}
               />
               <Route exact path="/register" element={<Register />} />
             </Routes>

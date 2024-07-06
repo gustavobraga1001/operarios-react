@@ -7,19 +7,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
   const [users, setUsers] = useState();
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const result = await getUsers();
-  //       setUsers(result);
-  //     } catch (error) {
-  //       console.error("Erro ao buscar dados", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
-
   const apiClient = axios.create({
     baseURL: "/api", // Agora você pode usar "/api" e o proxy irá redirecionar
     headers: {

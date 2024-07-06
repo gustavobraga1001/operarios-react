@@ -30,7 +30,7 @@ const OptionsLeader = () => {
           <AddressBookTabs size={32} color="#000" />
           <p>Membros da Área</p>
         </Link>
-        <Link to={"/calendar"} className="card-cinza">
+        <Link to={"/calendarleader"} className="card-cinza">
           <Calendar size={32} />
           <p>Ver Calendário</p>
         </Link>

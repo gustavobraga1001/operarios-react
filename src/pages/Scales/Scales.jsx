@@ -19,11 +19,6 @@ const Scales = () => {
   const { workers, setWorkers, createEvent, time, setTime } = useEvents();
   const { getUser, getSector } = useAuth();
   const [sector, setSector] = useState();
-  const [newEvent, setNewEvent] = useState({
-    date: "",
-    description: "",
-    sector: "",
-  });
 
   const formatDateTime = (date) => {
     // Converte a data para uma string ISO e extrai apenas a parte da data (YYYY-MM-DD)
@@ -91,12 +86,11 @@ const Scales = () => {
       };
 
       // Atualiza o estado e cria o evento
-      setNewEvent(newEventObject);
       setDate(new Date());
       setWorkers([]);
       setTime("Selecione um horário");
       setError("");
-      // createEvent(newEventObject);
+      createEvent(newEventObject);
       console.log(newEventObject);
     } else {
       setError("Ajuste todas as opções");

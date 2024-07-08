@@ -19,64 +19,34 @@ const CalendarLeader = () => {
   const [icon, setIcon] = useState(null);
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      const fetchedUser = await getUser();
-      console.log("Fetched User:", fetchedUser);
-      setUser(fetchedUser);
-
-      //   if (fetchedUser) {
-      //     const localEvents = await getEventsLeader(fetchedUser.id);
-      //     console.log("Local Events:", localEvents);
-
-      //     const filteredEvents = getEventsSector(localEvents, fetchedUser);
-      //     console.log("Filtered Events:", filteredEvents);
-      //     setEvents(filteredEvents);
-      //   }
-    };
-
-    const fetchSector = async () => {
+    const fetchUserAndSector = async () => {
       try {
         const fetchedUser = await getUser();
+        setUser(fetchedUser);
+
         if (fetchedUser) {
+          // Buscar setores apenas se o usuário foi carregado com sucesso
           const sectors = await getSector(fetchedUser.id);
-          console.log("Fetched Sectors:", sectors);
-          if (sectors.length > 0) {
-            setSector(sectors[0]);
-          } else {
-            console.log("No sectors found for user.");
-          }
+          setSector(sectors[0]);
+          // Aqui você pode fazer algo com os setores, como setar um estado
         }
+
+        const fetchedEvents = await getEventsLeader(fetchedUser);
+        setEvents(fetchedEvents);
       } catch (error) {
-        console.error("Erro ao obter setores:", error);
+        console.error("Erro ao obter usuário ou setores:", error);
       }
     };
-
-    fetchUserData();
-    fetchSector();
-  }, [getEventsLeader, getUser, getSector]);
+    fetchUserAndSector();
+  }, [getUser, getSector]); // Apenas as funções de busca são dependências
 
   useEffect(() => {
     // Chame getIcons somente se sector não for nulo
     if (sector) {
-      console.log("Sector for getIcons:", sector);
-      const iconElement = getIcons(sector.name, "#ffc100");
-      console.log("Icon:", iconElement);
+      const iconElement = getIcons(sector.name, "#ffc100", 50);
       setIcon(iconElement);
-    } else {
-      console.log("Sector is null or undefined.");
     }
   }, [sector]);
-
-  const getEventsSector = (events, user) => {
-    // Filtra os eventos cujo líder do setor tem o mesmo ID do usuário
-    return events.filter(
-      (event) =>
-        event && // Verifica se o evento não é undefined
-        event.sector && // Verifica se o evento tem a propriedade sector
-        event.sector.leader && // Verifica se o setor tem um líder
-        event.sector.leader.id === user.id // Acessa o ID do líder do setor
-    );
-  };
 
   const getEventsForDate = (date) => {
     const normalizedDate = date.toISOString().split("T")[0];
@@ -160,6 +130,7 @@ const CalendarLeader = () => {
                 key={index}
                 description={event.sector?.name}
                 hour={hour}
+                workers={event.sector?.workers}
               />
             );
           })}

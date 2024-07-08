@@ -13,6 +13,7 @@ import OptionsLeader from "../pages/OptionsLeader/OptionsLeader";
 import ListScale from "../pages/ListScale/ListScale";
 import Members from "../pages/Members/Members";
 import CalendarLeader from "../pages/CalendarLeader/CalendarLeader";
+import TesteApi from "../pages/TesteApi/TesteApi";
 
 const Private = ({ Item }) => {
   const { signed } = useAuth();
@@ -43,6 +44,7 @@ const RoutesApp = () => {
           <Fragment>
             <Routes>
               <Route path="*" element={<Login />} />
+              <Route path="/testeapi" element={<TesteApi />} />
               <Route path="/" element={<Redirect Item={Login} />} />
               <Route exact path="/home" element={<Private Item={Home} />} />
               <Route

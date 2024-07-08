@@ -1,4 +1,3 @@
-// src/components/CustomCalendar.jsx
 import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -9,27 +8,37 @@ import useEvents from "../../Hooks/useEvents";
 import useAuth from "../../Hooks/useAuth";
 
 const CustomCalendar = () => {
-  const [value, setValue] = useState(null); // Inicializa como null
+  const [value, setValue] = useState(null);
   const [selectedEvents, setSelectedEvents] = useState([]);
   const { getUser } = useAuth();
   const user = getUser();
 
-  const { getEvents } = useEvents();
-  const [events, setEvents] = useState([]);
+  const { getEvents, eventsWorker, getEventLocal } = useEvents();
 
   useEffect(() => {
-    // Certifique-se de obter eventos adequados e ajustar o estado corretamente.
-    setEvents(getEvents(user.id));
-  }, [getEvents, user]);
+    const fetchEvents = async () => {
+      try {
+        const localEvents = getEventLocal();
+        if (!localEvents.length && user) {
+          await getEvents(user);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar eventos", error);
+      }
+    };
 
-  // Função para obter eventos para uma data específica
+    fetchEvents();
+  }, []);
+
   const getEventsForDate = (date) => {
-    const normalizedDate = date.toISOString().split("T")[0]; // YYYY-MM-DD
-    return events.filter((event) => event.date_time.startsWith(normalizedDate));
+    const normalizedDate = date.toISOString().split("T")[0];
+    return eventsWorker.filter((event) =>
+      event.date_time.startsWith(normalizedDate)
+    );
   };
 
   const handleDayClick = (date) => {
-    setValue(date); // Atualiza o valor selecionado
+    setValue(date);
     const eventsForDate = getEventsForDate(date);
     setSelectedEvents(eventsForDate);
   };
@@ -73,11 +82,9 @@ const CustomCalendar = () => {
         }}
         tileClassName={({ date, view }) => {
           if (view === "month") {
-            // Adiciona a classe "react-calendar__tile--active" apenas quando value não é nulo
             if (value && date.toDateString() === value.toDateString()) {
               return "react-calendar__tile--active";
             }
-            // Adiciona a classe para dias com eventos
             if (getEventsForDate(date).length > 0) {
               return "event-day";
             }
@@ -100,7 +107,7 @@ const CustomCalendar = () => {
             />
           );
         })}
-      </div>{" "}
+      </div>
       <Footer />
     </div>
   );

@@ -1,0 +1,40 @@
+.popup-enviar.active-popup {
+  width: 92%;
+  height: 228px;
+  position: fixed;
+  background-color: rgba(35, 34, 37, 1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 30px;
+  left: 0;
+  margin: 20px;
+  top: 30%;
+}
+.popup-enviar h3 {
+  margin: 0;
+}
+
+.popup-enviar p {
+  color: rgba(152, 149, 157, 1);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.popup-enviar button {
+  background-color: rgba(255, 193, 0, 1);
+  border: none;
+  width: 132px;
+  height: 41px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: black;
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+.popup-enviar {
+  display: none;
+}

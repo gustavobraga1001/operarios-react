@@ -1,18 +1,30 @@
-import React from "react";
-import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
 import "./EventCard.css";
-import iconeDefault from "../../assets/icons/icon-recep.svg";
+import { getIcons } from "../GetIcons/GetIcons";
+const EventCard = ({ description, hour, workers }) => {
+  const [icon, setIcon] = useState(null);
 
-const EventCard = ({ description, hour }) => {
+  useEffect(() => {
+    // Chame getIcons somente se sector não for nulo
+    if (description) {
+      const iconElement = getIcons(description, "#000", 30);
+      setIcon(iconElement);
+    } else {
+      console.log("Sector is null or undefined.");
+    }
+  }, [description]);
+
+  const workerNames = workers
+    ? workers.map((worker) => worker.name).join(", ")
+    : "";
 
   return (
     <div className="event-card">
       <div className="event-card-content">
-        <div className="img-cicle">
-          <img src={iconeDefault} alt="" />
-        </div>
+        <div className="img-cicle">{icon}</div>
         <div className="itens">
           <p>{description}</p>
+          {workers ? <span>{workerNames}</span> : ""}
         </div>
       </div>
       <p className="event-hour">{hour}</p>

@@ -1,32 +1,31 @@
 import axios from "axios";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useCallback } from "react";
 import useAuth from "../Hooks/useAuth";
 
 export const EventsContext = createContext({});
 
 export const EventsProvider = ({ children }) => {
-  const [events, setEvents] = useState([]);
+  const { getUser } = useAuth();
+  const [eventsWorker, setEventsWorker] = useState([]);
   const [time, setTime] = useState("Selecione um horário");
   const [workers, setWorkers] = useState([]);
 
   const apiClient = axios.create({
-    baseURL: "/api", // Agora você pode usar "/api" e o proxy irá redirecionar
+    baseURL: "/api",
     headers: {
       "Content-Type": "application/json",
     },
   });
 
-  // Função para atualizar o localStorage e o estado de eventos
-  const updateLocalStorageAndState = (updatedEvents) => {
+  const updateLocalStorageAndState = useCallback((updatedEvents) => {
     localStorage.setItem("events_bd", JSON.stringify(updatedEvents));
-    setEvents(updatedEvents);
-  };
+    setEventsWorker(updatedEvents);
+  }, []);
 
-  const getEvents = async (id) => {
+  const getEvents = async (user) => {
     try {
-      const response = await apiClient.get(`/events?workerId=${id}`);
-      localStorage.setItem("events_bd", JSON.stringify(response.data));
-      setEvents(response.data);
+      const response = await apiClient.get(`/events?workerId=${user}`);
+      updateLocalStorageAndState(response.data);
       return response.data;
     } catch (error) {
       console.error("Erro ao buscar dados", error);
@@ -34,55 +33,84 @@ export const EventsProvider = ({ children }) => {
     }
   };
 
-  const getEventsLeader = async (leader) => {
-    try {
-      const response = await apiClient.get(`/events/leader/${leader}`);
-      localStorage.setItem("events_leader", JSON.stringify(response.data));
-      return response.data;
-    } catch (error) {
-      console.error("Erro ao buscar dados", error);
-      throw error;
-    }
-  };
+  const getEventsLeader = useCallback(
+    async (user) => {
+      try {
+        const response = await apiClient.get(`/events/leader/${user.id}`);
+        updateLocalStorageAndState(response.data);
+        return response.data;
+      } catch (error) {
+        console.error("Erro ao buscar dados", error);
+        throw error;
+      }
+    },
+    [apiClient, updateLocalStorageAndState]
+  );
 
-  const getEventLocal = () => {
-    return JSON.parse(localStorage.getItem("events_bd"));
-  };
+  const createEvent = useCallback(
+    async (newEvent) => {
+      try {
+        const response = await apiClient.post("/events/create", newEvent);
+        const updatedEvents = [...eventsWorker, response.data];
+        updateLocalStorageAndState(updatedEvents);
+        return response.data;
+      } catch (error) {
+        console.error("Erro ao criar evento", error);
+        throw error;
+      }
+    },
+    [apiClient, eventsWorker, updateLocalStorageAndState]
+  );
 
-  const createEvent = async (newEvent) => {
-    try {
-      const response = await apiClient.post("/events/create", newEvent);
-      return response.data;
-    } catch (error) {
-      console.error("Erro ao buscar dados", error);
-      throw error;
-    }
-  };
+  const deleteEvent = useCallback(
+    async (eventId) => {
+      try {
+        await apiClient.delete(`/events/${eventId}`);
+        const updatedEvents = eventsWorker.filter(
+          (event) => event.id !== eventId
+        );
+        updateLocalStorageAndState(updatedEvents);
+      } catch (error) {
+        console.error("Erro ao deletar evento", error);
+        throw error;
+      }
+    },
+    [apiClient, eventsWorker, updateLocalStorageAndState]
+  );
 
-  const deleteEvent = (eventId) => {
-    const updatedEvents = events.filter((event) => event.id !== eventId);
-    updateLocalStorageAndState(updatedEvents);
-  };
-
-  const editEvent = (updatedEvent) => {
-    const updatedEvents = events.map((event) =>
-      event.id === updatedEvent.id ? updatedEvent : event
-    );
-    updateLocalStorageAndState(updatedEvents);
-  };
+  const editEvent = useCallback(
+    async (updatedEvent) => {
+      try {
+        const response = await apiClient.put(
+          `/events/${updatedEvent.id}`,
+          updatedEvent
+        );
+        const updatedEvents = eventsWorker.map((event) =>
+          event.id === updatedEvent.id ? response.data : event
+        );
+        updateLocalStorageAndState(updatedEvents);
+      } catch (error) {
+        console.error("Erro ao editar evento", error);
+        throw error;
+      }
+    },
+    [apiClient, eventsWorker, updateLocalStorageAndState]
+  );
 
   return (
     <EventsContext.Provider
       value={{
-        events,
+        eventsWorker,
         getEvents,
-        getEventLocal,
+        getEventLocal: () => JSON.parse(localStorage.getItem("events_bd")),
         createEvent,
         time,
         setTime,
         workers,
         setWorkers,
         getEventsLeader,
+        deleteEvent,
+        editEvent,
       }}
     >
       {children}

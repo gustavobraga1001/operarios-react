@@ -16,7 +16,7 @@
   margin-bottom: 20px;
 }
 
-.helcome-home {
+.welcome-home {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -36,7 +36,7 @@
   }
 }
 
-.helcome-home h1 {
+.welcome-home h1 {
   font-size: 18px;
   font-weight: 400;
 }

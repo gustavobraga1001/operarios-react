@@ -5,11 +5,11 @@ import "react-calendar/dist/Calendar.css";
 import iconSclales from "../../assets/icons/icon-scales.svg";
 import iconClock from "../../assets/icons/icon-clock.svg";
 import TimePicker from "../../components/TimePicker/TimePicker";
-import btnVoltar from "../../assets/icons/btn-voltar.svg";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import WorkersPicker from "../../components/WorkersPicker/WorkersPicker";
 import useEvents from "../../Hooks/useEvents";
 import useAuth from "../../Hooks/useAuth";
+import { CaretLeft } from "@phosphor-icons/react";
 
 const Scales = () => {
   const { getUser, getSector, setUsers, getUsers } = useAuth();
@@ -18,6 +18,7 @@ const Scales = () => {
   const [showCalendar, setShowCalendar] = useState(false);
   const [error, setError] = useState("");
   const [sector, setSector] = useState();
+  const [isClicked, setIsClicked] = useState(false);
   const calendarRef = useRef(null);
 
   const formatDateTime = (date) => {
@@ -73,6 +74,10 @@ const Scales = () => {
     return weekdays[date.getDay()];
   };
 
+  const toggleDropdown = () => {
+    setIsClicked(!isClicked);
+  };
+
   const handleSchedule = () => {
     if (time != "Selecione um horário" && workers.length > 0) {
       const formattedDate = formatDateTime(date);
@@ -91,6 +96,7 @@ const Scales = () => {
       setTime("Selecione um horário");
       setError("");
       createEvent(newEventObject);
+      setIsClicked(true);
       const fetchData = async () => {
         try {
           const result = await getUsers();
@@ -100,96 +106,106 @@ const Scales = () => {
         }
       };
       fetchData();
-      console.log(newEventObject);
     } else {
       setError("Ajuste todas as opções");
     }
   };
 
   return (
-    <div className="scales-container">
-      <header>
+    <div>
+      <header className="header-bottom-arrow">
         <Link to={"/optionsleader"}>
-          <img src={btnVoltar} alt="Botão de voltar de página" />
+          <CaretLeft size={32} color="#ffc100" />
         </Link>
       </header>
-      <div className="scales-header">
-        <h1>Abra uma escala</h1>
-        <p>
-          Selecione data, horário e informe o nome do operário para criar uma
-          escala.
-        </p>
-      </div>
-      <div className="scales-sections">
-        <section className="scales-date">
-          <p>Data</p>
-          <div ref={calendarRef} style={{ position: "relative" }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                border: "2px solid rgba(51, 54, 63, 1)",
-                borderRadius: "8px",
-                padding: "8px",
-                cursor: "pointer",
-              }}
-              onClick={toggleCalendar}
-            >
-              <img
-                src={iconSclales}
-                alt="Ícone de calendário"
-                style={{ width: "24px", height: "24px", marginRight: "8px" }}
-              />
-              <input
-                type="text"
-                readOnly
-                value={date.toLocaleDateString("pt-BR")}
-              />
-            </div>
-            {showCalendar && (
+      <div className="scales-container">
+        <div className="scales-header">
+          <h1>Abra uma escala</h1>
+          <p>
+            Selecione data, horário e informe o nome do operário para criar uma
+            escala.
+          </p>
+        </div>
+        <div className="scales-sections">
+          <section className="scales-date">
+            <p>Data</p>
+            <div ref={calendarRef} style={{ position: "relative" }}>
               <div
-                style={{ position: "absolute", top: "50px", zIndex: "1000" }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  border: "2px solid rgba(51, 54, 63, 1)",
+                  borderRadius: "8px",
+                  padding: "8px",
+                  cursor: "pointer",
+                }}
+                onClick={toggleCalendar}
               >
-                <Calendar
-                  className={"scales-calendar"}
-                  onChange={handleDateChange}
-                  formatShortWeekday={formatShortWeekday}
-                  showNeighboringMonth={false}
-                  value={date}
-                  locale="pt-BR" // Define o idioma do calendário
-                  navigationLabel={({ date }) => (
-                    <div className="custom-navigation">
-                      <span className="month-year">
-                        <strong>
-                          {date.toLocaleDateString("pt-BR", { month: "long" })}
-                        </strong>{" "}
-                        {date.getFullYear()}
-                      </span>
-                    </div>
-                  )}
+                <img
+                  src={iconSclales}
+                  alt="Ícone de calendário"
+                  style={{ width: "24px", height: "24px", marginRight: "8px" }}
+                />
+                <input
+                  type="text"
+                  readOnly
+                  value={date.toLocaleDateString("pt-BR")}
                 />
               </div>
-            )}
+              {showCalendar && (
+                <div
+                  style={{ position: "absolute", top: "50px", zIndex: "1000" }}
+                >
+                  <Calendar
+                    className={"scales-calendar"}
+                    onChange={handleDateChange}
+                    formatShortWeekday={formatShortWeekday}
+                    showNeighboringMonth={false}
+                    value={date}
+                    locale="pt-BR" // Define o idioma do calendário
+                    navigationLabel={({ date }) => (
+                      <div className="custom-navigation">
+                        <span className="month-year">
+                          <strong>
+                            {date.toLocaleDateString("pt-BR", {
+                              month: "long",
+                            })}
+                          </strong>{" "}
+                          {date.getFullYear()}
+                        </span>
+                      </div>
+                    )}
+                  />
+                </div>
+              )}
+            </div>
+          </section>
+          <section className="scales-hour">
+            <p className="scales-hour-title">Horários</p>
+            <div className="sclales-hour-box">
+              <img
+                className="icon-clock"
+                src={iconClock}
+                alt="Ícone de relógio"
+              />
+              <TimePicker />
+            </div>
+          </section>
+          <section className="scales-workers scales-hour">
+            <p className="scales-hour-title">Operários</p>
+            <WorkersPicker />
+          </section>
+          <p>{error}</p>
+          <div className="scales-button">
+            <button onClick={() => handleSchedule()}>AGENDAR</button>
           </div>
-        </section>
-        <section className="scales-hour">
-          <p className="scales-hour-title">Horários</p>
-          <div className="sclales-hour-box">
-            <img
-              className="icon-clock"
-              src={iconClock}
-              alt="Ícone de relógio"
-            />
-            <TimePicker />
-          </div>
-        </section>
-        <section className="scales-workers scales-hour">
-          <p className="scales-hour-title">Operários</p>
-          <WorkersPicker />
-        </section>
-        <p>{error}</p>
-        <div className="scales-button">
-          <button onClick={() => handleSchedule()}>AGENDAR</button>
+        </div>
+      </div>
+      <div>
+        <div className={`popup-enviar ${isClicked ? "active-popup" : ""}`}>
+          <h3>Parabéns!</h3>
+          <p>A escala foi lançada.</p>
+          <button onClick={toggleDropdown}>Ok</button>
         </div>
       </div>
     </div>

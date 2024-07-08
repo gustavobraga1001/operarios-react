@@ -21,20 +21,49 @@ const Home = () => {
     days: "",
     hour: "",
   });
-  const { getEvents, events } = useEvents();
-  // const [events, setEvents] = useState([]);
-  const [user, setUser] = useState({});
-
   const { getUser } = useAuth();
-  useEffect(() => {
-    setUser(getUser());
-  }, [getUser]);
+  const { getEvents, getEventLocal } = useEvents();
+  const [user, setUser] = useState({});
+  const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    const eventsUser = getEvents(getUser());
+    const fetchData = async () => {
+      const fetchedUser = getUser();
+      setUser(fetchedUser);
+
+      const localEvents = await getEvents(fetchedUser.id);
+      setEvents(localEvents);
+      const filteredMessageDays = FilterEvents(events);
+      setMessageDays(filteredMessageDays);
+    };
+
+    fetchData();
   }, []);
 
   useEffect(() => {
+    const updateMessageDays = () => {
+      const filteredMessageDays = FilterEvents(events);
+      setMessageDays(filteredMessageDays);
+    };
+
+    updateMessageDays();
+  }, [events]);
+
+  useEffect(() => {
+    // Atualizar a saudação e a imagem com base na hora atual
+    updateMessageAndImage();
+
+    // Configurar intervalo para atualizar a hora a cada 15 minutos
+    const interval = setInterval(() => {
+      setCurrentHour(new Date().getHours());
+    }, 900000); // A cada 15 minutos
+
+    return () => {
+      clearInterval(interval); // Limpar intervalo ao desmontar o componente
+    };
+  }, []);
+
+  const updateMessageAndImage = () => {
     if (currentHour <= 12) {
       setMessage("Bom Dia");
       setImage(iconDia);
@@ -45,12 +74,7 @@ const Home = () => {
       setMessage("Boa Noite");
       setImage(iconNoite);
     }
-  }, [currentHour]);
-
-  useEffect(() => {
-    const filteredMessageDays = FilterEvents(events);
-    setMessageDays(filteredMessageDays);
-  }, [events]);
+  };
 
   return (
     <div className="container-home">
@@ -58,7 +82,7 @@ const Home = () => {
         <img src={logo} alt="Logo do aplicativo" />
       </header>
       <main className="main-home">
-        <div className="helcome-home">
+        <div className="welcome-home">
           <img src={image} alt="Imagem da hora atual" />
           <h1>
             {message}, {user.name}

@@ -12,32 +12,31 @@ import {
   Monitor,
 } from "@phosphor-icons/react";
 
-export const getIcons = (sector, color) => {
-  console.log(sector, color);
+export const getIcons = (sector, color, size, fill) => {
   switch (sector) {
     case "Recepção":
-      return <Door size={52} color={color} weight="fill" />;
+      return <Door size={size} color={color} weight={fill} />;
     case "Louvor":
-      return <Guitar size={52} color={color} weight="fill" />;
+      return <Guitar size={size} color={color} weight={fill} />;
     case "Mídia":
-      return <Camera size={52} color={color} weight="fill" />;
+      return <Camera size={size} color={color} weight={fill} />;
     case "Organização":
-      return <ClipboardText size={52} color={color} weight="fill" />;
+      return <ClipboardText size={size} color={color} weight={fill} />;
     case "Kids":
-      return <Lego size={52} color={color} weight="fill" />;
+      return <Lego size={size} color={color} weight={fill} />;
     case "Projetor":
-      return <Monitor size={52} color={color} weight="fill" />;
+      return <Monitor size={size} color={color} weight={fill} />;
     case "Intercessão":
-      return <HandsPraying size={52} color={color} weight="fill" />;
+      return <HandsPraying size={size} color={color} weight={fill} />;
     case "Consolidação":
-      return <Gift size={52} color={color} weight="fill" />;
+      return <Gift size={size} color={color} weight={fill} />;
     case "Ceia":
-      return <Bread size={52} color={color} weight="fill" />;
+      return <Bread size={size} color={color} weight={fill} />;
     case "Cenografia":
-      return <Lightbulb size={52} color={color} weight="fill" />;
+      return <Lightbulb size={size} color={color} weight={fill} />;
     case "Estudos":
-      return <BookBookmark size={52} color={color} weight="fill" />;
+      return <BookBookmark size={size} color={color} weight={fill} />;
     default:
-      return <Camera size={52} color={color} weight="fill" />;
+      return <Camera size={size} color={color} weight={fill} />;
   }
 };

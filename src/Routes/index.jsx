@@ -39,10 +39,10 @@ const RoutesApp = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="*" element={<Login />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/" element={<ProtectedLayout />}>
+        <Route path="*" element={<ProtectedLayout />}>
+          <Route path="*" element={<Home />} />
           <Route path="home" element={<Home />} />
+          {/* <Route path="login" element={<Login />} /> */}
         </Route>
       </Routes>
       {/* <Suspense fallback={<LoadingSpinner />}>

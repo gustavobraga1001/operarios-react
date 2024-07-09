@@ -22,6 +22,6 @@ export async function LoginRequest(email, password) {
 
     return request.data;
   } catch (error) {
-    return null;
+    return error;
   }
 }

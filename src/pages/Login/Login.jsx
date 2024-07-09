@@ -13,7 +13,7 @@ const Login = () => {
   async function onFinish() {
     try {
       await auth.authenticate(email, password);
-      Navigate("/home");
+      // Navigate("/home");
     } catch (error) {
       setError("Erro ao fazer login. Verifique suas credenciais.");
       console.log(error);

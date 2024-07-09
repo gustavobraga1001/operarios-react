@@ -19,10 +19,10 @@ export const AuthProvider = ({ children }) => {
 
     console.log(response);
 
-    const payload = { email };
+    const payload = { token: response.token, email };
 
     setUser(payload);
-    // setUserLocalStorage(payload);
+    setUserLocalStorage(payload);
   }
 
   async function logout() {

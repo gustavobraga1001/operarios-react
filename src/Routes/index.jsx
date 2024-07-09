@@ -1,19 +1,20 @@
 // src/App.jsx
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { Fragment, Suspense, useEffect, useState } from "react";
-import useAuth from "../Hooks/useAuth";
-import Settings from "../pages/Settings/Settings";
-import Login from "../pages/Login/Login";
+
+// import Settings from "../pages/Settings/Settings";
+// import Scales from "../pages/Scales/Scales";
+// import Calendar from "../pages/Calendar/Calendar";
+// import Register from "../pages/Register/Register";
+// import OptionsLeader from "../pages/OptionsLeader/OptionsLeader";
+// import ListScale from "../pages/ListScale/ListScale";
+// import Members from "../pages/Members/Members";
+// import CalendarLeader from "../pages/CalendarLeader/CalendarLeader";
+// import TesteApi from "../pages/TesteApi/TesteApi";
 import LoadingSpinner from "../components/Loading/Loading";
-import Scales from "../pages/Scales/Scales";
-import Calendar from "../pages/Calendar/Calendar";
-import Register from "../pages/Register/Register";
+import Login from "../pages/Login/Login";
 import Home from "../pages/Home/Home";
-import OptionsLeader from "../pages/OptionsLeader/OptionsLeader";
-import ListScale from "../pages/ListScale/ListScale";
-import Members from "../pages/Members/Members";
-import CalendarLeader from "../pages/CalendarLeader/CalendarLeader";
-import TesteApi from "../pages/TesteApi/TesteApi";
+import { ProtectedLayout } from "../components/ProtectedLayout";
 
 const Private = ({ Item }) => {
   const { signed } = useAuth();
@@ -37,16 +38,19 @@ const RoutesApp = () => {
   }, []);
   return (
     <BrowserRouter>
-      <Suspense fallback={<LoadingSpinner />}>
+      <Routes>
+        <Route path="*" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<ProtectedLayout />}>
+          <Route path="home" element={<Home />} />
+        </Route>
+      </Routes>
+      {/* <Suspense fallback={<LoadingSpinner />}>
         {loading ? (
           <LoadingSpinner /> // Mostra o loading spinner enquanto as páginas estão sendo carregadas
         ) : (
           <Fragment>
             <Routes>
-              <Route path="*" element={<Login />} />
-              <Route path="/testeapi" element={<TesteApi />} />
-              <Route path="/" element={<Redirect Item={Login} />} />
-              <Route exact path="/home" element={<Private Item={Home} />} />
               <Route
                 exact
                 path="/calendar"
@@ -82,7 +86,7 @@ const RoutesApp = () => {
             </Routes>
           </Fragment>
         )}
-      </Suspense>
+      </Suspense> */}
     </BrowserRouter>
   );
 };

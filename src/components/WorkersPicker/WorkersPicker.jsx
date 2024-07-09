@@ -17,7 +17,6 @@ const WorkersPicker = () => {
   const addWorker = (user) => {
     setWorkers((prevWorkers) => [...prevWorkers, user]);
     setUsers((prevUsers) => prevUsers.filter((u) => u.id !== user.id));
-    console.log(workers, users);
   };
 
   const removeWorker = (user) => {

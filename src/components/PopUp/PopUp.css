@@ -1,4 +1,10 @@
+.popup-enviar {
+  display: none;
+  /* Adicione outras estilizações necessárias */
+}
+
 .popup-enviar.active-popup {
+  display: block;
   width: 92%;
   height: 228px;
   position: fixed;
@@ -13,6 +19,7 @@
   margin: 20px;
   top: 30%;
 }
+
 .popup-enviar h3 {
   margin: 0;
 }
@@ -35,6 +42,3 @@
   margin-top: 10px;
 }
 
-.popup-enviar {
-  display: none;
-}

@@ -1,34 +1,24 @@
 import "./Login.css";
 import logo from "../../assets/images/logo.svg";
 import { useState } from "react";
-import useAuth from "../../Hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import useAuth from "../../context/AuthProvider/useAuth";
+import { Navigate } from "react-router-dom";
 
 const Login = () => {
-  const { Login } = useAuth();
-  const navigate = useNavigate();
-
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
   const [error, setError] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const auth = useAuth();
 
-  const handleLogin = async () => {
-    if (!email | !senha) {
-      setError("Preencha todos os campos");
-      return;
-    }
+  async function onFinish() {
     try {
-      const result = await Login({
-        email: email,
-        password: senha,
-      });
-
-      navigate("/home");
+      await auth.authenticate(email, password);
+      Navigate("/home");
     } catch (error) {
-      setError("E-mail ou senha errados");
-      console.error("Erro ao enviar dados", error);
+      setError("Erro ao fazer login. Verifique suas credenciais.");
+      console.log(error);
     }
-  };
+  }
 
   return (
     <div className="container-login">
@@ -47,13 +37,13 @@ const Login = () => {
         <input
           type="password"
           placeholder="Senha"
-          value={senha}
-          onChange={(e) => [setSenha(e.target.value), setError("")]}
+          value={password}
+          onChange={(e) => [setPassword(e.target.value), setError("")]}
         />
       </div>
       <p>{error}</p>
       <div className="button-login">
-        <button type="submit" onClick={handleLogin}>
+        <button type="submit" onClick={onFinish}>
           Login
         </button>
       </div>

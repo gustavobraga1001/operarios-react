@@ -5,10 +5,10 @@ import useAuth from "../Hooks/useAuth";
 export const EventsContext = createContext({});
 
 export const EventsProvider = ({ children }) => {
-  const { getUser } = useAuth();
   const [eventsWorker, setEventsWorker] = useState([]);
   const [time, setTime] = useState("Selecione um horário");
   const [workers, setWorkers] = useState([]);
+  const [events, setEvents] = useState([]);
 
   const apiClient = axios.create({
     baseURL: "/api",
@@ -18,33 +18,35 @@ export const EventsProvider = ({ children }) => {
   });
 
   const updateLocalStorageAndState = useCallback((updatedEvents) => {
-    localStorage.setItem("events_bd", JSON.stringify(updatedEvents));
+    localStorage.setItem("events_worker", JSON.stringify(updatedEvents));
     setEventsWorker(updatedEvents);
   }, []);
 
-  const getEvents = async (user) => {
-    try {
-      const response = await apiClient.get(`/events?workerId=${user}`);
-      updateLocalStorageAndState(response.data);
-      return response.data;
-    } catch (error) {
-      console.error("Erro ao buscar dados", error);
-      throw error;
-    }
-  };
+  const getEvents = useCallback(
+    async (user) => {
+      try {
+        const response = await apiClient.get(`/events?workerId=${user.id}`);
+        localStorage.setItem("events_worker", JSON.stringify(response.data));
+        setEvents(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar dados", error);
+        throw error;
+      }
+    },
+    [apiClient]
+  );
 
   const getEventsLeader = useCallback(
     async (user) => {
       try {
         const response = await apiClient.get(`/events/leader/${user.id}`);
-        updateLocalStorageAndState(response.data);
         return response.data;
       } catch (error) {
         console.error("Erro ao buscar dados", error);
         throw error;
       }
     },
-    [apiClient, updateLocalStorageAndState]
+    [apiClient]
   );
 
   const createEvent = useCallback(
@@ -102,7 +104,7 @@ export const EventsProvider = ({ children }) => {
       value={{
         eventsWorker,
         getEvents,
-        getEventLocal: () => JSON.parse(localStorage.getItem("events_bd")),
+        getEventLocal: () => JSON.parse(localStorage.getItem("events_worker")),
         createEvent,
         time,
         setTime,
@@ -111,6 +113,7 @@ export const EventsProvider = ({ children }) => {
         getEventsLeader,
         deleteEvent,
         editEvent,
+        events,
       }}
     >
       {children}

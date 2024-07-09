@@ -8,9 +8,6 @@ import iconTarde from "../../assets/icons/icon-tarde.svg";
 import iconNoite from "../../assets/icons/icon-noite.svg";
 import iconHand from "../../assets/icons/icon-hand.svg";
 import logo from "../../assets/images/logo.svg";
-import useAuth from "../../Hooks/useAuth";
-import useEvents from "../../Hooks/useEvents";
-import FilterEvents from "../../components/FilterEvents/FilterEvents";
 
 const Home = () => {
   const [currentHour, setCurrentHour] = useState(new Date().getHours());
@@ -21,33 +18,17 @@ const Home = () => {
     days: "",
     hour: "",
   });
-  const { getUser } = useAuth();
-  const { getEvents, getEventLocal } = useEvents();
-  const [user, setUser] = useState({});
-  const [events, setEvents] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const fetchedUser = getUser();
-      setUser(fetchedUser);
+  
 
-      const localEvents = await getEvents(fetchedUser.id);
-      setEvents(localEvents);
-      const filteredMessageDays = FilterEvents(events);
-      setMessageDays(filteredMessageDays);
-    };
+  // useEffect(() => {
+  //   const updateMessageDays = () => {
+  //     const filteredMessageDays = FilterEvents(events);
+  //     setMessageDays(filteredMessageDays);
+  //   };
 
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const updateMessageDays = () => {
-      const filteredMessageDays = FilterEvents(events);
-      setMessageDays(filteredMessageDays);
-    };
-
-    updateMessageDays();
-  }, [events]);
+  //   updateMessageDays();
+  // }, [events]);
 
   useEffect(() => {
     // Atualizar a saudação e a imagem com base na hora atual
@@ -84,22 +65,20 @@ const Home = () => {
       <main className="main-home">
         <div className="welcome-home">
           <img src={image} alt="Imagem da hora atual" />
-          <h1>
-            {message}, {user.name}
-          </h1>
+          <h1>{/* {message}, {user.name} */}</h1>
         </div>
         <Saudacao
           message={messageDays.message}
           day={messageDays.days}
           horario={messageDays.hour}
         />
-        {(user.role === "LEADER" || user.role === "ADMIN") && (
+        {/* {(user.role === "LEADER" || user.role === "ADMIN") && (
           <Link to={"/optionsleader"}>
             <button className="btn-scales">
               <img src={iconHand} alt="" />
             </button>
           </Link>
-        )}
+        )} */}
       </main>
       <Footer />
     </div>

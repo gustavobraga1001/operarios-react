@@ -9,15 +9,12 @@ const EventCard = ({ description, hour, workers }) => {
     if (description) {
       const iconElement = getIcons(description, "#000", 30);
       setIcon(iconElement);
-    } else {
-      console.log("Sector is null or undefined.");
     }
   }, [description]);
 
   const workerNames = workers
     ? workers.map((worker) => worker.name).join(", ")
     : "";
-
   return (
     <div className="event-card">
       <div className="event-card-content">

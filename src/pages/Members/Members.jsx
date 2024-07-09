@@ -29,12 +29,8 @@ const Members = () => {
   useEffect(() => {
     // Chame getIcons somente se sector não for nulo
     if (sector) {
-      console.log("Sector for getIcons:", sector);
       const iconElement = getIcons(sector.name, "#ffc100", 50, "fill");
-      console.log("Icon:", iconElement);
       setIcon(iconElement);
-    } else {
-      console.log("Sector is null or undefined.");
     }
   }, [sector]);
 

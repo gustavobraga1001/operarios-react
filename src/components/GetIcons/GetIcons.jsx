@@ -13,30 +13,20 @@ import {
 } from "@phosphor-icons/react";
 
 export const getIcons = (sector, color, size, fill) => {
-  switch (sector) {
-    case "Recepção":
-      return <Door size={size} color={color} weight={fill} />;
-    case "Louvor":
-      return <Guitar size={size} color={color} weight={fill} />;
-    case "Mídia":
-      return <Camera size={size} color={color} weight={fill} />;
-    case "Organização":
-      return <ClipboardText size={size} color={color} weight={fill} />;
-    case "Kids":
-      return <Lego size={size} color={color} weight={fill} />;
-    case "Projetor":
-      return <Monitor size={size} color={color} weight={fill} />;
-    case "Intercessão":
-      return <HandsPraying size={size} color={color} weight={fill} />;
-    case "Consolidação":
-      return <Gift size={size} color={color} weight={fill} />;
-    case "Ceia":
-      return <Bread size={size} color={color} weight={fill} />;
-    case "Cenografia":
-      return <Lightbulb size={size} color={color} weight={fill} />;
-    case "Estudos":
-      return <BookBookmark size={size} color={color} weight={fill} />;
-    default:
-      return <Camera size={size} color={color} weight={fill} />;
-  }
+  const icons = {
+    Recep: () => <Door size={size} color={color} weight={fill} />,
+    Louvor: () => <Guitar size={size} color={color} weight={fill} />,
+    Midia: () => <Camera size={size} color={color} weight={fill} />,
+    Intercessão: () => <HandsPraying size={size} color={color} weight={fill} />,
+    Organização: () => (
+      <ClipboardText size={size} color={color} weight={fill} />
+    ),
+    Kids: () => <Lego size={size} color={color} weight={fill} />,
+    Projetor: () => <Monitor size={size} color={color} weight={fill} />,
+    Consolidação: () => <Gift size={size} color={color} weight={fill} />,
+    Ceia: () => <Bread size={size} color={color} weight={fill} />,
+    Cenografia: () => <Lightbulb size={size} color={color} weight={fill} />,
+    Estudos: () => <BookBookmark size={size} color={color} weight={fill} />,
+  };
+  return icons[sector];
 };

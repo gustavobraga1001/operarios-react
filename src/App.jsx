@@ -1,18 +1,18 @@
-import { useEffect } from "react";
-import { AuthProvider } from "./contexts/auth";
+import { AuthProvider } from "./context/AuthProvider";
 import RoutesApp from "./Routes";
-import { EventsProvider } from "./contexts/events";
+// import { EventsProvider } from "./contexts/events";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const App = () => {
-  useEffect(() => {
-    
-  }, []);
+  const client = new QueryClient();
   return (
-    <EventsProvider>
-      <AuthProvider>
+    <AuthProvider>
+      {/* <EventsProvider> */}
+      <QueryClientProvider client={client}>
         <RoutesApp />
-      </AuthProvider>
-    </EventsProvider>
+      </QueryClientProvider>
+      {/* </EventsProvider> */}
+    </AuthProvider>
   );
 };
 

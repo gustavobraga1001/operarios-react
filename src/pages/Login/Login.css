@@ -39,7 +39,7 @@ p {
   width: 100%;
   margin-bottom: 18px;
   padding: 10px 0px 10px 15px;
-  border-radius: 10px;
+  border-radius: 8px;
   border: 1px solid white;
   color: #ffc100;
   box-sizing: border-box; /* Inclui padding e borda na largura total */

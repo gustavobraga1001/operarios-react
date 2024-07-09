@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 
 export const AuthContext = createContext({});
 
@@ -81,7 +81,6 @@ export const AuthProvider = ({ children }) => {
 
   const getUser = () => {
     const user = JSON.parse(localStorage.getItem("user"));
-
     return user;
   };
 
@@ -94,8 +93,6 @@ export const AuthProvider = ({ children }) => {
       return false;
     }
   };
-
-  // const signed = () => authenticated;
 
   return (
     <AuthContext.Provider

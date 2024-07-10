@@ -2,21 +2,25 @@ import "./Login.css";
 import logo from "../../assets/images/logo.svg";
 import { useState } from "react";
 import useAuth from "../../context/AuthProvider/useAuth";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const auth = useAuth();
+  const navigate = useNavigate(); // Use useNavigate ao invés de Navigate
 
   async function onFinish() {
     try {
+      console.log("Email:", email);
+      console.log("Password:", password);
       await auth.authenticate(email, password);
-      // Navigate("/home");
+      console.log("Login bem-sucedido!");
+      navigate("/home");
     } catch (error) {
+      console.error("Erro ao fazer login:", error);
       setError("Erro ao fazer login. Verifique suas credenciais.");
-      console.log(error);
     }
   }
 

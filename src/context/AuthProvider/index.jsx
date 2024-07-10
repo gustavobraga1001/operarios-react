@@ -15,17 +15,19 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   async function authenticate(email, password) {
+    console.log(email, password);
     const response = await LoginRequest(email, password);
-
     console.log(response);
 
-    const payload = { token: response.token, email };
+    if (response != null) {
+      const payload = { token: response.accessToken };
 
-    setUser(payload);
-    setUserLocalStorage(payload);
+      setUser(payload);
+      setUserLocalStorage(payload);
+    }
   }
 
-  async function logout() {
+  function logout() {
     setUser(null);
     setUserLocalStorage(null);
   }

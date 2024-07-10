@@ -1,4 +1,4 @@
-import { AuthProvider } from "./context/AuthProvider";
+import { AuthProvider } from "./context/AuthProvider/index";
 import RoutesApp from "./Routes";
 // import { EventsProvider } from "./contexts/events";
 import { QueryClient, QueryClientProvider } from "react-query";

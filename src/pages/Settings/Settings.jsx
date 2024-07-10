@@ -1,61 +1,78 @@
-// import React from "react";
-// import Footer from "../../components/Footer/Footer";
-// import { Link, useNavigate } from "react-router-dom";
-// import useAuth from "../../Hooks/useAuth";
-// import "./Settings.css";
-// import CardSettings from "../../components/CardSettings/CardSettings";
-// import { BellSimpleSlash, Info, UserList } from "@phosphor-icons/react";
+import React, { useEffect, useState } from "react";
+import Footer from "../../components/Footer/Footer";
+import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../../context/AuthProvider/useAuth";
+import "./Settings.css";
+import CardSettings from "../../components/CardSettings/CardSettings";
+import { BellSimpleSlash, Info, UserList } from "@phosphor-icons/react";
+import { getUser } from "../Home/Home";
 
-// const Settings = () => {
-//   const { signout, getUser } = useAuth();
-//   const navigate = useNavigate();
-//   const user = getUser();
+const Settings = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const auth = useAuth();
 
-//   const nameFomatted = user.name.split(" ");
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = await getUser();
+      setUser(user);
+    };
+    fetchUser();
+  }, []);
 
-//   const getName = (nome) => {
-//     return nome
-//       .filter((parte) => parte) // Remove partes vazias
-//       .map((parte) => parte.charAt(0))
-//       .join(""); // Junta as letras em uma string
-//   };
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
-//   const nameFirst = getName(nameFomatted);
-//   return (
-//     <div className="settings-container">
-//       <div className="settings-box-header">
-//         <div className="settings-img">
-//           <p>{nameFirst}</p>
-//         </div>
-//         <div className="settings-box-infos">
-//           <p>{user.name}</p>
-//           <span>{user.email}</span>
-//         </div>
-//       </div>
-//       <div className="settings-options">
-//         <div className="settings-option">
-//           <UserList size={32} color="#ffc100" />
-//           <p>Membros</p>
-//         </div>
-//         <div className="settings-option">
-//           <BellSimpleSlash size={32} color="#ffc100" />
-//           <p>Desativar Notificações</p>
-//         </div>
-//         <div className="settings-option">
-//           <Info size={32} color="#ffc100" />
-//           <p>Ajuda</p>
-//         </div>
-//       </div>
-//       <a
-//         className="settings-button-logout"
-//         onClick={() => [signout(), navigate("/")]}
-//       >
-//         Sair da Conta
-//       </a>
+  const nameFomatted = user.name.split(" ");
 
-//       <Footer />
-//     </div>
-//   );
-// };
+  const getName = (nome) => {
+    return nome
+      .filter((parte) => parte) // Remove partes vazias
+      .map((parte) => parte.charAt(0))
+      .join(""); // Junta as letras em uma string
+  };
 
-// export default Settings;
+  const nameFirst = getName(nameFomatted);
+  console.log(nameFirst);
+  return (
+    <div className="settings-container">
+      <div className="settings-box-header">
+        <div className="settings-img">
+          <p>{!user ? "" : nameFirst}</p>
+        </div>
+        <div className="settings-box-infos">
+          <p>{!user ? "---" : user.name}</p>
+          <span>{!user ? "---" : user.email}</span>
+        </div>
+      </div>
+      <div className="settings-options">
+        <div className="settings-option">
+          <UserList size={32} color="#ffc100" />
+          <p>Membros</p>
+        </div>
+        <div className="settings-option">
+          <BellSimpleSlash size={32} color="#ffc100" />
+          <p>Desativar Notificações</p>
+        </div>
+        <div className="settings-option">
+          <Info size={32} color="#ffc100" />
+          <p>Ajuda</p>
+        </div>
+      </div>
+      <a
+        className="settings-button-logout"
+        onClick={() => {
+          auth.logout();
+          navigate("/");
+        }}
+      >
+        Sair da Conta
+      </a>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default Settings;

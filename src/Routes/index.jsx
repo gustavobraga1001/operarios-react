@@ -2,7 +2,7 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { Fragment, Suspense, useEffect, useState } from "react";
 
-// import Settings from "../pages/Settings/Settings";
+import Settings from "../pages/Settings/Settings";
 // import Scales from "../pages/Scales/Scales";
 // import Calendar from "../pages/Calendar/Calendar";
 // import Register from "../pages/Register/Register";
@@ -15,15 +15,24 @@ import LoadingSpinner from "../components/Loading/Loading";
 import Login from "../pages/Login/Login";
 import Home from "../pages/Home/Home";
 import { ProtectedLayout } from "../components/ProtectedLayout";
+import useAuth from "../context/AuthProvider/useAuth";
 
 const Private = ({ Item }) => {
-  const { signed } = useAuth();
-  return signed() ? <Item /> : <Login />;
+  const auth = useAuth();
+  if (!auth.token) {
+    return <Login />;
+  } else {
+    return <Item />;
+  }
 };
 
-const Redirect = ({ Item }) => {
-  const { signed } = useAuth();
-  return signed() ? <Home /> : <Item />;
+const IsLogin = ({ Item }) => {
+  const auth = useAuth();
+  if (!auth.token) {
+    return <Item />;
+  } else {
+    return <Home />;
+  }
 };
 
 const RoutesApp = () => {
@@ -39,11 +48,10 @@ const RoutesApp = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="*" element={<ProtectedLayout />}>
-          <Route path="*" element={<Home />} />
-          <Route path="home" element={<Home />} />
-          {/* <Route path="login" element={<Login />} /> */}
-        </Route>
+        <Route exact path="/home" element={<Private Item={Home} />} />
+        <Route path="/" element={<IsLogin Item={Login} />} />
+        <Route path="*" element={<IsLogin Item={Login} />} />
+        <Route exact path="/settings" element={<Private Item={Settings} />} />
       </Routes>
       {/* <Suspense fallback={<LoadingSpinner />}>
         {loading ? (

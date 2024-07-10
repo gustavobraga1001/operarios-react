@@ -8,27 +8,69 @@ import iconTarde from "../../assets/icons/icon-tarde.svg";
 import iconNoite from "../../assets/icons/icon-noite.svg";
 import iconHand from "../../assets/icons/icon-hand.svg";
 import logo from "../../assets/images/logo.svg";
+import { Api } from "../../context/AuthProvider/services/api";
+import FilterEvents from "../../components/FilterEvents/FilterEvents";
+
+async function getEvents() {
+  try {
+    const response = await Api.get("workers/events");
+
+    // console.log(response.data);
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getUser() {
+  try {
+    const response = await Api.get("users/profile");
+
+    console.log(response.data);
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 const Home = () => {
   const [currentHour, setCurrentHour] = useState(new Date().getHours());
   const [message, setMessage] = useState("");
   const [image, setImage] = useState("");
+  const [events, setEvents] = useState([]);
+  const [user, setUser] = useState([]);
   const [messageDays, setMessageDays] = useState({
     message: "",
     days: "",
     hour: "",
   });
 
-  
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const events = await getEvents();
+      setEvents(events);
+    };
+    fetchEvents();
+  }, []);
 
-  // useEffect(() => {
-  //   const updateMessageDays = () => {
-  //     const filteredMessageDays = FilterEvents(events);
-  //     setMessageDays(filteredMessageDays);
-  //   };
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = await getUser();
+      setUser(user);
+    };
+    fetchUser();
+  }, []);
 
-  //   updateMessageDays();
-  // }, [events]);
+  useEffect(() => {
+    const updateMessageDays = () => {
+      const filteredMessageDays = FilterEvents(events);
+      setMessageDays(filteredMessageDays);
+    };
+
+    updateMessageDays();
+  }, [events, setEvents]);
 
   useEffect(() => {
     // Atualizar a saudação e a imagem com base na hora atual
@@ -65,20 +107,22 @@ const Home = () => {
       <main className="main-home">
         <div className="welcome-home">
           <img src={image} alt="Imagem da hora atual" />
-          <h1>{/* {message}, {user.name} */}</h1>
+          <h1>
+            {message}, {user.name}
+          </h1>
         </div>
         <Saudacao
           message={messageDays.message}
           day={messageDays.days}
           horario={messageDays.hour}
         />
-        {/* {(user.role === "LEADER" || user.role === "ADMIN") && (
+        {(user.role === "LEADER" || user.role === "ADMIN") && (
           <Link to={"/optionsleader"}>
             <button className="btn-scales">
               <img src={iconHand} alt="" />
             </button>
           </Link>
-        )} */}
+        )}
       </main>
       <Footer />
     </div>

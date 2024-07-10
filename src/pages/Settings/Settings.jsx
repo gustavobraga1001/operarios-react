@@ -5,23 +5,19 @@ import useAuth from "../../context/AuthProvider/useAuth";
 import "./Settings.css";
 import CardSettings from "../../components/CardSettings/CardSettings";
 import { BellSimpleSlash, Info, UserList } from "@phosphor-icons/react";
-import { getUser } from "../Home/Home";
+import LoadingSpinner from "../../components/Loading/Loading";
+import { useQuery } from "react-query";
 
 const Settings = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
   const auth = useAuth();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const user = await getUser();
-      setUser(user);
-    };
-    fetchUser();
-  }, []);
+  const { data: user, isLoading } = useQuery(["user"], () => auth.getUser(), {
+    staleTime: 50000,
+  });
 
-  if (!user) {
-    return <div>Loading...</div>;
+  if (!user || isLoading) {
+    return <LoadingSpinner />;
   }
 
   const nameFomatted = user.name.split(" ");
@@ -34,7 +30,6 @@ const Settings = () => {
   };
 
   const nameFirst = getName(nameFomatted);
-  console.log(nameFirst);
   return (
     <div className="settings-container">
       <div className="settings-box-header">

@@ -10,67 +10,43 @@ import iconHand from "../../assets/icons/icon-hand.svg";
 import logo from "../../assets/images/logo.svg";
 import { Api } from "../../context/AuthProvider/services/api";
 import FilterEvents from "../../components/FilterEvents/FilterEvents";
-
-async function getEvents() {
-  try {
-    const response = await Api.get("workers/events");
-
-    // console.log(response.data);
-
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export async function getUser() {
-  try {
-    const response = await Api.get("users/profile");
-
-    console.log(response.data);
-
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-}
+import { useQuery } from "react-query";
+import LoadingSpinner from "../../components/Loading/Loading";
+import useAuth from "../../context/AuthProvider/useAuth";
+import useEvents from "../../context/EventsProvider/useEvents";
 
 const Home = () => {
   const [currentHour, setCurrentHour] = useState(new Date().getHours());
   const [message, setMessage] = useState("");
   const [image, setImage] = useState("");
-  const [events, setEvents] = useState([]);
-  const [user, setUser] = useState([]);
   const [messageDays, setMessageDays] = useState({
     message: "",
     days: "",
     hour: "",
   });
+  const auth = useAuth();
+  const events = useEvents();
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      const events = await getEvents();
-      setEvents(events);
-    };
-    fetchEvents();
-  }, []);
+  const { data: user, isLoading } = useQuery(["user"], () => auth.getUser(), {
+    staleTime: 50000,
+  });
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const user = await getUser();
-      setUser(user);
-    };
-    fetchUser();
-  }, []);
+  const { data: eventsWorker } = useQuery(
+    ["events"],
+    () => events.getEvents(),
+    {
+      staleTime: 3000,
+    }
+  );
 
   useEffect(() => {
     const updateMessageDays = () => {
-      const filteredMessageDays = FilterEvents(events);
+      const filteredMessageDays = FilterEvents(eventsWorker);
       setMessageDays(filteredMessageDays);
     };
 
     updateMessageDays();
-  }, [events, setEvents]);
+  }, [eventsWorker]);
 
   useEffect(() => {
     // Atualizar a saudação e a imagem com base na hora atual
@@ -98,6 +74,10 @@ const Home = () => {
       setImage(iconNoite);
     }
   };
+
+  if (!events || !user || isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="container-home">

@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import "./EventCard.css";
 import { getIcons } from "../GetIcons/GetIcons";
-const EventCard = ({ description, hour, workers }) => {
+const EventCard = ({ sectorId, description, hour, workers }) => {
   const [icon, setIcon] = useState(null);
 
   useEffect(() => {
     // Chame getIcons somente se sector não for nulo
     if (description) {
-      const iconElement = getIcons(description, "#000", 30);
+      const iconElement = getIcons(sectorId, "#000", 30);
       setIcon(iconElement);
     }
-  }, [description]);
+  }, [sectorId]);
 
   const workerNames = workers
     ? workers.map((worker) => worker.name).join(", ")

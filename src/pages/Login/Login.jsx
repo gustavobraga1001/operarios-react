@@ -12,11 +12,13 @@ const Login = () => {
   const navigate = useNavigate(); // Use useNavigate ao invés de Navigate
 
   async function onFinish() {
+    if (!email || !password) {
+      setError("Digite suas credênciais");
+      return;
+    }
+
     try {
-      console.log("Email:", email);
-      console.log("Password:", password);
       await auth.authenticate(email, password);
-      console.log("Login bem-sucedido!");
       navigate("/home");
     } catch (error) {
       console.error("Erro ao fazer login:", error);

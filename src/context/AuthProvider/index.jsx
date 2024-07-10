@@ -1,5 +1,6 @@
-import React, { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { getUserLocalStorage, LoginRequest, setUserLocalStorage } from "./util";
+import { Api } from "./services/api";
 
 export const AuthContext = createContext();
 
@@ -14,10 +15,18 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
+  async function getUser() {
+    try {
+      const response = await Api.get("users/profile");
+
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async function authenticate(email, password) {
-    console.log(email, password);
     const response = await LoginRequest(email, password);
-    console.log(response);
 
     if (response != null) {
       const payload = { token: response.accessToken };
@@ -33,7 +42,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ ...user, authenticate, logout }}>
+    <AuthContext.Provider value={{ ...user, authenticate, logout, getUser }}>
       {children}
     </AuthContext.Provider>
   );

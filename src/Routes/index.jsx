@@ -4,17 +4,15 @@ import { Fragment, Suspense, useEffect, useState } from "react";
 
 import Settings from "../pages/Settings/Settings";
 // import Scales from "../pages/Scales/Scales";
-// import Calendar from "../pages/Calendar/Calendar";
 // import Register from "../pages/Register/Register";
-// import OptionsLeader from "../pages/OptionsLeader/OptionsLeader";
 // import ListScale from "../pages/ListScale/ListScale";
 // import Members from "../pages/Members/Members";
-// import CalendarLeader from "../pages/CalendarLeader/CalendarLeader";
 // import TesteApi from "../pages/TesteApi/TesteApi";
-import LoadingSpinner from "../components/Loading/Loading";
+import CalendarLeader from "../pages/CalendarLeader/CalendarLeader";
+import OptionsLeader from "../pages/OptionsLeader/OptionsLeader";
 import Login from "../pages/Login/Login";
 import Home from "../pages/Home/Home";
-import { ProtectedLayout } from "../components/ProtectedLayout";
+import Calendar from "../pages/Calendar/Calendar";
 import useAuth from "../context/AuthProvider/useAuth";
 
 const Private = ({ Item }) => {
@@ -52,6 +50,17 @@ const RoutesApp = () => {
         <Route path="/" element={<IsLogin Item={Login} />} />
         <Route path="*" element={<IsLogin Item={Login} />} />
         <Route exact path="/settings" element={<Private Item={Settings} />} />
+        <Route exact path="/calendar" element={<Private Item={Calendar} />} />
+        <Route
+          exact
+          path="/optionsleader"
+          element={<Private Item={OptionsLeader} />}
+        />
+        <Route
+          exact
+          path="/calendarleader"
+          element={<Private Item={CalendarLeader} />}
+        />
       </Routes>
       {/* <Suspense fallback={<LoadingSpinner />}>
         {loading ? (
@@ -59,22 +68,8 @@ const RoutesApp = () => {
         ) : (
           <Fragment>
             <Routes>
-              <Route
-                exact
-                path="/calendar"
-                element={<Private Item={Calendar} />}
-              />
-              <Route
-                exact
-                path="/settings"
-                element={<Private Item={Settings} />}
-              />
               <Route exact path="/scales" element={<Private Item={Scales} />} />
-              <Route
-                exact
-                path="/optionsleader"
-                element={<Private Item={OptionsLeader} />}
-              />
+              
               <Route
                 exact
                 path="/listscale"
@@ -85,11 +80,7 @@ const RoutesApp = () => {
                 path="/members"
                 element={<Private Item={Members} />}
               />
-              <Route
-                exact
-                path="/calendarleader"
-                element={<Private Item={CalendarLeader} />}
-              />
+              
               <Route exact path="/register" element={<Register />} />
             </Routes>
           </Fragment>

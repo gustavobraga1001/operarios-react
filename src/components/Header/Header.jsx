@@ -1,10 +1,18 @@
-import useAuth from "../../Hooks/useAuth";
+import { useQuery } from "react-query";
+import useAuth from "../../context/AuthProvider/useAuth";
 import "./Header.css";
+import LoadingSpinner from "../Loading/Loading";
 
 const Header = () => {
-  const { getUser } = useAuth();
+  const auth = useAuth();
 
-  const user = getUser();
+  const { data: user, isLoading } = useQuery(["user"], () => auth.getUser(), {
+    staleTime: 50000,
+  });
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   const nameFomatted = user.name.split(" ");
 

@@ -1,5 +1,5 @@
 import React from "react";
-import "../PopUp/PopUp.css";
+import "./PopUpAddWorker.css";
 
 const PopUpAddWorker = ({
   isClicked,
@@ -8,10 +8,16 @@ const PopUpAddWorker = ({
   nameWorker,
 }) => {
   return (
-    <div className={`popup-enviar ${isClicked ? "active-popup" : ""}`}>
-      <p>Você quer adicionar {nameWorker} ao setor?</p>
-      <button onClick={toggleDropdown}>Ok</button>
-      <button onClick={NoSubmit}>Cancelar</button>
+    <div className={`popup ${isClicked ? "active-popup" : ""}`}>
+      <div className="popup-content">
+        <p>Você quer adicionar {nameWorker} ao setor?</p>
+        <button className="button add-button" onClick={toggleDropdown}>
+          Adicionar
+        </button>
+      </div>
+      <button className="button cancel-button" onClick={NoSubmit}>
+        Cancelar
+      </button>
     </div>
   );
 };

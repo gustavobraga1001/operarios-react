@@ -1,3 +1,7 @@
+.add-worker-container{
+  padding-bottom: 50px;
+}
+
 .settings-box-header {
   display: flex;
   align-items: center;

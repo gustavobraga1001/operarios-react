@@ -102,7 +102,7 @@ const AddWorkers = () => {
   }
 
   return (
-    <div>
+    <div className="add-worker-container">
       <header className="header-bottom-arrow">
         <Link to={"/members"}>
           <CaretLeft size={32} color="#ffc100" />

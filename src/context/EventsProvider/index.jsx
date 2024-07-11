@@ -37,6 +37,16 @@ export const EventsProvider = ({ children }) => {
     }
   }
 
+  async function getAvailableSector(id) {
+    try {
+      const response = await Api.get(`sectors/${id}/available-workers`);
+
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async function PostScales(event) {
     try {
       const request = await Api.post("events/create", event);
@@ -58,6 +68,7 @@ export const EventsProvider = ({ children }) => {
         setTime,
         workersUp,
         setWorkersUp,
+        getAvailableSector,
       }}
     >
       {children}

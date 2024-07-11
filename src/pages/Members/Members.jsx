@@ -51,16 +51,14 @@ const Members = () => {
         <p>{sector ? sector.sector_name : "Admin"}</p>
       </div>
       <div className="list-members">
-        <div className="settings-box-header">
+        <Link to="add-workers" className="settings-box-header">
           <div className="settings-img settings-img-white">
             <UserPlus size={32} weight="bold" color="rgba(255, 193, 0, 1)" />
           </div>
           <div className="settings-box-infos">
-            <Link to="add-workers">
-              <p>Adicionar membros</p>
-            </Link>
+            <p>Adicionar membros</p>
           </div>
-        </div>
+        </Link>
         {sector.workers.length > 0
           ? sector.workers.map((worker) => (
               <div key={worker.id} className="settings-box-header">

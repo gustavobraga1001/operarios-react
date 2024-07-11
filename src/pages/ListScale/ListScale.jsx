@@ -39,6 +39,25 @@ const ListScale = () => {
     return `${day}/${month} ${weekday}`;
   };
 
+  // Ordenar eventos por dia e mês
+  const sortedEvents = [...eventsLeader].sort((a, b) => {
+    const dateA = new Date(a.date_time);
+    const dateB = new Date(b.date_time);
+
+    const dayA = dateA.getDate();
+    const monthA = dateA.getMonth();
+
+    const dayB = dateB.getDate();
+    const monthB = dateB.getMonth();
+
+    if (monthA === monthB) {
+      return dayA - dayB;
+    }
+    return monthA - monthB;
+  });
+
+  console.log(sortedEvents);
+
   return (
     <div>
       <header className="header-bottom-arrow">
@@ -47,15 +66,24 @@ const ListScale = () => {
         </Link>
       </header>
       <div className="list-scales">
-        {eventsLeader.length > 0 ? (
-          eventsLeader.map((event) => (
+        {sortedEvents.length > 0 ? (
+          sortedEvents.map((event) => (
             <div key={event.id} className="card-list-scales">
               <p className="card-list-data">
                 {formattedDateTime(event.date_time)}
               </p>
               <div className="card-list-infos-scales">
-                <p>20:00</p>
-                <span>Gustavo Braga, Gustavo Almeida.</span>
+                <p>
+                  {new Date(event.date_time).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
+                <span>
+                  {event.workers.length > 0
+                    ? event.workers.map((worker) => worker.name).join(", ")
+                    : "Sem trabalhadores"}
+                </span>
               </div>
             </div>
           ))

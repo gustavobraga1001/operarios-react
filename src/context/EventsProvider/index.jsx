@@ -4,6 +4,9 @@ import { Api } from "../AuthProvider/services/api";
 export const EventsContext = createContext();
 
 export const EventsProvider = ({ children }) => {
+  const [time, setTime] = useState("Selecione um horário");
+  const [workersUp, setWorkersUp] = useState([]);
+
   async function getEvents() {
     try {
       const response = await Api.get("workers/events");
@@ -34,8 +37,29 @@ export const EventsProvider = ({ children }) => {
     }
   }
 
+  async function PostScales(event) {
+    try {
+      const request = await Api.post("events/create", event);
+
+      return request.data;
+    } catch (error) {
+      return null;
+    }
+  }
+
   return (
-    <EventsContext.Provider value={{ getEvents, getSector, getEventsLeader }}>
+    <EventsContext.Provider
+      value={{
+        getEvents,
+        getSector,
+        getEventsLeader,
+        PostScales,
+        time,
+        setTime,
+        workersUp,
+        setWorkersUp,
+      }}
+    >
       {children}
     </EventsContext.Provider>
   );

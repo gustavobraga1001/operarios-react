@@ -1,0 +1,23 @@
+.settings-box-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.settings-img,
+.settings-img-white {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; /* ajuste conforme necessário */
+  height: 40px; /* ajuste conforme necessário */
+}
+
+.settings-box-infos {
+  flex: 1; /* para ocupar o espaço restante */
+  margin-left: 10px;
+}
+
+.settings-img-white {
+  margin-left: auto; /* para empurrar o ícone para o canto direito */
+}

@@ -25,6 +25,16 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  async function getUsers() {
+    try {
+      const response = await Api.get("users");
+
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async function authenticate(email, password) {
     const response = await LoginRequest(email, password);
 
@@ -39,10 +49,13 @@ export const AuthProvider = ({ children }) => {
   function logout() {
     setUser(null);
     setUserLocalStorage(null);
+    window.location.reload();
   }
 
   return (
-    <AuthContext.Provider value={{ ...user, authenticate, logout, getUser }}>
+    <AuthContext.Provider
+      value={{ ...user, authenticate, logout, getUser, getUsers }}
+    >
       {children}
     </AuthContext.Provider>
   );

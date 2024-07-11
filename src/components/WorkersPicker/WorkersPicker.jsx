@@ -1,50 +1,38 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import iconClock from "../../assets/icons/icon-clock.svg";
 import "./WorkersPicker.css";
 import { Lightning } from "@phosphor-icons/react";
-import useEvents from "../../Hooks/useEvents";
-import useAuth from "../../Hooks/useAuth";
+import useEvents from "../../context/EventsProvider/useEvents";
 
-const WorkersPicker = () => {
+const WorkersPicker = ({ workers }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const events = useEvents();
+  const [users, setUsers] = useState(workers);
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-  const { getUsers } = useAuth();
-  const { workers, setWorkers } = useEvents([]);
-  const [users, setUsers] = useState([]);
 
   const addWorker = (user) => {
-    setWorkers((prevWorkers) => [...prevWorkers, user]);
+    events.setWorkersUp((prevWorkers) => [...prevWorkers, user]);
     setUsers((prevUsers) => prevUsers.filter((u) => u.id !== user.id));
   };
 
   const removeWorker = (user) => {
     setUsers((prevUsers) => [...prevUsers, user]);
-    setWorkers((prevWorkers) => prevWorkers.filter((w) => w.id !== user.id));
-    console.log(workers, users);
+    events.setWorkersUp((prevWorkers) =>
+      prevWorkers.filter((w) => w.id !== user.id)
+    );
   };
 
   // Função para gerar a string de nomes dos trabalhadores
   const getWorkersDisplayText = () => {
-    if (workers.length === 0) return "Selecionar Trabalhador";
-    if (workers.length === 1) return workers[0].name;
-    if (workers.length === 2) return `${workers[0].name}, ${workers[1].name}`;
-    return `${workers[0].name}, ${workers[1].name}...`;
+    if (events.workersUp.length === 0) return "Selecionar Trabalhador";
+    if (events.workersUp.length === 1) return events.workersUp[0].name;
+    if (events.workersUp.length === 2)
+      return `${events.workersUp[0].name}, ${events.workersUp[1].name}`;
+    return `${events.workersUp[0].name}, ${events.workersUp[1].name}...`;
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getUsers();
-        setUsers(result);
-      } catch (error) {
-        console.error("Erro ao buscar dados", error);
-      }
-    };
-
-    fetchData();
-  }, [getUsers]);
 
   return (
     <div
@@ -57,21 +45,21 @@ const WorkersPicker = () => {
       </div>
       {isOpen && (
         <div className="worker-picker-dropdown">
-          {users.map((user) => (
-            <div key={user.id} className="worker-picker-item">
-              {user.name}
+          {users.map((worker) => (
+            <div key={worker.id} className="worker-picker-item">
+              {worker.name}
               <Lightning
                 size={32}
                 color="#ffc100"
                 onClick={(e) => {
                   e.stopPropagation();
-                  addWorker(user);
+                  addWorker(worker);
                 }}
               />
             </div>
           ))}
           <h3>Selecionados:</h3>
-          {workers.map((worker) => (
+          {events.workersUp.map((worker) => (
             <div key={worker.id} className="worker-picker-item">
               {worker.name}
               <Lightning

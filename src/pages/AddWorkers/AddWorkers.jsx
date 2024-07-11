@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useEvents from "../../context/EventsProvider/useEvents";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import useAuth from "../../context/AuthProvider/useAuth";
 import { getIcons } from "../../components/GetIcons/GetIcons";
 import { Link } from "react-router-dom";
@@ -11,11 +11,11 @@ import PopUpAddWorker from "../../components/PopUpAddWorker/PopUpAddWorker";
 
 const AddWorkers = () => {
   const [icon, setIcon] = useState(null);
-  const [availableWorkers, setAvailableWorkers] = useState([]);
   const [isClicked, setIsClicked] = useState(false);
   const [selectedWorker, setSelectedWorker] = useState(null);
   const events = useEvents();
   const auth = useAuth();
+  const queryClient = useQueryClient();
 
   const { data: sector, isLoading: isLoadingSector } = useQuery(
     ["sector"],
@@ -25,29 +25,27 @@ const AddWorkers = () => {
     }
   );
 
-  const { data: users, isLoading: isLoadingUsers } = useQuery(
-    ["users"],
-    () => auth.getUsers(),
+  const {
+    data: availableSector,
+    isLoading: isLoadingAvailableSector,
+    refetch,
+  } = useQuery(
+    ["availableSector"],
+    () => events.getAvailableSector(sector?.sector_id),
     {
-      staleTime: 3000,
-      onSuccess: (data) => {
-        if (sector) {
-          setAvailableWorkers(filterUsersNotInSector(data, sector.workers));
-        }
-      },
+      staleTime: 30,
+      enabled: !!sector, // Só faz a requisição se sector não for nulo
     }
   );
+
+  console.log(availableSector);
 
   useEffect(() => {
     if (sector) {
       const iconElement = getIcons(sector.sector_id, "#ffc100", 50);
       setIcon(iconElement);
-
-      if (users) {
-        setAvailableWorkers(filterUsersNotInSector(users, sector.workers));
-      }
     }
-  }, [sector, users]);
+  }, [sector]);
 
   const toggleDropdown = (worker) => {
     setIsClicked(true);
@@ -59,11 +57,6 @@ const AddWorkers = () => {
     setSelectedWorker(null);
   };
 
-  const filterUsersNotInSector = (users, sectorWorkers) => {
-    const workerIds = sectorWorkers.map((worker) => worker.id);
-    return users.filter((user) => !workerIds.includes(user.id));
-  };
-
   const handleClick = async (idSector, idUser) => {
     console.log(idSector, idUser);
 
@@ -72,13 +65,11 @@ const AddWorkers = () => {
         worker_id: idUser,
       });
 
-      // Remove o trabalhador adicionado da lista de trabalhadores disponíveis
-      setAvailableWorkers((prevWorkers) =>
-        prevWorkers.filter((worker) => worker.id !== idUser)
-      );
-
       setIsClicked(false);
       setSelectedWorker(null);
+
+      // Refetch the available sector workers to update the list
+      refetch();
 
       return request.data;
     } catch (error) {
@@ -97,7 +88,7 @@ const AddWorkers = () => {
   };
 
   // Verificação para exibir um estado de carregamento antes de renderizar o componente
-  if (isLoadingSector || !sector || !users || isLoadingUsers) {
+  if (isLoadingSector || !sector || isLoadingAvailableSector) {
     return <h1>Loading...</h1>;
   }
 
@@ -113,8 +104,8 @@ const AddWorkers = () => {
         <p>{sector ? sector.sector_name : "Admin"}</p>
       </div>
       <div className="list-members">
-        {availableWorkers.length > 0
-          ? availableWorkers.map((worker) => (
+        {availableSector && availableSector.length > 0
+          ? availableSector.map((worker) => (
               <div key={worker.id} className="settings-box-header">
                 <div className="settings-img">
                   <p>{formattedName(worker.name)}</p>

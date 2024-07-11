@@ -5,8 +5,8 @@ import { Fragment, Suspense, useEffect, useState } from "react";
 import Settings from "../pages/Settings/Settings";
 import Scales from "../pages/Scales/Scales";
 // import Register from "../pages/Register/Register";
-// import ListScale from "../pages/ListScale/ListScale";
 // import TesteApi from "../pages/TesteApi/TesteApi";
+import ListScale from "../pages/ListScale/ListScale";
 import Members from "../pages/Members/Members";
 import CalendarLeader from "../pages/CalendarLeader/CalendarLeader";
 import OptionsLeader from "../pages/OptionsLeader/OptionsLeader";
@@ -69,6 +69,7 @@ const RoutesApp = () => {
           path="/members/add-workers"
           element={<Private Item={AddWorkers} />}
         />
+        <Route exact path="/listscale" element={<Private Item={ListScale} />} />
       </Routes>
       {/* <Suspense fallback={<LoadingSpinner />}>
         {loading ? (
@@ -78,11 +79,7 @@ const RoutesApp = () => {
             <Routes>
               
               
-              <Route
-                exact
-                path="/listscale"
-                element={<Private Item={ListScale} />}
-              />
+              
               
               
               <Route exact path="/register" element={<Register />} />

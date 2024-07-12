@@ -15,6 +15,7 @@ import Home from "../pages/Home/Home";
 import Calendar from "../pages/Calendar/Calendar";
 import useAuth from "../context/AuthProvider/useAuth";
 import AddWorkers from "../pages/AddWorkers/AddWorkers";
+import PageTransition from "../components/PageTransition/PageTransition";
 
 const Private = ({ Item }) => {
   const auth = useAuth();
@@ -47,7 +48,7 @@ const RoutesApp = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/home" element={<Private Item={Home} />} />
+        <Route exact path="/home" element={<Private Item={Settings} />} />
         <Route path="/" element={<IsLogin Item={Login} />} />
         <Route path="*" element={<IsLogin Item={Login} />} />
         <Route exact path="/settings" element={<Private Item={Settings} />} />

@@ -33,7 +33,6 @@ const Scales = () => {
 
   const toggleDropdown = () => {
     setIsClicked(!isClicked);
-    window.location.reload();
   };
 
   const formatDateTime = (date) => {
@@ -110,7 +109,7 @@ const Scales = () => {
   return (
     <div>
       <header className="header-bottom-arrow">
-        <Link to={"/optionsleader"}>
+        <Link to={"/optionsleader"} state={{ direction: "back" }}>
           <CaretLeft size={32} color="#ffc100" />
         </Link>
       </header>

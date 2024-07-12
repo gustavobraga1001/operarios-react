@@ -12,19 +12,14 @@ const ListScale = () => {
     ["events"],
     () => events.getEventsLeader(),
     {
-      staleTime: 100000,
+      staleTime: 1000,
     }
   );
 
-  if (!eventsLeader || isLoadingLeader) {
-    return <LoadingSpinner />;
-  }
-
   const formattedDateTime = (dateTimeString) => {
     const date = new Date(dateTimeString);
-
     const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Mês começa em 0
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const weekdays = [
       "Domingo",
       "Segunda",
@@ -39,22 +34,17 @@ const ListScale = () => {
     return `${day}/${month} ${weekday}`;
   };
 
-  // Ordenar eventos por dia e mês
-  const sortedEvents = [...eventsLeader].sort((a, b) => {
-    const dateA = new Date(a.date_time);
-    const dateB = new Date(b.date_time);
+  if (isLoadingLeader || !eventsLeader) {
+    return <LoadingSpinner />;
+  }
 
-    const dayA = dateA.getDate();
-    const monthA = dateA.getMonth();
-
-    const dayB = dateB.getDate();
-    const monthB = dateB.getMonth();
-
-    if (monthA === monthB) {
-      return dayA - dayB;
-    }
-    return monthA - monthB;
-  });
+  const sortedEvents = Array.isArray(eventsLeader)
+    ? [...eventsLeader].sort((a, b) => {
+        const dateA = new Date(a.date_time);
+        const dateB = new Date(b.date_time);
+        return dateA - dateB;
+      })
+    : [];
 
   return (
     <div>

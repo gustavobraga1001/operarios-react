@@ -18,7 +18,11 @@ const OptionsLeader = () => {
         </Link>
       </header>
       <div className="box-card-options">
-        <Link to={"/scales"} className="card-cinza">
+        <Link
+          to={"/scales"}
+          className="card-cinza"
+          state={{ direction: "forward" }}
+        >
           <CalendarPlus size={32} />
           <p>Criar Escala</p>
         </Link>

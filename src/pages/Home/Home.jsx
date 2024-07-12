@@ -88,7 +88,7 @@ const Home = () => {
         <div className="welcome-home">
           <img src={image} alt="Imagem da hora atual" />
           <h1>
-            {message}, {user.name}
+            {message}, {user.name.split(" ")[0]}.
           </h1>
         </div>
         <Saudacao

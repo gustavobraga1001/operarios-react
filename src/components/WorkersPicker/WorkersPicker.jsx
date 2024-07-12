@@ -1,7 +1,7 @@
 import { useState } from "react";
 import iconClock from "../../assets/icons/icon-clock.svg";
 import "./WorkersPicker.css";
-import { Lightning } from "@phosphor-icons/react";
+import { Lightning, UserSquare } from "@phosphor-icons/react";
 import useEvents from "../../context/EventsProvider/useEvents";
 
 const WorkersPicker = ({ workers }) => {
@@ -40,7 +40,7 @@ const WorkersPicker = ({ workers }) => {
       onClick={toggleDropdown}
     >
       <div className="scales-worker-box">
-        <img className="icon-clock" src={iconClock} alt="Ícone de relógio" />
+        <UserSquare size={30} color="#ffc100" />
         <p className="scales-names">{getWorkersDisplayText()}</p>
       </div>
       {isOpen && (

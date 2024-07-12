@@ -7,7 +7,7 @@ import iconClock from "../../assets/icons/icon-clock.svg";
 import TimePicker from "../../components/TimePicker/TimePicker";
 import { Link } from "react-router-dom";
 import WorkersPicker from "../../components/WorkersPicker/WorkersPicker";
-import { CaretLeft } from "@phosphor-icons/react";
+import { CalendarBlank, CaretLeft, Clock } from "@phosphor-icons/react";
 import PopUp from "../../components/PopUp/PopUp";
 import { useQuery } from "react-query";
 import useEvents from "../../context/EventsProvider/useEvents";
@@ -125,7 +125,11 @@ const Scales = () => {
         <div className="scales-sections">
           <section className="scales-date">
             <p>Data</p>
-            <div ref={calendarRef} style={{ position: "relative" }}>
+            <div
+              ref={calendarRef}
+              style={{ position: "relative" }}
+              className="scales-date-box"
+            >
               <div
                 style={{
                   display: "flex",
@@ -134,14 +138,11 @@ const Scales = () => {
                   borderRadius: "8px",
                   padding: "8px",
                   cursor: "pointer",
+                  gap: "6px",
                 }}
                 onClick={toggleCalendar}
               >
-                <img
-                  src={iconSclales}
-                  alt="Ícone de calendário"
-                  style={{ width: "24px", height: "24px", marginRight: "8px" }}
-                />
+                <CalendarBlank size={30} color="#ffc100" />
                 <input
                   type="text"
                   readOnly
@@ -179,11 +180,7 @@ const Scales = () => {
           <section className="scales-hour">
             <p className="scales-hour-title">Horários</p>
             <div className="sclales-hour-box">
-              <img
-                className="icon-clock"
-                src={iconClock}
-                alt="Ícone de relógio"
-              />
+              <Clock size={32} color="#ffc100" />
               <TimePicker />
             </div>
           </section>

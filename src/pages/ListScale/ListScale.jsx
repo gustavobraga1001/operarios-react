@@ -56,8 +56,6 @@ const ListScale = () => {
     return monthA - monthB;
   });
 
-  console.log(sortedEvents);
-
   return (
     <div>
       <header className="header-bottom-arrow">

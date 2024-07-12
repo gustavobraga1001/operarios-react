@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { Api } from "../AuthProvider/services/api";
 
 export const EventsContext = createContext();
@@ -49,7 +49,7 @@ export const EventsProvider = ({ children }) => {
 
   async function PostScales(event) {
     try {
-      const request = await Api.post("events/create", event);
+      const request = await Api.post("events", event);
 
       return request.data;
     } catch (error) {

@@ -14,8 +14,6 @@ const AddWorkers = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [selectedWorker, setSelectedWorker] = useState(null);
   const events = useEvents();
-  const auth = useAuth();
-  const queryClient = useQueryClient();
 
   const { data: sector, isLoading: isLoadingSector } = useQuery(
     ["sector"],
@@ -38,8 +36,6 @@ const AddWorkers = () => {
     }
   );
 
-  console.log(availableSector);
-
   useEffect(() => {
     if (sector) {
       const iconElement = getIcons(sector.sector_id, "#ffc100", 50);
@@ -58,7 +54,6 @@ const AddWorkers = () => {
   };
 
   const handleClick = async (idSector, idUser) => {
-    console.log(idSector, idUser);
 
     try {
       const request = await Api.post(`sectors/${idSector}/add-worker`, {

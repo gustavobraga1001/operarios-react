@@ -63,13 +63,22 @@ const CustomCalendar = () => {
         tileContent={({ date, view }) => {
           if (view === "month") {
             const eventsForDate = getEventsForDate(date);
-            return (
-              <div className="events-container">
-                {eventsForDate.map((event, index) => (
-                  <div key={index} className="event-dot"></div>
-                ))}
-              </div>
-            );
+            if (eventsForDate.length > 0) {
+              return (
+                <div className="events-container">
+                  <div className="event-dot-leader"></div>
+                  {eventsForDate.length > 2 ? (
+                    <div className="event-dot-leader more-events">
+                      <span className="plus-sign">+</span>
+                    </div>
+                  ) : (
+                    eventsForDate.length === 2 && (
+                      <div className="event-dot-leader"></div>
+                    )
+                  )}
+                </div>
+              );
+            }
           }
           return null;
         }}

@@ -1,6 +1,32 @@
 .calendar-leader-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.event-dot-leader {
+  width: 10px;
+  height: 10px;
+  background-color: #ffc100; /* Cor da bolinha */
+  border-radius: 50%;
+  margin-right: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.more-events {
+  width: 10px;
+  height: 10px;
+  background-color: #ffc100; /* Cor da bolinha */
+  position: relative; /* Para o posicionamento do "+" */
+}
+
+.plus-sign {
+  font-size: 12px; /* Ajuste o tamanho do "+" se necessário */
+  color: black; /* Cor do "+" */
+  line-height: normal; /* Mantenha a altura da linha padrão */
+  font-weight: bold; /* Negrito, se necessário */
+  margin-bottom: 2px;
 }

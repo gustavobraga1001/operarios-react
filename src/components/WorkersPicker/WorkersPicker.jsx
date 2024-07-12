@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import iconClock from "../../assets/icons/icon-clock.svg";
 import "./WorkersPicker.css";
 import { Lightning, UserSquare } from "@phosphor-icons/react";
@@ -7,7 +7,17 @@ import useEvents from "../../context/EventsProvider/useEvents";
 const WorkersPicker = ({ workers }) => {
   const [isOpen, setIsOpen] = useState(false);
   const events = useEvents();
-  const [users, setUsers] = useState(workers);
+  const [availableWorkers, setAvailableWorkers] = useState(workers);
+
+  useEffect(() => {
+    // Atualiza a lista de trabalhadores disponíveis sempre que os trabalhadores selecionados mudam
+    setAvailableWorkers(
+      workers.filter(
+        (worker) =>
+          !events.workersUp.some((selected) => selected.id === worker.id)
+      )
+    );
+  }, [events.workersUp, workers]);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -15,17 +25,14 @@ const WorkersPicker = ({ workers }) => {
 
   const addWorker = (user) => {
     events.setWorkersUp((prevWorkers) => [...prevWorkers, user]);
-    setUsers((prevUsers) => prevUsers.filter((u) => u.id !== user.id));
   };
 
   const removeWorker = (user) => {
-    setUsers((prevUsers) => [...prevUsers, user]);
     events.setWorkersUp((prevWorkers) =>
       prevWorkers.filter((w) => w.id !== user.id)
     );
   };
 
-  // Função para gerar a string de nomes dos trabalhadores
   const getWorkersDisplayText = () => {
     if (events.workersUp.length === 0) return "Selecionar Trabalhador";
     if (events.workersUp.length === 1) return events.workersUp[0].name;
@@ -45,7 +52,7 @@ const WorkersPicker = ({ workers }) => {
       </div>
       {isOpen && (
         <div className="worker-picker-dropdown">
-          {users.map((worker) => (
+          {availableWorkers.map((worker) => (
             <div key={worker.id} className="worker-picker-item">
               {worker.name}
               <Lightning

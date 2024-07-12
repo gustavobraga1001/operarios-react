@@ -43,6 +43,8 @@ export const AuthProvider = ({ children }) => {
 
       setUser(payload);
       setUserLocalStorage(payload);
+    } else {
+      throw new Error("E-mail ou senha inválidas");
     }
   }
 

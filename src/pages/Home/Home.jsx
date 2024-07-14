@@ -96,7 +96,7 @@ const Home = () => {
           day={messageDays.days}
           horario={messageDays.hour}
         />
-        {(user.role === "LEADER" || user.role === "ADMIN") && (
+        {(user.role === "LEADER") && (
           <Link to={"/optionsleader"}>
             <button className="btn-scales">
               <img src={iconHand} alt="" />

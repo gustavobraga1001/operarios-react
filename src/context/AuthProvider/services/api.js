@@ -1,8 +1,10 @@
 import axios from "axios";
 import { getUserLocalStorage } from "../util";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export const Api = axios.create({
-  baseURL: "/api",
+  baseURL: apiUrl,
 });
 Api.interceptors.request.use(
   (config) => {

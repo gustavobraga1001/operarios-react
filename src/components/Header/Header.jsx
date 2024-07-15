@@ -10,7 +10,7 @@ const Header = () => {
     staleTime: 50000,
   });
 
-  if (isLoading) {
+  if (isLoading || !user) {
     return <LoadingSpinner />;
   }
 

@@ -5,6 +5,7 @@ import "./CustomCalendar.css";
 import EventCard from "../EventCard/EventCard";
 import useEvents from "../../context/EventsProvider/useEvents";
 import { useQuery } from "react-query";
+import LoadingSpinner from "../Loading/Loading";
 
 const CustomCalendar = () => {
   const [value, setValue] = useState(null);
@@ -20,7 +21,7 @@ const CustomCalendar = () => {
   );
 
   if (isLoading || !eventsWorker) {
-    return <h1>Loading...</h1>;
+    return <LoadingSpinner />;
   }
 
   const getEventsForDate = (date) => {

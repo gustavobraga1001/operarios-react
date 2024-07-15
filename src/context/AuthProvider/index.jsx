@@ -51,7 +51,21 @@ export const AuthProvider = ({ children }) => {
   function logout() {
     setUser(null);
     setUserLocalStorage(null);
-    window.location.reload();
+    // Se você estiver usando um service worker para cache
+    if ("caches" in window) {
+      caches.keys().then((names) => {
+        names.forEach((name) => {
+          caches.delete(name);
+        });
+      });
+    }
+
+    // Limpar cookies
+    document.cookie.split(";").forEach((c) => {
+      document.cookie = c
+        .replace(/^ +/, "")
+        .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+    });
   }
 
   return (

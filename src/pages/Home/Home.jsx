@@ -28,7 +28,7 @@ const Home = () => {
   const events = useEvents();
 
   const { data: user, isLoading } = useQuery(["user"], () => auth.getUser(), {
-    staleTime: 50000,
+    staleTime: 500000,
   });
 
   const { data: eventsWorker } = useQuery(

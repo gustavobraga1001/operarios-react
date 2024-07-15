@@ -27,7 +27,6 @@ const UsersSettings = () => {
         </Link>
       </header>
       <div className="container-users">
-        <h1>Operários</h1>
         {users ? (
           <div className="infos-users-count">
             <p>Atualmente temos {users.length} operários na aplicação</p>

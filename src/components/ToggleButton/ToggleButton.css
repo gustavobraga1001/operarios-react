@@ -1,0 +1,29 @@
+.toggle-button {
+    width: 35px;
+    height: 10px; /* Aumentar a altura para acomodar a bolinha */
+    background-color: rgba(255, 191, 0, 0.534);
+    border-radius: 15px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .circle {
+    width: 20px;
+    height: 20px;
+    background-color: rgba(255, 193, 0, 1);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%; /* Centraliza verticalmente */
+    transform: translateY(-50%); /* Ajuste para centralizar */
+    transition: transform 0.3s;
+  }
+  
+  .circle.right {
+    transform: translate(20px, -50%); /* Move a bolinha para a direita */
+  }
+  
+  .circle.left {
+    transform: translate(0, -50%); /* Move a bolinha para a esquerda */
+  }
+  

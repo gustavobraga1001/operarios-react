@@ -32,7 +32,7 @@ const Home = () => {
   });
 
   const { data: eventsWorker } = useQuery(
-    ["events"],
+    ["events_worker"],
     () => events.getEvents(),
     {
       staleTime: 3000,
@@ -96,7 +96,7 @@ const Home = () => {
           day={messageDays.days}
           horario={messageDays.hour}
         />
-        {(user.role === "LEADER") && (
+        {user.role === "LEADER" && (
           <Link to={"/optionsleader"}>
             <button className="btn-scales">
               <img src={iconHand} alt="" />

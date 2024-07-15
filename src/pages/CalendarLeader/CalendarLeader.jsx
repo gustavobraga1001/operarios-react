@@ -14,13 +14,12 @@ const CalendarLeader = () => {
   const [selectedEvents, setSelectedEvents] = useState([]);
   const [icon, setIcon] = useState(null);
 
-  const { data: eventsLeader, isLoading: isLoadingWorker } = useQuery(
-    ["events"],
-    () => events.getEventsLeader(),
-    {
-      staleTime: 3000,
-    }
-  );
+  const {
+    data: eventsCalendarLeader,
+    isLoading: isLoadingEventsCalendarLeader,
+  } = useQuery(["events_leader"], () => events.getEventsLeader(), {
+    staleTime: 3000,
+  });
 
   const { data: sector, isLoading: isLoadingSector } = useQuery(
     ["sector"],
@@ -37,13 +36,18 @@ const CalendarLeader = () => {
     }
   }, [sector]);
 
-  if (isLoadingWorker || isLoadingSector || !eventsLeader || !sector) {
+  if (
+    !eventsCalendarLeader ||
+    isLoadingSector ||
+    isLoadingEventsCalendarLeader ||
+    !sector
+  ) {
     return <h1>Loading...</h1>;
   }
 
   const getEventsForDate = (date) => {
     const normalizedDate = date.toISOString().split("T")[0];
-    return eventsLeader.filter((event) =>
+    return eventsCalendarLeader.filter((event) =>
       event.date_time.startsWith(normalizedDate)
     );
   };

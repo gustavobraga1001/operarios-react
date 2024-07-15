@@ -1,5 +1,4 @@
 import { CaretLeft } from "@phosphor-icons/react";
-import React from "react";
 import { Link } from "react-router-dom";
 import "./ListScale.css";
 import useEvents from "../../context/EventsProvider/useEvents";
@@ -9,10 +8,10 @@ import LoadingSpinner from "../../components/Loading/Loading";
 const ListScale = () => {
   const events = useEvents();
   const { data: eventsLeader, isLoading: isLoadingLeader } = useQuery(
-    ["events"],
+    ["events_leader"],
     () => events.getEventsLeader(),
     {
-      staleTime: 1000,
+      staleTime: 3000,
     }
   );
 
@@ -53,7 +52,8 @@ const ListScale = () => {
           <CaretLeft size={32} color="#ffc100" />
         </Link>
       </header>
-      <div className="list-scales">
+      <div className="list-scales" key={1}>
+        <h1 className="title-list-scales">Ver escala</h1>
         {sortedEvents.length > 0 ? (
           sortedEvents.map((event) => (
             <div key={event.id} className="card-list-scales">
@@ -68,15 +68,20 @@ const ListScale = () => {
                   })}
                 </p>
                 <span>
-                  {event.workers.length > 0
-                    ? event.workers.map((worker) => worker.name).join(", ")
+                  {event.workers && event.workers.length > 0
+                    ? event.workers.map((worker, index) => (
+                        <span key={`${event.id}-${worker.id}`}>
+                          {worker.name}
+                          {index < event.workers.length - 1 && ", "}
+                        </span>
+                      ))
                     : "Sem trabalhadores"}
                 </span>
               </div>
             </div>
           ))
         ) : (
-          <h1>Sem eventos</h1>
+          <p>Sem Eventos</p>
         )}
       </div>
     </div>

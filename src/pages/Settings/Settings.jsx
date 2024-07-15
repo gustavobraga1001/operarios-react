@@ -7,6 +7,7 @@ import CardSettings from "../../components/CardSettings/CardSettings";
 import { BellSimpleSlash, Info, UserList } from "@phosphor-icons/react";
 import LoadingSpinner from "../../components/Loading/Loading";
 import { useQuery } from "react-query";
+import ToggleButton from "../../components/ToggleButton/ToggleButton";
 
 const Settings = () => {
   const navigate = useNavigate();
@@ -42,18 +43,25 @@ const Settings = () => {
         </div>
       </div>
       <div className="settings-options">
-        <div className="settings-option">
-          <UserList size={32} color="#ffc100" />
-          <p>Membros</p>
+        <Link to={"/users"}>
+          <div className="settings-option">
+            <UserList size={32} color="#ffc100" />
+            <p>Membros</p>
+          </div>
+        </Link>
+        <div className="settings-option notitifications">
+          <div className="option-notificatios">
+            <BellSimpleSlash size={32} color="#ffc100" />
+            <p>Desativar Notificações</p>
+          </div>
+          <ToggleButton />
         </div>
-        <div className="settings-option">
-          <BellSimpleSlash size={32} color="#ffc100" />
-          <p>Desativar Notificações</p>
-        </div>
-        <div className="settings-option">
-          <Info size={32} color="#ffc100" />
-          <p>Ajuda</p>
-        </div>
+        <Link to={"/help"}>
+          <div className="settings-option">
+            <Info size={32} color="#ffc100" />
+            <p>Ajuda</p>
+          </div>
+        </Link>
       </div>
       <a
         className="settings-button-logout"

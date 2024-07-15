@@ -15,7 +15,8 @@ import Home from "../pages/Home/Home";
 import Calendar from "../pages/Calendar/Calendar";
 import useAuth from "../context/AuthProvider/useAuth";
 import AddWorkers from "../pages/AddWorkers/AddWorkers";
-import PageTransition from "../components/PageTransition/PageTransition";
+import UsersSettings from "../pages/UsersSettings/UsersSettings";
+import Help from "../pages/Help/Help";
 
 const Private = ({ Item }) => {
   const auth = useAuth();
@@ -71,6 +72,8 @@ const RoutesApp = () => {
           element={<Private Item={AddWorkers} />}
         />
         <Route exact path="/listscale" element={<Private Item={ListScale} />} />
+        <Route exact path="/users" element={<Private Item={UsersSettings} />} />
+        <Route exact path="/help" element={<Private Item={Help} />} />
       </Routes>
       {/* <Suspense fallback={<LoadingSpinner />}>
         {loading ? (

@@ -81,3 +81,35 @@
   font-size: 14px;
   font-weight: 500;
 }
+
+.notitifications {
+  display: flex;
+  justify-content: space-between;
+}
+
+.option-notificatios {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.settings-option {
+  cursor: pointer; /* Cursor de ponteiro ao passar o mouse */
+  -webkit-tap-highlight-color: transparent; /* Remove o destaque ao tocar */
+}
+
+.settings-option:active,
+.settings-option:focus {
+  outline: none; /* Remove a borda de foco */
+  background: none; /* Remove qualquer mudança de fundo */
+}
+
+/* Adicionando esta regra para remover o efeito de foco */
+.settings-option:focus-visible {
+  outline: none; /* Remove a borda azul */
+  background: none; /* Remove qualquer mudança de fundo */
+}
+
+a {
+  text-decoration: none;
+}

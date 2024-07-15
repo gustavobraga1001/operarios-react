@@ -1,0 +1,27 @@
+.container-users {
+  margin: 15px;
+}
+
+.container-users h1 {
+  margin: 0;
+}
+
+.infos-users-count {
+  margin: 10px 0;
+}
+
+.infos-users-count p {
+  color: white;
+}
+
+.card-users {
+  /* width: 100%; */
+  border: 1px solid rgba(51, 54, 63, 1);
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.card-users p {
+  color: rgba(152, 149, 157, 1);
+}

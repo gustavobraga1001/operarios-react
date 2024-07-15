@@ -8,6 +8,7 @@ import { CaretLeft, UserPlus } from "@phosphor-icons/react";
 import "./AddWorkers.css";
 import { Api } from "../../context/AuthProvider/services/api";
 import PopUpAddWorker from "../../components/PopUpAddWorker/PopUpAddWorker";
+import LoadingSpinner from "../../components/Loading/Loading";
 
 const AddWorkers = () => {
   const [icon, setIcon] = useState(null);
@@ -54,7 +55,6 @@ const AddWorkers = () => {
   };
 
   const handleClick = async (idSector, idUser) => {
-
     try {
       const request = await Api.post(`sectors/${idSector}/add-worker`, {
         worker_id: idUser,
@@ -84,7 +84,7 @@ const AddWorkers = () => {
 
   // Verificação para exibir um estado de carregamento antes de renderizar o componente
   if (isLoadingSector || !sector || isLoadingAvailableSector) {
-    return <h1>Loading...</h1>;
+    return <LoadingSpinner />;
   }
 
   return (

@@ -5,6 +5,7 @@ import { getIcons } from "../../components/GetIcons/GetIcons";
 import { useQuery } from "react-query";
 import useEvents from "../../context/EventsProvider/useEvents";
 import "./Members.css";
+import LoadingSpinner from "../../components/Loading/Loading";
 
 const Members = () => {
   const [icon, setIcon] = useState(null);
@@ -27,7 +28,7 @@ const Members = () => {
 
   // Verificação para exibir um estado de carregamento antes de renderizar o componente
   if (isLoadingSector || !sector) {
-    return <h1>Loading...</h1>;
+    return <LoadingSpinner />;
   }
 
   const formattedName = (name) => {

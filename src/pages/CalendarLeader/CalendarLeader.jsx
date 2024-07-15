@@ -7,6 +7,7 @@ import EventCard from "../../components/EventCard/EventCard";
 import "./CalendarLeader.css";
 import { getIcons } from "../../components/GetIcons/GetIcons";
 import useEvents from "../../context/EventsProvider/useEvents";
+import LoadingSpinner from "../../components/Loading/Loading";
 
 const CalendarLeader = () => {
   const events = useEvents();
@@ -42,7 +43,7 @@ const CalendarLeader = () => {
     isLoadingEventsCalendarLeader ||
     !sector
   ) {
-    return <h1>Loading...</h1>;
+    return <LoadingSpinner />;
   }
 
   const getEventsForDate = (date) => {

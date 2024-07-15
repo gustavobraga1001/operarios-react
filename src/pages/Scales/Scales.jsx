@@ -2,20 +2,20 @@ import React, { useEffect, useRef, useState } from "react";
 import "./Scales.css";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import iconSclales from "../../assets/icons/icon-scales.svg";
-import iconClock from "../../assets/icons/icon-clock.svg";
-import TimePicker from "../../components/TimePicker/TimePicker";
 import { Link } from "react-router-dom";
-import WorkersPicker from "../../components/WorkersPicker/WorkersPicker";
-import { CalendarBlank, CaretLeft, Clock } from "@phosphor-icons/react";
-import PopUp from "../../components/PopUp/PopUp";
 import { useQuery } from "react-query";
+import { CalendarBlank, CaretLeft, Clock } from "@phosphor-icons/react";
+import LoadingSpinner from "../../components/Loading/Loading";
+import PopUp from "../../components/PopUp/PopUp";
+import TimePicker from "../../components/TimePicker/TimePicker";
+import WorkersPicker from "../../components/WorkersPicker/WorkersPicker";
 import useEvents from "../../context/EventsProvider/useEvents";
 
 const Scales = () => {
-  const { workers, setWorkers, createEvent, time, setTime } = useEvents();
+  // const { workers, setWorkers, createEvent, time, setTime } = useEvents();
   const [date, setDate] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
+  const [BtnAgendar, setBtnAgendar] = useState("AGENDAR");
   const [error, setError] = useState("");
   const calendarRef = useRef(null);
 
@@ -76,15 +76,15 @@ const Scales = () => {
 
   // Verificação para exibir um estado de carregamento antes de renderizar o componente
   if (isLoadingSector || !sector) {
-    return <h1>Loading...</h1>;
+    return <LoadingSpinner />;
   }
 
-  //   console.log(sector);
-
   const handleSchedule = () => {
-    if (time !== "Selecione um horário" && events.workersUp.length > 0) {
+    setBtnAgendar("ENVIANDO...");
+
+    if (events.time !== "Selecione um horário" && events.workersUp.length > 0) {
       const formattedDate = formatDateTime(date);
-      const dateTime = `${formattedDate}T${time}`;
+      const dateTime = `${formattedDate}T${events.time}`;
 
       // Cria o objeto do evento localmente
       const newEventObject = {
@@ -94,15 +94,25 @@ const Scales = () => {
       };
 
       // Atualiza o estado e cria o evento
-      setDate(new Date());
-      events.setWorkersUp([]);
-      events.setTime("Selecione um horário");
-      setError("");
-      events.PostScales(newEventObject);
-      //   createEvent(newEventObject);
-      setIsClicked(true);
+      events
+        .PostScales(newEventObject)
+        .then(() => {
+          setDate(new Date());
+          events.setWorkersUp([]);
+          events.setTime("Selecione um horário");
+          setError("");
+          setIsClicked(true);
+          setBtnAgendar("AGENDAR");
+        })
+        .catch(() => {
+          setError("Erro ao agendar. Tente novamente.");
+          setBtnAgendar("AGENDAR");
+        });
     } else {
-      setError("Ajuste todas as opções");
+      setTimeout(() => {
+        setError("Ajuste todas as opções");
+        setBtnAgendar("AGENDAR");
+      }, 500); // Atraso de 2 segundos
     }
   };
 
@@ -189,7 +199,7 @@ const Scales = () => {
           </section>
           <p>{error}</p>
           <div className="scales-button">
-            <button onClick={() => handleSchedule()}>AGENDAR</button>
+            <button onClick={handleSchedule}>{BtnAgendar}</button>
           </div>
         </div>
       </div>

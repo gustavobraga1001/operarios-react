@@ -53,7 +53,7 @@ const ListScale = () => {
         </Link>
       </header>
       <div className="list-scales" key={1}>
-        <h1 className="title-list-scales">Ver escala</h1>
+        <h1 className="title-list-scales">Escala de Eventos</h1>
         {sortedEvents.length > 0 ? (
           sortedEvents.map((event) => (
             <div key={event.id} className="card-list-scales">

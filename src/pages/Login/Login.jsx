@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
+  const [BtnLogin, setBtnLogin] = useState("Login");
   const [password, setPassword] = useState("");
   const auth = useAuth();
   const navigate = useNavigate(); // Use useNavigate ao invés de Navigate
@@ -18,9 +19,11 @@ const Login = () => {
     }
 
     try {
+      setBtnLogin("Entrando...");
       await auth.authenticate(email, password);
       navigate("/home");
     } catch (error) {
+      setBtnLogin("Login");
       // console.error("Erro ao fazer login:", error);
       setError(error.message);
     }
@@ -50,7 +53,7 @@ const Login = () => {
       <p>{error}</p>
       <div className="button-login">
         <button type="submit" onClick={onFinish}>
-          Login
+          {BtnLogin}
         </button>
       </div>
 

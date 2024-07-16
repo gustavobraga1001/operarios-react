@@ -1,0 +1,40 @@
+.popup-members {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  padding: 10px;
+  border-radius: 12px;
+  background-color: rgba(35, 34, 37, 1);
+  width: 300px;
+  z-index: 1000;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.popup-content-flex p {
+  color: rgba(255, 193, 0, 1);
+}
+
+@keyframes fadeInOut {
+  0%,
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.popup-members.visible {
+  opacity: 1;
+}
+
+.popup-members.hidden {
+  opacity: 0;
+}

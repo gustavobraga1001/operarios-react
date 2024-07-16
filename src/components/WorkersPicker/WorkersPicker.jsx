@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import iconClock from "../../assets/icons/icon-clock.svg";
 import "./WorkersPicker.css";
-import { Lightning, UserSquare } from "@phosphor-icons/react";
+import { Circle, Lightning, UserSquare } from "@phosphor-icons/react";
 import useEvents from "../../context/EventsProvider/useEvents";
 
 const WorkersPicker = ({ workers }) => {
@@ -55,7 +55,7 @@ const WorkersPicker = ({ workers }) => {
           {availableWorkers.map((worker) => (
             <div key={worker.id} className="worker-picker-item">
               {worker.name}
-              <Lightning
+              <Circle
                 size={32}
                 color="#ffc100"
                 onClick={(e) => {
@@ -69,7 +69,7 @@ const WorkersPicker = ({ workers }) => {
           {events.workersUp.map((worker) => (
             <div key={worker.id} className="worker-picker-item">
               {worker.name}
-              <Lightning
+              <Circle
                 size={32}
                 color="#ffc100"
                 weight="fill"

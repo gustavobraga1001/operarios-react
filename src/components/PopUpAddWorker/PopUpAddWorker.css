@@ -2,21 +2,17 @@
   position: fixed;
   bottom: 0;
   left: 0;
+  width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 100%;
+  align-items: flex-end; /* Alinha o pop-up na parte inferior */
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
-  flex-direction: column;
   z-index: 1000;
 }
 .popup-enviar.active-popup {
-  display: flex; /* Show popup when active */
-}
-
-.popup p {
-  color: rgba(152, 149, 157, 1);
-  max-width: 220px;
+  display: flex; /* Mostra o pop-up quando ativo */
+  pointer-events: all; /* Permite interação quando ativo */
 }
 
 .popup-content {
@@ -31,6 +27,12 @@
   color: white;
   width: 300px;
   gap: 10px;
+  margin-bottom: 20px; /* Espaçamento da parte inferior da tela */
+}
+
+.popup p {
+  color: rgba(152, 149, 157, 1);
+  max-width: 220px;
 }
 
 .button {

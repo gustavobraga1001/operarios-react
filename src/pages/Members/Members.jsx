@@ -1,23 +1,35 @@
 import { useEffect, useState } from "react";
-import { CaretLeft, UserPlus } from "@phosphor-icons/react";
+import { CaretLeft, UserPlus, XCircle } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import { getIcons } from "../../components/GetIcons/GetIcons";
 import { useQuery } from "react-query";
 import useEvents from "../../context/EventsProvider/useEvents";
 import "./Members.css";
 import LoadingSpinner from "../../components/Loading/Loading";
+import { Api } from "../../context/AuthProvider/services/api";
+import Popup from "./Popup/Popup";
 
 const Members = () => {
   const [icon, setIcon] = useState(null);
   const events = useEvents();
 
-  const { data: sector, isLoading: isLoadingSector } = useQuery(
-    ["sector"],
-    () => events.getSector(),
-    {
-      staleTime: 3000,
-    }
-  );
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+  const showPopup = () => {
+    setIsPopupVisible(true);
+  };
+
+  const closePopup = () => {
+    setIsPopupVisible(false);
+  };
+
+  const {
+    data: sector,
+    isLoading: isLoadingSector,
+    refetch,
+  } = useQuery(["sector"], () => events.getSector(), {
+    staleTime: 3000,
+  });
 
   useEffect(() => {
     if (sector) {
@@ -38,6 +50,24 @@ const Members = () => {
       .map((parte) => parte.charAt(0))
       .join(""); // Junta as letras em uma string;
     return nameFomatted;
+  };
+
+  const deleteWorker = async (idSector, idWorker) => {
+    try {
+      const request = await Api.patch(`sectors/${idSector}/remove-worker`, {
+        worker_id: idWorker,
+      });
+
+      // Refetch the available sector workers to update the list
+      refetch();
+
+      showPopup();
+
+      return request.data;
+    } catch (error) {
+      console.error("Erro ao excluir trabalhador", error);
+      return null;
+    }
   };
 
   return (
@@ -70,10 +100,21 @@ const Members = () => {
                   <p>{worker.name}</p>
                   <span>{worker.email}</span>
                 </div>
+                <XCircle
+                  size={32}
+                  color="#ff0000"
+                  weight="fill"
+                  onClick={() => deleteWorker(sector.sector_id, worker.id)}
+                />
               </div>
             ))
           : ""}
       </div>
+      <Popup
+        message="Trabalhador removido com sucesso!"
+        isVisible={isPopupVisible}
+        onClose={closePopup}
+      />
     </div>
   );
 };

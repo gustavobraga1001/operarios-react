@@ -9,12 +9,23 @@ import "./AddWorkers.css";
 import { Api } from "../../context/AuthProvider/services/api";
 import PopUpAddWorker from "../../components/PopUpAddWorker/PopUpAddWorker";
 import LoadingSpinner from "../../components/Loading/Loading";
+import Popup from "../Members/Popup/Popup";
 
 const AddWorkers = () => {
   const [icon, setIcon] = useState(null);
   const [isClicked, setIsClicked] = useState(false);
   const [selectedWorker, setSelectedWorker] = useState(null);
   const events = useEvents();
+
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+  const showPopup = () => {
+    setIsPopupVisible(true);
+  };
+
+  const closePopup = () => {
+    setIsPopupVisible(false);
+  };
 
   const { data: sector, isLoading: isLoadingSector } = useQuery(
     ["sector"],
@@ -65,6 +76,7 @@ const AddWorkers = () => {
 
       // Refetch the available sector workers to update the list
       refetch();
+      showPopup();
 
       return request.data;
     } catch (error) {
@@ -89,6 +101,11 @@ const AddWorkers = () => {
 
   return (
     <div className="add-worker-container">
+      <Popup
+        message="Trabalhador adicionado com sucesso!"
+        isVisible={isPopupVisible}
+        onClose={closePopup}
+      />
       <header className="header-bottom-arrow">
         <Link to={"/members"}>
           <CaretLeft size={32} color="#ffc100" />

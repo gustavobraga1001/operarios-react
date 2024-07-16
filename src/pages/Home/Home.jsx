@@ -14,6 +14,11 @@ import { useQuery } from "react-query";
 import LoadingSpinner from "../../components/Loading/Loading";
 import useAuth from "../../context/AuthProvider/useAuth";
 import useEvents from "../../context/EventsProvider/useEvents";
+import {
+  generateToken,
+  messaging,
+} from "../../context/AuthProvider/services/firebaseConfig";
+import { onMessage } from "firebase/messaging";
 
 const Home = () => {
   const [currentHour, setCurrentHour] = useState(new Date().getHours());
@@ -38,6 +43,13 @@ const Home = () => {
       staleTime: 3000,
     }
   );
+
+  useEffect(() => {
+    generateToken();
+    onMessage(messaging, (payload) => {
+      console.log(payload);
+    });
+  }, []);
 
   useEffect(() => {
     const updateMessageDays = () => {

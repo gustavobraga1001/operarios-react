@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
 
   async function getUsers() {
     try {
-      const response = await Api.get("users");
+      const response = await Api.get("workers");
 
       return response.data;
     } catch (error) {

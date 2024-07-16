@@ -27,7 +27,7 @@
   color: white;
   width: 300px;
   gap: 10px;
-  margin-bottom: 20px; /* Espaçamento da parte inferior da tela */
+  margin-bottom: 5px; /* Espaçamento da parte inferior da tela */
 }
 
 .popup p {

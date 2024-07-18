@@ -5,25 +5,27 @@ importScripts(
   "https://www.gstatic.com/firebasejs/9.1.0/firebase-messaging-compat.js"
 );
 
+// Inicialize o Firebase no service worker
 firebase.initializeApp({
-  apiKey: "AIzaSyCFxKGABVXHIiRMSBH_AS4VWVthLqoCvZk",
-  authDomain: "operarios-4798f.firebaseapp.com",
-  projectId: "operarios-4798f",
-  storageBucket: "operarios-4798f.appspot.com",
-  messagingSenderId: "687294938443",
-  appId: "1:687294938443:web:60cdbbb3d9e3b68b087cce",
-  measurementId: "G-RCLNK5TT5D",
+  apiKey: "AIzaSyAQLATcqtrCoC4EVD9qtMTHL7Q1eqcjopo",
+  authDomain: "operarios-626c5.firebaseapp.com",
+  projectId: "operarios-626c5",
+  storageBucket: "operarios-626c5.appspot.com",
+  messagingSenderId: "657283109041",
+  appId: "1:657283109041:web:3a999c47a6dd2efa4b5290",
+  measurementId: "G-B1CMDEB3M5",
 });
 
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
   console.log("Received background message ", payload);
+
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
     body: payload.notification.body,
-    icon: payload.notification.image,
+    icon: payload.notification.icon,
   };
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
+  // self.registration.showNotification(notificationTitle, notificationOptions);
 });

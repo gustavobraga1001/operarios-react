@@ -8,22 +8,18 @@ import iconTarde from "../../assets/icons/icon-tarde.svg";
 import iconNoite from "../../assets/icons/icon-noite.svg";
 import iconHand from "../../assets/icons/icon-hand.svg";
 import logo from "../../assets/images/logo.svg";
-import { Api } from "../../context/AuthProvider/services/api";
 import FilterEvents from "../../components/FilterEvents/FilterEvents";
 import { useQuery } from "react-query";
 import LoadingSpinner from "../../components/Loading/Loading";
 import useAuth from "../../context/AuthProvider/useAuth";
 import useEvents from "../../context/EventsProvider/useEvents";
-import {
-  generateToken,
-  messaging,
-} from "../../context/AuthProvider/services/firebaseConfig";
-import { onMessage } from "firebase/messaging";
+import { generateToken } from "../../context/AuthProvider/services/firebaseConfig";
 
 const Home = () => {
   const [currentHour, setCurrentHour] = useState(new Date().getHours());
   const [message, setMessage] = useState("");
   const [image, setImage] = useState("");
+  const [token, setToken] = useState("");
   const [messageDays, setMessageDays] = useState({
     message: "",
     days: "",
@@ -44,12 +40,17 @@ const Home = () => {
     }
   );
 
+  const [tokenGenerated, setTokenGenerated] = useState(false);
+
   useEffect(() => {
-    generateToken();
-    onMessage(messaging, (payload) => {
-      console.log(payload);
-    });
-  }, []);
+    if (!tokenGenerated) {
+      generateToken().then((token) => {
+        console.log(token);
+        setToken(token);
+        setTokenGenerated(true);
+      });
+    }
+  }, [tokenGenerated]);
 
   useEffect(() => {
     const updateMessageDays = () => {

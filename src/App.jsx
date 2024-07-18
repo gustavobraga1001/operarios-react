@@ -4,14 +4,10 @@ import { EventsProvider } from "./context/EventsProvider";
 import RoutesApp from "./Routes";
 // import { EventsProvider } from "./contexts/events";
 import { QueryClient, QueryClientProvider } from "react-query";
-import {
-  generateToken,
-  messaging,
-} from "./context/AuthProvider/services/firebaseConfig";
 
 const App = () => {
   const client = new QueryClient();
-  
+
   return (
     <AuthProvider>
       <EventsProvider>

@@ -12,8 +12,3 @@ export function formatDateTime(dateTimeString) {
 
   return [formattedDate, formattedTime];
 }
-
-// Teste da função
-const dateTimeString = "2024-07-17T21:00:00";
-const result = formatDateTime(dateTimeString);
-console.log(result); // Saída: ['2024-07-17', '21:00']

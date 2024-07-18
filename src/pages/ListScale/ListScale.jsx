@@ -1,5 +1,5 @@
 import { CaretLeft } from "@phosphor-icons/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./ListScale.css";
 import useEvents from "../../context/EventsProvider/useEvents";
 import { useQuery } from "react-query";
@@ -7,6 +7,14 @@ import LoadingSpinner from "../../components/Loading/Loading";
 
 const ListScale = () => {
   const events = useEvents();
+
+  const navigate = useNavigate();
+
+  const toEditScale = (id) => {
+    console.log(id);
+    navigate(`/editscale/${id}`);
+  };
+
   const { data: eventsLeader, isLoading: isLoadingLeader } = useQuery(
     ["events_leader"],
     () => events.getEventsLeader(),
@@ -56,7 +64,11 @@ const ListScale = () => {
         <h1 className="title-list-scales">Escala de Eventos</h1>
         {sortedEvents.length > 0 ? (
           sortedEvents.map((event) => (
-            <div key={event.id} className="card-list-scales">
+            <div
+              key={event.id}
+              className="card-list-scales"
+              onClick={() => toEditScale(event.id)}
+            >
               <p className="card-list-data">
                 {formattedDateTime(event.date_time)}
               </p>

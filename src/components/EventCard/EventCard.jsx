@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import "./EventCard.css";
 import { getIcons } from "../GetIcons/GetIcons";
-const EventCard = ({ sectorId, description, hour, workers }) => {
+import { useNavigate } from "react-router-dom";
+const EventCard = ({ sectorId, description, hour, workers, onClick }) => {
   const [icon, setIcon] = useState(null);
 
   useEffect(() => {
@@ -11,12 +12,13 @@ const EventCard = ({ sectorId, description, hour, workers }) => {
       setIcon(iconElement);
     }
   }, [sectorId]);
+  
 
   const workerNames = workers
     ? workers.map((worker) => worker.name).join(", ")
     : "";
   return (
-    <div className="event-card">
+    <div className="event-card" onClick={onClick}>
       <div className="event-card-content">
         <div className="img-cicle">{icon}</div>
         <div className="itens">

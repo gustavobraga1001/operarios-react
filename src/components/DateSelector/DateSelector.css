@@ -1,0 +1,27 @@
+.scales-date {
+  margin: 10px 0;
+}
+
+.scales-date-box {
+  position: relative;
+}
+
+.date-input-container {
+  display: flex;
+  align-items: center;
+  border: 2px solid rgba(51, 54, 63, 1);
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  gap: 6px;
+}
+
+.calendar-popup {
+  position: absolute;
+  top: 50px;
+  z-index: 1000;
+}
+
+.custom-navigation .month-year {
+  font-size: 1rem;
+}

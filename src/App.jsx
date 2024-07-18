@@ -8,7 +8,6 @@ import {
   generateToken,
   messaging,
 } from "./context/AuthProvider/services/firebaseConfig";
-import { onMessage } from "firebase/messaging";
 
 const App = () => {
   const client = new QueryClient();

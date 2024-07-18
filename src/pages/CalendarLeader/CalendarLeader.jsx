@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import { useQuery } from "react-query";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CaretLeft } from "@phosphor-icons/react";
 import EventCard from "../../components/EventCard/EventCard";
 import "./CalendarLeader.css";
@@ -14,6 +14,7 @@ const CalendarLeader = () => {
   const [value, setValue] = useState(null);
   const [selectedEvents, setSelectedEvents] = useState([]);
   const [icon, setIcon] = useState(null);
+  const navigate = useNavigate();
 
   const {
     data: eventsCalendarLeader,
@@ -64,6 +65,10 @@ const CalendarLeader = () => {
     return weekdays[date.getDay()];
   };
 
+  const toListScales = () => {
+    navigate("/listscale");
+    console.log("clicou");
+  };
   return (
     <div>
       <header className="header-bottom-arrow">
@@ -142,6 +147,7 @@ const CalendarLeader = () => {
                 description={event.sector.name}
                 hour={hour}
                 workers={event.workers}
+                onClick={toListScales}
               />
             );
           })}

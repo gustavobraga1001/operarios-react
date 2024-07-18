@@ -17,6 +17,7 @@ import useAuth from "../context/AuthProvider/useAuth";
 import AddWorkers from "../pages/AddWorkers/AddWorkers";
 import UsersSettings from "../pages/UsersSettings/UsersSettings";
 import Help from "../pages/Help/Help";
+import EditScale from "../pages/EditScale/EditScale";
 
 const Private = ({ Item }) => {
   const auth = useAuth();
@@ -74,6 +75,11 @@ const RoutesApp = () => {
         <Route exact path="/listscale" element={<Private Item={ListScale} />} />
         <Route exact path="/users" element={<Private Item={UsersSettings} />} />
         <Route exact path="/help" element={<Private Item={Help} />} />
+        <Route
+          exact
+          path="/editscale/:id"
+          element={<Private Item={EditScale} />}
+        />
       </Routes>
       {/* <Suspense fallback={<LoadingSpinner />}>
         {loading ? (

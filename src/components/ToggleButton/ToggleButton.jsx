@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import "./ToggleButton.css"; // Certifique-se de adicionar o CSS
+import { requestForToken } from "../../context/AuthProvider/services/firebaseConfig";
 
 const ToggleButton = () => {
   const [isOnline, setIsOnline] = useState(false);
 
   const toggle = () => {
     setIsOnline((prev) => !prev);
+    requestForToken();
   };
 
   return (

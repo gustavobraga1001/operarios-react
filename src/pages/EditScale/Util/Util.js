@@ -1,5 +1,3 @@
-import { useNavigate } from "react-router-dom";
-
 export function formatDateTime(dateTimeString) {
   const date = new Date(dateTimeString);
 
@@ -51,7 +49,7 @@ export const handleSchedule = (
 
     // Atualiza o estado e cria o evento
     events
-      .EditScale(sectorId, newEventObject)
+      .EditScale(eventId, newEventObject)
       .then(() => {
         showPopup();
         setTimeout(() => {

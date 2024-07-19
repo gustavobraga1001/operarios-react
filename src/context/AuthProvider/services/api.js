@@ -1,8 +1,8 @@
 import axios from "axios";
 import { getUserLocalStorage } from "../util";
 
-const apiUrl = import.meta.env.VITE_API_URL;
-// const apiUrl = "/api";
+// const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = "/api";
 
 export const Api = axios.create({
   baseURL: apiUrl,

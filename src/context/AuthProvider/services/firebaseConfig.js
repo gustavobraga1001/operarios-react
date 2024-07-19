@@ -1,6 +1,5 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getMessaging, getToken } from "firebase/messaging";
+import { getMessaging, onMessage, getToken } from "firebase/messaging";
 import { Api } from "./api";
 
 const firebaseConfig = {
@@ -13,7 +12,6 @@ const firebaseConfig = {
   measurementId: "G-B1CMDEB3M5",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
 
@@ -23,25 +21,41 @@ async function PostTokenNotify(token) {
       token: token,
     });
 
+    console.log(request);
+
     return request.data;
   } catch (error) {
     return null;
   }
 }
 
-export const generateToken = async () => {
-  const permission = await Notification.requestPermission();
-  console.log(permission);
-
-  if (permission === "granted") {
+export const requestForToken = async (callback) => {
+  try {
     const token = await getToken(messaging, {
       vapidKey:
         "BMuJvknRnFOl3ugMAg9DsSCF9UIxME6fFARGACsuWB2sbLEB6ieKwhEuap-tJ07jHejbVvvTMDjjl-amq7fCblQ",
     });
 
-    PostTokenNotify(token);
+    if (token) {
+      console.log("Notification token:", token);
+      PostTokenNotify(token);
+      if (callback) callback(token);
+    } else {
+      console.log(
+        "No registration token available. Request permission to generate one."
+      );
+    }
+
     return token;
+  } catch (error) {
+    console.error("Error generating token:", error);
   }
 };
 
-export { messaging };
+export const onMessageListener = () =>
+  new Promise((resolve) => {
+    onMessage(messaging, (payload) => {
+      console.log("payload", payload);
+      resolve(payload);
+    });
+  });

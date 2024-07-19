@@ -13,7 +13,7 @@ import { useQuery } from "react-query";
 import LoadingSpinner from "../../components/Loading/Loading";
 import useAuth from "../../context/AuthProvider/useAuth";
 import useEvents from "../../context/EventsProvider/useEvents";
-import { generateToken } from "../../context/AuthProvider/services/firebaseConfig";
+import Notification from "../../components/Notification";
 
 const Home = () => {
   const [currentHour, setCurrentHour] = useState(new Date().getHours());
@@ -42,15 +42,15 @@ const Home = () => {
 
   const [tokenGenerated, setTokenGenerated] = useState(false);
 
-  useEffect(() => {
-    if (!tokenGenerated) {
-      generateToken().then((token) => {
-        console.log(token);
-        setToken(token);
-        setTokenGenerated(true);
-      });
-    }
-  }, [tokenGenerated]);
+  // useEffect(() => {
+  //   if (!tokenGenerated) {
+  //     generateToken().then((token) => {
+  //       console.log(token);
+  //       setToken(token);
+  //       setTokenGenerated(true);
+  //     });
+  //   }
+  // }, [tokenGenerated]);
 
   useEffect(() => {
     const updateMessageDays = () => {
@@ -117,6 +117,8 @@ const Home = () => {
           </Link>
         )}
       </main>
+      {/* <Notification /> */}
+
       <Footer />
     </div>
   );

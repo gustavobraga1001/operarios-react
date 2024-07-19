@@ -7,8 +7,6 @@ importScripts(
   "https://www.gstatic.com/firebasejs/9.1.0/firebase-messaging-compat.js"
 );
 
-import icon from "./maskable_icon.jpg";
-
 // Inicialize o Firebase no service worker
 firebase.initializeApp({
   apiKey: "AIzaSyAQLATcqtrCoC4EVD9qtMTHL7Q1eqcjopo",
@@ -28,7 +26,7 @@ messaging.onBackgroundMessage((payload) => {
   const notificationTitle = payload.data.title;
   const notificationOptions = {
     body: payload.data.body,
-    icon: icon,
+    icon: payload.data.icon,
     data: {
       click_action: "https://operarios-react.vercel.app/calendar", // Adicione a URL aqui
     },

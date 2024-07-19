@@ -28,7 +28,7 @@ messaging.onBackgroundMessage((payload) => {
     body: payload.data.body,
     icon: payload.data.icon,
     data: {
-      click_action: "/calendar", // Adicione a URL aqui
+      click_action: "https://operarios-react.vercel.app/calendar", // Adicione a URL aqui
     },
   };
 

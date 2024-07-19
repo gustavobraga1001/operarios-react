@@ -5,16 +5,20 @@ import "react-calendar/dist/Calendar.css";
 import "./DateSelector.css";
 
 const DateSelector = ({ initialDate, onDateChange }) => {
-  const [date, setDate] = useState(new Date(initialDate));
+  const [date, setDate] = useState(initialDate || new Date());
   const [showCalendar, setShowCalendar] = useState(false);
   const calendarRef = useRef(null);
 
   useEffect(() => {
-    const normalizedDate = new Date(initialDate);
-    normalizedDate.setMinutes(
-      normalizedDate.getMinutes() + normalizedDate.getTimezoneOffset()
-    );
-    setDate(normalizedDate || new Date());
+    if (initialDate) {
+      const parsedDate = new Date(initialDate);
+      parsedDate.setMinutes(
+        parsedDate.getMinutes() + parsedDate.getTimezoneOffset()
+      );
+      setDate(parsedDate);
+    } else {
+      setDate(new Date());
+    }
   }, [initialDate]);
 
   const toggleCalendar = () => {

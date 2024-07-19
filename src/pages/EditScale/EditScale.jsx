@@ -16,7 +16,7 @@ const EditScale = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState();
   const [error, setError] = useState("");
   const [btnAgendar, setBtnAgendar] = useState("EDITAR");
   const events = useEvents();
@@ -55,7 +55,11 @@ const EditScale = () => {
   useEffect(() => {
     if (event) {
       const [initialDate] = formatDateTime(event.date_time);
-      setSelectedDate(new Date(initialDate));
+      const adjustedDate = new Date(initialDate);
+      adjustedDate.setMinutes(
+        adjustedDate.getMinutes() + adjustedDate.getTimezoneOffset()
+      );
+      setSelectedDate(adjustedDate);
     }
   }, [event]);
 
@@ -68,6 +72,8 @@ const EditScale = () => {
   }
 
   const date_time = formatDateTime(event.date_time);
+
+  console.log(date_time);
   return (
     <div>
       <header className="header-bottom-arrow">

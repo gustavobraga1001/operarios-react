@@ -54,14 +54,14 @@ const times = [
 ];
 
 const GridTimePicker = ({ initialTime }) => {
-  const [selectedTime, setSelectedTime] = useState(initialTime);
+  const [selectedTime, setSelectedTime] = useState("Selecione um horário");
   const [isOpen, setIsOpen] = useState(false);
 
   const events = useEvents();
 
   useEffect(() => {
     // Atualiza o estado selectedTime com initialTime apenas quando initialTime mudar
-    setSelectedTime(initialTime);
+    initialTime ? setSelectedTime(initialTime) : "";
     if (initialTime) events.setTime(initialTime);
   }, [initialTime]);
 

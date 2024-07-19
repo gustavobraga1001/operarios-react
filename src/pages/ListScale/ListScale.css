@@ -19,12 +19,15 @@
 }
 
 .card-list-infos-scales {
-  display: flex;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr auto 1fr;
   gap: 20px;
   border: 1px solid rgba(46, 44, 48, 1);
   border-radius: 0 0 12px 12px;
   padding: 20px;
 }
+
 
 .card-list-infos-scales p {
   font-size: 16px;

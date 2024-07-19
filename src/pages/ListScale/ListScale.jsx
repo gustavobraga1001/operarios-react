@@ -1,4 +1,4 @@
-import { CaretLeft } from "@phosphor-icons/react";
+import { CaretLeft, Pencil } from "@phosphor-icons/react";
 import { Link, useNavigate } from "react-router-dom";
 import "./ListScale.css";
 import useEvents from "../../context/EventsProvider/useEvents";
@@ -16,10 +16,7 @@ const ListScale = () => {
 
   const { data: eventsLeader, isLoading: isLoadingLeader } = useQuery(
     ["events_leader"],
-    () => events.getEventsLeader(),
-    {
-      staleTime: 3000,
-    }
+    () => events.getEventsLeader()
   );
 
   const formattedDateTime = (dateTimeString) => {
@@ -63,11 +60,7 @@ const ListScale = () => {
         <h1 className="title-list-scales">Escala de Eventos</h1>
         {sortedEvents.length > 0 ? (
           sortedEvents.map((event) => (
-            <div
-              key={event.id}
-              className="card-list-scales"
-              onClick={() => toEditScale(event.id)}
-            >
+            <div key={event.id} className="card-list-scales">
               <p className="card-list-data">
                 {formattedDateTime(event.date_time)}
               </p>
@@ -88,6 +81,11 @@ const ListScale = () => {
                       ))
                     : "Sem trabalhadores"}
                 </span>
+                <Pencil
+                  size={32}
+                  color="#ffc100"
+                  onClick={() => toEditScale(event.id)}
+                />
               </div>
             </div>
           ))

@@ -1,9 +1,9 @@
 import axios from "axios";
 import { getUserLocalStorage } from "../util";
 
-// const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = import.meta.env.VITE_API_URL;
 // const apiUrl = "http://192.168.11.239:8080";
-const apiUrl = "/api";
+// const apiUrl = "/api";
 
 const Api = axios.create({
   baseURL: apiUrl,

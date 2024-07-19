@@ -6,7 +6,7 @@ import { useQuery } from "react-query";
 import useEvents from "../../context/EventsProvider/useEvents";
 import "./Members.css";
 import LoadingSpinner from "../../components/Loading/Loading";
-import { Api } from "../../context/AuthProvider/services/api";
+import Api from "../../context/AuthProvider/services/api";
 import Popup from "./Popup/Popup";
 
 const Members = () => {

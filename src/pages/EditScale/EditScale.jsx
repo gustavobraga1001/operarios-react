@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Api } from "../../context/AuthProvider/services/api";
+import Api from "../../context/AuthProvider/services/api";
 import LoadingSpinner from "../../components/Loading/Loading";
 import DateSelector from "../../components/DateSelector/DateSelector";
 import { formatDate, formatDateTime, handleSchedule } from "./Util/Util";

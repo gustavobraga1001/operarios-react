@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { getUserLocalStorage, LoginRequest, setUserLocalStorage } from "./util";
-import { Api } from "./services/api";
+import Api from "./services/api";
 
 export const AuthContext = createContext();
 

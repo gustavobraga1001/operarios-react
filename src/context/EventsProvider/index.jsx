@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { Api } from "../AuthProvider/services/api";
+import Api from "../AuthProvider/services/api";
 
 export const EventsContext = createContext();
 

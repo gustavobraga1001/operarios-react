@@ -6,7 +6,7 @@ import { getIcons } from "../../components/GetIcons/GetIcons";
 import { Link } from "react-router-dom";
 import { CaretLeft, UserPlus } from "@phosphor-icons/react";
 import "./AddWorkers.css";
-import { Api } from "../../context/AuthProvider/services/api";
+import Api from "../../context/AuthProvider/services/api";
 import PopUpAddWorker from "../../components/PopUpAddWorker/PopUpAddWorker";
 import LoadingSpinner from "../../components/Loading/Loading";
 import Popup from "../Members/Popup/Popup";

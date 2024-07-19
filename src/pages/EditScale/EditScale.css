@@ -1,0 +1,35 @@
+.edit-scales-container {
+  margin: 30px 15px;
+  padding: 15px;
+  background-color: rgba(35, 34, 37, 1);
+  border-radius: 12px;
+  padding-bottom: 10px;
+}
+
+.edit-scales-container p {
+  color: rgba(152, 149, 157, 1);
+  font-size: 16px;
+}
+
+.edit-scales-container h1 {
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+.edit-box-scales {
+  margin: 10px 0;
+}
+
+.edit-box-scales p {
+  font-size: 16px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.edit-event-button {
+  margin-top: 30px;
+}
+
+.edit-event-button button {
+  font-size: 17px;
+}

@@ -5,6 +5,7 @@ export const EventsContext = createContext();
 
 export const EventsProvider = ({ children }) => {
   const [time, setTime] = useState("Selecione um horário");
+  const [date, setDate] = useState("Selecione um horário");
   const [workersUp, setWorkersUp] = useState([]);
 
   async function getEvents() {
@@ -47,6 +48,16 @@ export const EventsProvider = ({ children }) => {
     }
   }
 
+  async function EditScale(id, event) {
+    try {
+      const request = await Api.patch(`events/${id}`, event);
+
+      return request.data;
+    } catch (error) {
+      return null;
+    }
+  }
+
   async function PostScales(event) {
     try {
       const request = await Api.post("events", event);
@@ -69,6 +80,9 @@ export const EventsProvider = ({ children }) => {
         workersUp,
         setWorkersUp,
         getAvailableSector,
+        date,
+        setDate,
+        EditScale,
       }}
     >
       {children}

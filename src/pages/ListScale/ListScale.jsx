@@ -11,7 +11,6 @@ const ListScale = () => {
   const navigate = useNavigate();
 
   const toEditScale = (id) => {
-    console.log(id);
     navigate(`/editscale/${id}`);
   };
 

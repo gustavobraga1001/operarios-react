@@ -1,13 +1,21 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { CalendarBlank } from "@phosphor-icons/react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./DateSelector.css";
 
 const DateSelector = ({ initialDate, onDateChange }) => {
-  const [date, setDate] = useState(new Date(initialDate) || new Date());
+  const [date, setDate] = useState(new Date(initialDate));
   const [showCalendar, setShowCalendar] = useState(false);
   const calendarRef = useRef(null);
+
+  useEffect(() => {
+    const normalizedDate = new Date(initialDate);
+    normalizedDate.setMinutes(
+      normalizedDate.getMinutes() + normalizedDate.getTimezoneOffset()
+    );
+    setDate(normalizedDate || new Date());
+  }, [initialDate]);
 
   const toggleCalendar = () => {
     setShowCalendar(!showCalendar);

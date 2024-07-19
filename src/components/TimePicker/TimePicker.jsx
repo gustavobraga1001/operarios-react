@@ -53,7 +53,7 @@ const times = [
   "00:00",
 ];
 
-const GridTimePicker = ({ initialTime = "Selecione um horário" }) => {
+const GridTimePicker = ({ initialTime }) => {
   const [selectedTime, setSelectedTime] = useState(initialTime);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -62,6 +62,7 @@ const GridTimePicker = ({ initialTime = "Selecione um horário" }) => {
   useEffect(() => {
     // Atualiza o estado selectedTime com initialTime apenas quando initialTime mudar
     setSelectedTime(initialTime);
+    if (initialTime) events.setTime(initialTime);
   }, [initialTime]);
 
   const toggleDropdown = () => {

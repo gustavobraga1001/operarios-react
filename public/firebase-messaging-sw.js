@@ -28,7 +28,7 @@ messaging.onBackgroundMessage((payload) => {
     body: payload.data.body,
     icon: payload.data.icon,
     data: {
-      click_action: payload.data.click_action, // Adicione a URL aqui
+      click_action: "/calendar", // Adicione a URL aqui
     },
   };
 

@@ -117,7 +117,7 @@ const Home = () => {
           </Link>
         )}
       </main>
-      {/* <Notification /> */}
+      <Notification />
 
       <Footer />
     </div>

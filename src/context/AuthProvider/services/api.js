@@ -2,9 +2,9 @@ import axios from "axios";
 import { getUserLocalStorage } from "../util";
 import { removeUserLocalStorage, setUserLocalStorage } from "./Util";
 
-const apiUrl = import.meta.env.VITE_API_URL;
+// const apiUrl = import.meta.env.VITE_API_URL;
 // const apiUrl = "http://192.168.11.239:8080";
-// const apiUrl = "/api";
+const apiUrl = "/api";
 
 const Api = axios.create({
   baseURL: apiUrl,
@@ -25,15 +25,16 @@ Api.interceptors.request.use(
   }
 );
 
-Api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    if (error.response.status === 401) {
-      removeUserLocalStorage();
-      console.log("caiu");
-    }
-  }
-);
+// Api.interceptors.response.use(
+//   (response) => response,
+//   async (error) => {
+//     if (error.response.status === 401) {
+//       removeUserLocalStorage();
+//       console.log("caiu");
+//       window.location.reload();
+//     }
+//   }
+// );
 
 // Api.interceptors.response.use(
 //   (response) => response,

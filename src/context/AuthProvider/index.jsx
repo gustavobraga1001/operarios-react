@@ -41,7 +41,9 @@ export const AuthProvider = ({ children }) => {
   async function authenticate(email, password) {
     const response = await LoginRequest(email, password);
 
-    if (response != null) {
+    if (response.response.status === 401 || response.response.status === 400) {
+      throw new Error("E-mail ou senha inválidas");
+    } else {
       const payload = { token: response.accessToken };
 
       setUser(payload);
@@ -49,18 +51,30 @@ export const AuthProvider = ({ children }) => {
         token: response.accessToken,
         refreshToken: response.refreshToken,
       });
-    } else {
-      throw new Error("E-mail ou senha inválidas");
     }
   }
 
-  function logout() {
-    setUser(null);
-    setUserLocalStorage(null);
-    // Se você estiver usando um service worker para cache
+  async function DeleteTokenNotify(id) {
+    try {
+      const request = await Api.delete(`/users/block-notifications/${id}`);
 
-    window.reload();
+      console.log(request);
+
+      return request.data;
+    } catch (error) {
+      return null;
+    }
   }
+
+  const logout = async () => {
+    setUser(null);
+    const deviceId = localStorage.getItem("device");
+    if (deviceId) {
+      await DeleteTokenNotify(deviceId);
+    }
+    localStorage.clear();
+    window.location.reload();
+  };
 
   return (
     <AuthContext.Provider

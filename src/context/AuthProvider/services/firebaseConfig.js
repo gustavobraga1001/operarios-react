@@ -38,7 +38,7 @@ export const requestForToken = async (callback) => {
 
     if (token) {
       console.log("Notification token:", token);
-      // PostTokenNotify(token);
+      PostTokenNotify(token);
       if (callback) callback(token);
     } else {
       console.log(

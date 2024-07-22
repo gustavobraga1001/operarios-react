@@ -6,6 +6,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [IsExired, setIsExpired] = useState(false);
 
   useEffect(() => {
     const user = getUserLocalStorage();
@@ -21,7 +22,7 @@ export const AuthProvider = ({ children }) => {
 
       return response.data;
     } catch (error) {
-      console.log(error);
+      // console.log(error.response.status);
     }
   }
 
@@ -42,7 +43,10 @@ export const AuthProvider = ({ children }) => {
       const payload = { token: response.accessToken };
 
       setUser(payload);
-      setUserLocalStorage(payload);
+      setUserLocalStorage({
+        token: response.accessToken,
+        refreshToken: response.refreshToken,
+      });
     } else {
       throw new Error("E-mail ou senha inválidas");
     }

@@ -2,6 +2,7 @@ import Api from "./services/api";
 
 export function setUserLocalStorage(user) {
   localStorage.setItem("u", JSON.stringify(user));
+  // localStorage.setItem("")
 }
 
 export function getUserLocalStorage() {

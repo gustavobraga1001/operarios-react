@@ -12,6 +12,17 @@ import ToggleButton from "../../components/ToggleButton/ToggleButton";
 const Settings = () => {
   const navigate = useNavigate();
   const auth = useAuth();
+  const [permission, setPermission] = useState();
+
+  useEffect(() => {
+    const permission = Notification.permission;
+
+    if (permission === "granted") {
+      setPermission(true);
+    } else {
+      setPermission(false);
+    }
+  }, [permission]);
 
   const { data: user, isLoading } = useQuery(["user"], () => auth.getUser(), {
     staleTime: 50000,
@@ -54,7 +65,7 @@ const Settings = () => {
             <BellSimpleSlash size={32} color="#ffc100" />
             <p>Desativar Notificações</p>
           </div>
-          <ToggleButton />
+          <ToggleButton permission={permission} />
         </div>
         <Link to={"/help"}>
           <div className="settings-option">

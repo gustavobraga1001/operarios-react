@@ -25,16 +25,16 @@ Api.interceptors.request.use(
   }
 );
 
-// Api.interceptors.response.use(
-//   (response) => response,
-//   async (error) => {
-//     if (error.response.status === 401) {
-//       removeUserLocalStorage();
-//       console.log("caiu");
-//       window.location.reload();
-//     }
-//   }
-// );
+Api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response.status === 401) {
+      removeUserLocalStorage();
+      console.log("caiu");
+      window.location.reload();
+    }
+  }
+);
 
 // Api.interceptors.response.use(
 //   (response) => response,

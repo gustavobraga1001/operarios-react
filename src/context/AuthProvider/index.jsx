@@ -41,9 +41,7 @@ export const AuthProvider = ({ children }) => {
   async function authenticate(email, password) {
     const response = await LoginRequest(email, password);
 
-    if (response.response.status === 401 || response.response.status === 400) {
-      throw new Error("E-mail ou senha inválidas");
-    } else {
+    if (response != null) {
       const payload = { token: response.accessToken };
 
       setUser(payload);
@@ -51,6 +49,8 @@ export const AuthProvider = ({ children }) => {
         token: response.accessToken,
         refreshToken: response.refreshToken,
       });
+    } else {
+      throw new Error("E-mail ou senha inválidas");
     }
   }
 

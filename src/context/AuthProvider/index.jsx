@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { getUserLocalStorage, LoginRequest, setUserLocalStorage } from "./util";
+import { useQueryClient } from "react-query";
 import Api from "./services/api";
 
 export const AuthContext = createContext();
@@ -7,6 +8,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [IsExired, setIsExpired] = useState(false);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const user = getUserLocalStorage();
@@ -56,20 +58,8 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setUserLocalStorage(null);
     // Se você estiver usando um service worker para cache
-    if ("caches" in window) {
-      caches.keys().then((names) => {
-        names.forEach((name) => {
-          caches.delete(name);
-        });
-      });
-    }
 
-    // Limpar cookies
-    document.cookie.split(";").forEach((c) => {
-      document.cookie = c
-        .replace(/^ +/, "")
-        .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-    });
+    window.reload();
   }
 
   return (

@@ -75,15 +75,15 @@ Api.interceptors.response.use(
               token: refreshToken,
             });
 
-            const { accessToken, newRefreshToken } = response.data;
+            const { accessToken, refreshToken } = response.data;
 
             console.log(accessToken, refreshToken);
 
             console.log("Novo token de acesso e refresh recebido"); // Log para debug
 
-            if (accessToken && newRefreshToken) {
+            if (accessToken) {
               // Atualiza tanto o access token quanto o refresh token no localStorage
-              setTokens(accessToken, newRefreshToken);
+              setTokens(accessToken, response.data.refreshToken);
 
               // Atualiza o header Authorization da instância do Axios
               Api.defaults.headers.common[

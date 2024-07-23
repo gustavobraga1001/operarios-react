@@ -21,7 +21,9 @@ import EditScale from "../pages/EditScale/EditScale";
 
 const Private = ({ Item }) => {
   const auth = useAuth();
-  if (!auth.token) {
+
+  const token = localStorage.getItem("accessToken");
+  if (!token) {
     return <Login />;
   } else {
     return <Item />;
@@ -29,8 +31,8 @@ const Private = ({ Item }) => {
 };
 
 const IsLogin = ({ Item }) => {
-  const auth = useAuth();
-  if (!auth.token) {
+  const token = localStorage.getItem("accessToken");
+  if (!token) {
     return <Item />;
   } else {
     return <Home />;

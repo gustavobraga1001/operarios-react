@@ -6,15 +6,9 @@ export function setUserLocalStorage(user) {
 }
 
 export function getUserLocalStorage() {
-  const json = localStorage.getItem("u");
+  const json = localStorage.getItem("accessToken");
 
-  if (!json) {
-    return null;
-  }
-
-  const user = JSON.parse(json);
-
-  return user ?? null;
+  return json ?? null;
 }
 
 export async function LoginRequest(email, password) {

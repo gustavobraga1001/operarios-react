@@ -7,18 +7,6 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 const App = () => {
   const client = new QueryClient();
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker
-        .register("/firebase-messaging-sw.js")
-        .then((registration) => {
-          console.log("Service Worker registrado com sucesso: ", registration);
-        })
-        .catch((error) => {
-          console.log("Falha ao registrar o Service Worker: ", error);
-        });
-    });
-  }
 
   return (
     <AuthProvider>

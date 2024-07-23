@@ -45,10 +45,8 @@ export const AuthProvider = ({ children }) => {
       const payload = { token: response.accessToken };
 
       setUser(payload);
-      setUserLocalStorage({
-        token: response.accessToken,
-        refreshToken: response.refreshToken,
-      });
+      localStorage.setItem("accessToken", response.accessToken);
+      localStorage.setItem("refreshToken", response.refreshToken);
     } else {
       throw new Error("E-mail ou senha inválidas");
     }
@@ -57,8 +55,6 @@ export const AuthProvider = ({ children }) => {
   async function DeleteTokenNotify(id) {
     try {
       const request = await Api.delete(`/users/block-notifications/${id}`);
-
-      console.log(request);
 
       return request.data;
     } catch (error) {

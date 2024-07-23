@@ -28,29 +28,21 @@ const Home = () => {
   const auth = useAuth();
   const events = useEvents();
 
-  const { data: user, isLoading } = useQuery(["user"], () => auth.getUser(), {
+  const {
+    data: user,
+    isLoading,
+    isErrorUser,
+  } = useQuery(["user"], () => auth.getUser(), {
     staleTime: 50000,
   });
 
-  const { data: eventsWorker } = useQuery(
+  const { data: eventsWorker, isErrorEvents } = useQuery(
     ["events_worker"],
     () => events.getEvents(),
     {
       staleTime: 3000,
     }
   );
-
-  const [tokenGenerated, setTokenGenerated] = useState(false);
-
-  // useEffect(() => {
-  //   if (!tokenGenerated) {
-  //     generateToken().then((token) => {
-  //       console.log(token);
-  //       setToken(token);
-  //       setTokenGenerated(true);
-  //     });
-  //   }
-  // }, [tokenGenerated]);
 
   useEffect(() => {
     const updateMessageDays = () => {
@@ -91,6 +83,12 @@ const Home = () => {
   if (!events || !user || isLoading) {
     return <LoadingSpinner />;
   }
+
+  // if (isErrorUser || isErrorEvents) {
+  //   return (
+  //     <h1>Ocorreu um erro em nosso servidor tente novamente mais tarde</h1>
+  //   );
+  // }
 
   return (
     <div className="container-home">

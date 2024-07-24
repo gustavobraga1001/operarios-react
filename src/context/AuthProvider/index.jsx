@@ -58,13 +58,22 @@ export const AuthProvider = ({ children }) => {
   }
 
   const logout = async () => {
-    setUser(null);
-    const deviceId = localStorage.getItem("device");
-    if (deviceId) {
-      await DeleteTokenNotify(deviceId);
+    try {
+      const deviceId = localStorage.getItem("device");
+      const refreshToken = localStorage.getItem("refreshToken");
+
+      const request = await Api.post(`auth/logout`, {
+        device_id: deviceId,
+        refresh_token: refreshToken,
+      });
+
+      setUser(null);
+      localStorage.clear();
+      window.location.reload();
+      return request;
+    } catch (error) {
+      return null;
     }
-    localStorage.clear();
-    window.location.reload();
   };
 
   return (

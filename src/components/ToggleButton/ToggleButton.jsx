@@ -5,6 +5,7 @@ import {
   unsubscribeFromNotifications,
 } from "../../context/AuthProvider/services/firebaseConfig";
 import Api from "../../context/AuthProvider/services/api";
+import Notification from "../Notification";
 
 const ToggleButton = ({ permission }) => {
   const [isOnline, setIsOnline] = useState(false);
@@ -62,7 +63,7 @@ const ToggleButton = ({ permission }) => {
       if (!permissionGranted.option) {
         return;
       }
-      PostTokenNotify(permissionGranted.token);
+      PostTokenNotify(permissionGranted.currentToken);
 
       alert("Notificações ativadas");
 
@@ -76,6 +77,7 @@ const ToggleButton = ({ permission }) => {
       onClick={toggle}
     >
       <div className={`circle ${isOnline ? "right" : "left"}`}></div>
+      <Notification />
     </div>
   );
 };

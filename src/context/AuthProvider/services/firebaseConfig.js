@@ -1,11 +1,12 @@
+// firebaseConfig.js
+
 import { initializeApp } from "firebase/app";
 import {
-  getMessaging,
-  onMessage,
-  getToken,
   deleteToken,
+  getMessaging,
+  getToken,
+  onMessage,
 } from "firebase/messaging";
-import Api from "./api";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAQLATcqtrCoC4EVD9qtMTHL7Q1eqcjopo",
@@ -17,50 +18,44 @@ const firebaseConfig = {
   measurementId: "G-B1CMDEB3M5",
 };
 
+// Inicialize o Firebase
 const app = initializeApp(firebaseConfig);
+
+// Inicialize o Firebase Messaging
 const messaging = getMessaging(app);
+
+async function ensureServiceWorkerActive() {
+  // Espera até que o Service Worker esteja ativo
+  if ("serviceWorker" in navigator) {
+    const registration = await navigator.serviceWorker.ready;
+    console.log("Service Worker está pronto e ativo:", registration);
+    return registration;
+  } else {
+    throw new Error("Service Worker não é suportado neste navegador.");
+  }
+}
 
 export const requestForToken = async () => {
   try {
-    const token = await getToken(messaging, {
+    const registration = await ensureServiceWorkerActive(); // Garante que o SW está ativo
+
+    const currentToken = await getToken(messaging, {
       vapidKey:
         "BMuJvknRnFOl3ugMAg9DsSCF9UIxME6fFARGACsuWB2sbLEB6ieKwhEuap-tJ07jHejbVvvTMDjjl-amq7fCblQ",
+      serviceWorkerRegistration: registration, // Usa o SW ativo
     });
-    if (token) {
-      console.log("Token retrieved: ", token);
-      return { option: true, token };
+
+    if (currentToken) {
+      console.log("Token recebido:", currentToken);
+      return { option: true, currentToken };
     } else {
-      console.log(
-        "No registration token available. Request permission to generate one."
-      );
-      return false;
+      console.log("Nenhum token disponível. Solicite permissão para gerar um.");
     }
   } catch (err) {
-    console.error("An error occurred while retrieving token. ", err);
-    return false;
+    console.error("Erro ao obter o token:", err);
+    throw err;
   }
 };
-// export const requestForToken = async (callback) => {
-//   try {
-//     const token = await getToken(messaging, {
-//       vapidKey:
-//         "BMuJvknRnFOl3ugMAg9DsSCF9UIxME6fFARGACsuWB2sbLEB6ieKwhEuap-tJ07jHejbVvvTMDjjl-amq7fCblQ",
-//     });
-
-//     if (token) {
-//       console.log("Notification token:", token);
-//       if (callback) callback(token);
-//     } else {
-//       console.log(
-//         "No registration token available. Request permission to generate one."
-//       );
-//     }
-
-//     return token;
-//   } catch (error) {
-//     console.error("Error generating token:", error);
-//   }
-// };
 
 export const unsubscribeFromNotifications = async () => {
   try {
@@ -85,6 +80,7 @@ export const unsubscribeFromNotifications = async () => {
   }
 };
 
+// Listener para mensagens recebidas enquanto o app está em primeiro plano
 export const onMessageListener = () =>
   new Promise((resolve) => {
     onMessage(messaging, (payload) => {

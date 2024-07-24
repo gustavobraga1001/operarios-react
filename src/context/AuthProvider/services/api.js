@@ -1,6 +1,4 @@
 import axios from "axios";
-import { getUserLocalStorage } from "../util";
-
 const apiUrl = "/api";
 
 const Api = axios.create({
@@ -47,6 +45,18 @@ const onRefreshed = (token) => {
   refreshSubscribers = []; // Limpa a lista após notificar todos
 };
 
+async function DeleteTokenNotify(id) {
+  try {
+    const request = await axios.delete(
+      `${apiUrl}/users/block-notifications/${id}`
+    );
+
+    return request.data;
+  } catch (error) {
+    return null;
+  }
+}
+
 Api.interceptors.response.use(
   (response) => {
     return response;
@@ -63,6 +73,8 @@ Api.interceptors.response.use(
       originalRequest._retry = true; // Marca a requisição como já tentada
       const refreshToken = getRefreshToken(); // Obtém o token de refresh
 
+      console.log(refreshToken);
+
       if (refreshToken) {
         // Verifica se uma atualização de token já está em andamento
         if (!isRefreshing) {
@@ -70,32 +82,28 @@ Api.interceptors.response.use(
 
           try {
             // Chama a API de refresh token
-            const response = await Api.post("/auth/refresh-token", {
+            const response = await axios.post(`${apiUrl}/auth/refresh-token`, {
               token: refreshToken,
             });
 
-            const { accessToken, refreshToken } = response.data;
+            const tokens = response.data;
 
-            console.log(accessToken, refreshToken);
-
-            console.log("Novo token de acesso e refresh recebido"); // Log para debug
-
-            if (accessToken) {
+            if (tokens.accessToken) {
               // Atualiza tanto o access token quanto o refresh token no localStorage
-              setTokens(accessToken, refreshToken);
+              setTokens(tokens.accessToken, tokens.refreshToken);
 
               // Atualiza o header Authorization da instância do Axios
               Api.defaults.headers.common[
                 "Authorization"
-              ] = `Bearer ${accessToken}`;
+              ] = `Bearer ${tokens.accessToken}`;
 
               // Notifica todas as requisições em espera para usar o novo token
-              onRefreshed(accessToken);
+              onRefreshed(tokens.accessToken);
 
               // Rechama a requisição original com o novo token
               originalRequest.headers[
                 "Authorization"
-              ] = `Bearer ${accessToken}`;
+              ] = `Bearer ${tokens.accessToken}`;
 
               isRefreshing = false; // Reseta o estado de atualização
 
@@ -104,14 +112,15 @@ Api.interceptors.response.use(
               console.error(
                 "Nenhum novo access token ou refresh token recebido."
               );
-              // handleLogout();
+
               return Promise.reject(
                 "Nenhum novo access token ou refresh token recebido."
               );
             }
           } catch (refreshError) {
             console.error("Refresh token is invalid", refreshError);
-            // handleLogout(); 
+            alert("faça login novamente");
+            handleLogout();
             return Promise.reject(refreshError);
           } finally {
             isRefreshing = false; // Certifique-se de resetar o estado mesmo em caso de falha
@@ -127,17 +136,21 @@ Api.interceptors.response.use(
           });
         });
       } else {
-        // handleLogout();
+        handleLogout();
         return Promise.reject("Refresh token não disponível.");
       }
     }
   }
 );
 
-const handleLogout = () => {
-  localStorage.removeItem("accessToken");
-  localStorage.removeItem("refreshToken");
-  window.location.href = "/login"; // Redireciona para a tela de login
+const handleLogout = async () => {
+  const deviceId = localStorage.getItem("device");
+  if (deviceId) {
+    await DeleteTokenNotify(deviceId);
+  }
+  // localStorage.clear();
+  // window.location.reload();
+  // window.location.href = "/login"; // Redireciona para a tela de login
 };
 
 export default Api;

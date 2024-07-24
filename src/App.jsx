@@ -8,6 +8,53 @@ import { QueryClient, QueryClientProvider } from "react-query";
 const App = () => {
   const client = new QueryClient();
 
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker
+        .register("/firebase-messaging-sw.js")
+        .then((registration) => {
+          console.log("Service Worker registrado com sucesso:", registration);
+
+          // Verifique se há uma nova versão do Service Worker
+          if (registration.waiting) {
+            console.log("Uma nova versão do Service Worker está aguardando.");
+            updateServiceWorker(registration);
+          }
+
+          // Detectar atualizações no Service Worker
+          registration.onupdatefound = () => {
+            const installingWorker = registration.installing;
+            installingWorker.onstatechange = () => {
+              if (installingWorker.state === "installed") {
+                if (navigator.serviceWorker.controller) {
+                  console.log(
+                    "Nova atualização disponível, atualizando agora..."
+                  );
+                  updateServiceWorker(registration);
+                } else {
+                  console.log("O conteúdo foi atualizado pela primeira vez!");
+                }
+              }
+            };
+          };
+        })
+        .catch((err) => {
+          console.error("Falha ao registrar o Service Worker:", err);
+        });
+    });
+  }
+
+  // Função para atualizar o Service Worker
+  function updateServiceWorker(registration) {
+    registration.waiting.postMessage({ type: "SKIP_WAITING" });
+    registration.waiting.addEventListener("statechange", (e) => {
+      if (e.target.state === "activated") {
+        console.log("Service Worker atualizado e ativado.");
+        window.location.reload();
+      }
+    });
+  }
+
   return (
     <AuthProvider>
       <EventsProvider>

@@ -7,8 +7,6 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [IsExired, setIsExpired] = useState(false);
-  const queryClient = useQueryClient();
 
   useEffect(() => {
     const user = getUserLocalStorage();
@@ -42,9 +40,6 @@ export const AuthProvider = ({ children }) => {
     const response = await LoginRequest(email, password);
 
     if (response != null) {
-      const payload = { token: response.accessToken };
-
-      setUser(payload);
       localStorage.setItem("accessToken", response.accessToken);
       localStorage.setItem("refreshToken", response.refreshToken);
     } else {

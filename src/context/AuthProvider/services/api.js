@@ -57,7 +57,6 @@ Api.interceptors.response.use(
     // Verifica se é um erro 401 não relacionado ao login inicial
     if (
       error.response.status === 401 &&
-      !originalRequest._retry &&
       !originalRequest.url.includes("/auth/login") // Evita interceptar a tentativa de login
     ) {
       console.log("Erro 401 detectado. Tentando atualizar o token..."); // Log para debug
@@ -71,7 +70,7 @@ Api.interceptors.response.use(
 
           try {
             // Chama a API de refresh token
-            const response = await axios.post(`${apiUrl}/auth/refresh-token`, {
+            const response = await Api.post("/auth/refresh-token", {
               token: refreshToken,
             });
 
@@ -83,7 +82,7 @@ Api.interceptors.response.use(
 
             if (accessToken) {
               // Atualiza tanto o access token quanto o refresh token no localStorage
-              setTokens(accessToken, response.data.refreshToken);
+              setTokens(accessToken, refreshToken);
 
               // Atualiza o header Authorization da instância do Axios
               Api.defaults.headers.common[
@@ -112,7 +111,7 @@ Api.interceptors.response.use(
             }
           } catch (refreshError) {
             console.error("Refresh token is invalid", refreshError);
-            handleLogout(); // Redireciona para a página de login
+            // handleLogout(); 
             return Promise.reject(refreshError);
           } finally {
             isRefreshing = false; // Certifique-se de resetar o estado mesmo em caso de falha
@@ -128,18 +127,10 @@ Api.interceptors.response.use(
           });
         });
       } else {
-        handleLogout();
+        // handleLogout();
         return Promise.reject("Refresh token não disponível.");
       }
     }
-
-    // Para requisições de login falhas
-    if (originalRequest.url.includes("/auth/login")) {
-      // Retorna o erro normalmente para ser tratado na lógica de login
-      return Promise.reject(error);
-    }
-
-    return Promise.reject(error);
   }
 );
 

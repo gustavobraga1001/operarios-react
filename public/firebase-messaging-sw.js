@@ -20,32 +20,30 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-// Handler para mensagens em segundo plano
 messaging.onBackgroundMessage((payload) => {
   console.log("Received background message ", payload);
 
-  // Verifica se o payload tem as propriedades corretas
-  const notificationTitle = payload.data.title || "Notificação sem título";
+  const notificationTitle = payload.data.title || "Notificação";
   const notificationOptions = {
-    body: payload.data.body || "Sem corpo de notificação.",
-    icon: payload.data.icon || "/firebase-logo.png", // Ícone padrão se não especificado
+    body: payload.data.body || "Você tem uma nova mensagem.",
+    icon: payload.data.icon || "/firebase-logo.png",
     data: {
       click_action:
         payload.data.click_action ||
-        "https://operarios-react.vercel.app/calendar", // URL padrão
+        "https://operarios-react.vercel.app/calendar",
     },
   };
 
-  // Exibe a notificação
-  self.registration.showNotification(notificationTitle, notificationOptions);
+  // Verifique se a notificação é realmente necessária
+  if (!notificationOptions.body.includes("site foi atualizado")) {
+    self.registration.showNotification(notificationTitle, notificationOptions);
+  }
 });
 
-// Handler para cliques na notificação
+// Listener para cliques na notificação
 self.addEventListener("notificationclick", function (event) {
   console.log("Notification click received: ", event.notification.data);
-
-  // Fecha a notificação ao clicar nela
-  event.notification.close();
+  event.notification.close(); // Feche a notificação ao clicar nela
 
   const clickAction = event.notification.data.click_action;
 
@@ -55,14 +53,10 @@ self.addEventListener("notificationclick", function (event) {
       .then((windowClients) => {
         for (let i = 0; i < windowClients.length; i++) {
           const client = windowClients[i];
-
-          // Se a janela já está aberta e a URL bate com clickAction, então foca nela
           if (client.url.includes(clickAction) && "focus" in client) {
             return client.focus();
           }
         }
-
-        // Caso contrário, abre uma nova janela com a URL de clickAction
         if (clients.openWindow) {
           return clients.openWindow(clickAction);
         }

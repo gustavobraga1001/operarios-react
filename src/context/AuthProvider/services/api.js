@@ -1,5 +1,7 @@
 import axios from "axios";
-const apiUrl = "/api";
+
+// const apiUrl = "/api";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const Api = axios.create({
   baseURL: apiUrl,
@@ -20,9 +22,12 @@ const setTokens = (accessToken, refreshToken) => {
 // Interceptor de requisição para adicionar o token de acesso
 Api.interceptors.request.use(
   (config) => {
-    const accessToken = getAccessToken();
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
+    // Verifica se a requisição não é para o endpoint de logout
+    if (!config.url.includes("/auth/logout")) {
+      const accessToken = getAccessToken();
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
     }
     return config;
   },
@@ -45,18 +50,6 @@ const onRefreshed = (token) => {
   refreshSubscribers = []; // Limpa a lista após notificar todos
 };
 
-async function DeleteTokenNotify(id) {
-  try {
-    const request = await axios.delete(
-      `${apiUrl}/users/block-notifications/${id}`
-    );
-
-    return request.data;
-  } catch (error) {
-    return null;
-  }
-}
-
 Api.interceptors.response.use(
   (response) => {
     return response;
@@ -67,7 +60,8 @@ Api.interceptors.response.use(
     // Verifica se é um erro 401 não relacionado ao login inicial
     if (
       error.response.status === 401 &&
-      !originalRequest.url.includes("/auth/login") // Evita interceptar a tentativa de login
+      !originalRequest.url.includes("/auth/login") &&
+      !originalRequest.url.includes("/auth/logout") // Evita interceptar a tentativa de login e logout
     ) {
       console.log("Erro 401 detectado. Tentando atualizar o token..."); // Log para debug
       originalRequest._retry = true; // Marca a requisição como já tentada
@@ -119,7 +113,6 @@ Api.interceptors.response.use(
             }
           } catch (refreshError) {
             console.error("Refresh token is invalid", refreshError);
-            alert("faça login novamente");
             handleLogout();
             return Promise.reject(refreshError);
           } finally {
@@ -140,17 +133,29 @@ Api.interceptors.response.use(
         return Promise.reject("Refresh token não disponível.");
       }
     }
+
+    return Promise.reject(error); // Adicionado para garantir que o erro seja propagado
   }
 );
 
 const handleLogout = async () => {
-  const deviceId = localStorage.getItem("device");
-  if (deviceId) {
-    await DeleteTokenNotify(deviceId);
+  try {
+    const deviceId = localStorage.getItem("device");
+    const refreshToken = getRefreshToken();
+
+    const request = await axios.post(`${apiUrl}/auth/logout`, {
+      device_id: deviceId,
+      refresh_token: refreshToken,
+    });
+
+    // Limpa os tokens do localStorage e redireciona para a página de login
+    localStorage.clear();
+    window.location.href = "/login";
+    return request;
+  } catch (error) {
+    console.error("Erro ao realizar logout:", error);
+    return null;
   }
-  // localStorage.clear();
-  // window.location.reload();
-  // window.location.href = "/login"; // Redireciona para a tela de login
 };
 
 export default Api;

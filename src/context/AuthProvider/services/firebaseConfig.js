@@ -8,6 +8,7 @@ import {
   onMessage,
 } from "firebase/messaging";
 
+// Suas configurações Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyAQLATcqtrCoC4EVD9qtMTHL7Q1eqcjopo",
   authDomain: "operarios-626c5.firebaseapp.com",
@@ -25,10 +26,12 @@ const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
 
 async function ensureServiceWorkerActive() {
-  // Espera até que o Service Worker esteja ativo
   if ("serviceWorker" in navigator) {
-    const registration = await navigator.serviceWorker.ready;
-    console.log("Service Worker está pronto e ativo:", registration);
+    const registration = await navigator.serviceWorker.register(
+      "/firebase-messaging-sw.js"
+    ); // Certifique-se de que o caminho esteja correto
+    await navigator.serviceWorker.ready; // Espera até que o Service Worker esteja ativo
+    console.log("Service Worker registrado:", registration);
     return registration;
   } else {
     throw new Error("Service Worker não é suportado neste navegador.");
@@ -37,12 +40,13 @@ async function ensureServiceWorkerActive() {
 
 export const requestForToken = async () => {
   try {
-    const registration = await ensureServiceWorkerActive(); // Garante que o SW está ativo
+    const registration = await ensureServiceWorkerActive();
 
+    // Obtém o token de notificação
     const currentToken = await getToken(messaging, {
       vapidKey:
         "BMuJvknRnFOl3ugMAg9DsSCF9UIxME6fFARGACsuWB2sbLEB6ieKwhEuap-tJ07jHejbVvvTMDjjl-amq7fCblQ",
-      serviceWorkerRegistration: registration, // Usa o SW ativo
+      serviceWorkerRegistration: registration,
     });
 
     if (currentToken) {
@@ -50,6 +54,7 @@ export const requestForToken = async () => {
       return { option: true, currentToken };
     } else {
       console.log("Nenhum token disponível. Solicite permissão para gerar um.");
+      return { option: false };
     }
   } catch (err) {
     console.error("Erro ao obter o token:", err);
@@ -62,9 +67,11 @@ export const unsubscribeFromNotifications = async () => {
     const currentToken = await getToken(messaging);
     if (currentToken) {
       await deleteToken(messaging, currentToken);
+      console.log("Token deletado com sucesso.");
       return currentToken;
     } else {
-      console.log("No token found to delete.");
+      console.log("Nenhum token encontrado para deletar.");
+      return null;
     }
   } catch (err) {
     if (
@@ -72,19 +79,21 @@ export const unsubscribeFromNotifications = async () => {
       err.message.includes("Requested entity was not found")
     ) {
       console.warn(
-        "Token not found. It might have been already deleted or invalid."
+        "Token não encontrado. Pode já ter sido deletado ou é inválido."
       );
     } else {
-      console.error("An error occurred while deleting token. ", err);
+      console.error("Erro ao deletar o token.", err);
     }
   }
 };
 
-// Listener para mensagens recebidas enquanto o app está em primeiro plano
 export const onMessageListener = () =>
   new Promise((resolve) => {
     onMessage(messaging, (payload) => {
-      console.log("payload", payload);
+      console.log(
+        "Mensagem recebida enquanto o app está em primeiro plano:",
+        payload
+      );
       resolve(payload);
     });
   });

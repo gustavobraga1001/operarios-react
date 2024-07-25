@@ -63,7 +63,7 @@ const ToggleButton = ({ permission }) => {
       if (!permissionGranted.option) {
         return;
       }
-      PostTokenNotify(permissionGranted.currentToken);
+      PostTokenNotify(permissionGranted.token);
 
       alert("Notificações ativadas");
 

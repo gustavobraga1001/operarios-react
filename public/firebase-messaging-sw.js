@@ -70,15 +70,15 @@ self.addEventListener("notificationclick", function (event) {
   );
 });
 
-// Controla atualizações do Service Worker manualmente
-self.addEventListener("install", (event) => {
-  // Skip waiting para ativar imediatamente
-  self.skipWaiting();
-  console.log("Service Worker instalado");
-});
+// // Controla atualizações do Service Worker manualmente
+// self.addEventListener("install", (event) => {
+//   // Skip waiting para ativar imediatamente
+//   self.skipWaiting();
+//   console.log("Service Worker instalado");
+// });
 
-self.addEventListener("activate", (event) => {
-  console.log("Service Worker ativado");
-  // Assume o controle de todos os clientes imediatamente
-  return self.clients.claim();
-});
+// self.addEventListener("activate", (event) => {
+//   console.log("Service Worker ativado");
+//   // Assume o controle de todos os clientes imediatamente
+//   return self.clients.claim();
+// });

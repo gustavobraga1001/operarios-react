@@ -25,28 +25,28 @@ const app = initializeApp(firebaseConfig);
 // Inicialize o Firebase Messaging
 const messaging = getMessaging(app);
 
-async function ensureServiceWorkerActive() {
-  if ("serviceWorker" in navigator) {
-    const registration = await navigator.serviceWorker.register(
-      "/firebase-messaging-sw.js"
-    ); // Certifique-se de que o caminho esteja correto
-    await navigator.serviceWorker.ready; // Espera até que o Service Worker esteja ativo
-    console.log("Service Worker registrado:", registration);
-    return registration;
-  } else {
-    throw new Error("Service Worker não é suportado neste navegador.");
-  }
-}
+// async function ensureServiceWorkerActive() {
+//   if ("serviceWorker" in navigator) {
+//     const registration = await navigator.serviceWorker.register(
+//       "/firebase-messaging-sw.js"
+//     ); // Certifique-se de que o caminho esteja correto
+//     await navigator.serviceWorker.ready; // Espera até que o Service Worker esteja ativo
+//     console.log("Service Worker registrado:", registration);
+//     return registration;
+//   } else {
+//     throw new Error("Service Worker não é suportado neste navegador.");
+//   }
+// }
 
 export const requestForToken = async () => {
   try {
-    const registration = await ensureServiceWorkerActive();
+    // const registration = await ensureServiceWorkerActive();
 
     // Obtém o token de notificação
     const currentToken = await getToken(messaging, {
       vapidKey:
         "BMuJvknRnFOl3ugMAg9DsSCF9UIxME6fFARGACsuWB2sbLEB6ieKwhEuap-tJ07jHejbVvvTMDjjl-amq7fCblQ",
-      serviceWorkerRegistration: registration,
+      // serviceWorkerRegistration: registration,
     });
 
     if (currentToken) {

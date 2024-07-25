@@ -115,7 +115,7 @@ const Home = () => {
           </Link>
         )}
       </main>
-
+      <Notification />
       <Footer />
     </div>
   );

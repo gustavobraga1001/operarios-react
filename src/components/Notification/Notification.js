@@ -15,9 +15,9 @@ const Notification = () => {
     return (
       <div>
         <p>
-          <b>{notification?.title}</b>
+          <b>{notification.title}</b>
         </p>
-        <p>{notification?.body}</p>
+        <p>{notification.body}</p>
       </div>
     );
   }
@@ -37,9 +37,10 @@ const Notification = () => {
     // Listener para mensagens em primeiro plano
     onMessageListener()
       .then((payload) => {
+        console.log(payload);
         setNotification({
-          title: payload?.notification?.title,
-          body: payload?.notification?.body,
+          title: payload.data.title,
+          body: payload.data.body,
         });
       })
       .catch((err) => console.error("Erro ao ouvir mensagens:", err));

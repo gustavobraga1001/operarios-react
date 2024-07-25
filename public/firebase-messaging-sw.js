@@ -20,16 +20,6 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-self.addEventListener("install", (event) => {
-  console.log("Service Worker instalado");
-  self.skipWaiting();
-});
-
-self.addEventListener("activate", (event) => {
-  console.log("Service Worker ativado");
-  return self.clients.claim();
-});
-
 messaging.onBackgroundMessage((payload) => {
   console.log("Mensagem em segundo plano recebida: ", payload);
 
@@ -45,28 +35,4 @@ messaging.onBackgroundMessage((payload) => {
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
-});
-
-self.addEventListener("notificationclick", (event) => {
-  console.log("Clique na notificação recebido: ", event.notification.data);
-
-  event.notification.close();
-
-  const clickAction = event.notification.data.click_action;
-
-  event.waitUntil(
-    clients
-      .matchAll({ type: "window", includeUncontrolled: true })
-      .then((windowClients) => {
-        for (let i = 0; i < windowClients.length; i++) {
-          const client = windowClients[i];
-          if (client.url.includes(clickAction) && "focus" in client) {
-            return client.focus();
-          }
-        }
-        if (clients.openWindow) {
-          return clients.openWindow(clickAction);
-        }
-      })
-  );
 });

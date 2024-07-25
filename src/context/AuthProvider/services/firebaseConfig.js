@@ -5,8 +5,8 @@ import {
   deleteToken,
   getMessaging,
   getToken,
-  onMessage,
   isSupported,
+  onMessage,
 } from "firebase/messaging";
 
 // Suas configurações do Firebase
@@ -22,8 +22,7 @@ const firebaseConfig = {
 
 // Inicialize o Firebase
 const app = initializeApp(firebaseConfig);
-
-let messaging;
+export let messaging;
 
 (async () => {
   const supported = await isSupported();
@@ -34,7 +33,6 @@ let messaging;
   }
 })();
 
-// Função para garantir que o Service Worker está ativo antes de obter o token
 async function ensureServiceWorkerActive() {
   if ("serviceWorker" in navigator) {
     const registration = await navigator.serviceWorker.ready;
@@ -45,52 +43,20 @@ async function ensureServiceWorkerActive() {
   }
 }
 
-// Função para solicitar permissão de notificação
-export const requestForToken = async () => {
-  try {
-    const registration = await ensureServiceWorkerActive();
+export const generateToken = async () => {
+  const registration = await ensureServiceWorkerActive();
 
-    if (Notification.permission === "granted") {
-      const currentToken = await getToken(messaging, {
-        vapidKey:
-          "BMuJvknRnFOl3ugMAg9DsSCF9UIxME6fFARGACsuWB2sbLEB6ieKwhEuap-tJ07jHejbVvvTMDjjl-amq7fCblQ",
-        serviceWorkerRegistration: registration,
-      });
+  const permission = await Notification.requestPermission();
+  console.log(permission);
 
-      if (currentToken) {
-        console.log("Token de notificação recebido:", currentToken);
-        return { option: true, currentToken };
-      } else {
-        console.warn("Nenhum token disponível.");
-        return { option: false };
-      }
-    } else if (Notification.permission === "default") {
-      const permissionResult = await Notification.requestPermission();
-      if (permissionResult === "granted") {
-        const currentToken = await getToken(messaging, {
-          vapidKey:
-            "BMuJvknRnFOl3ugMAg9DsSCF9UIxME6fFARGACsuWB2sbLEB6ieKwhEuap-tJ07jHejbVvvTMDjjl-amq7fCblQ",
-          serviceWorkerRegistration: registration,
-        });
-
-        if (currentToken) {
-          console.log("Token de notificação recebido:", currentToken);
-          return { option: true, currentToken };
-        } else {
-          console.warn("Nenhum token disponível após permissão.");
-          return { option: false };
-        }
-      } else {
-        console.warn("Permissão de notificação negada.");
-        return { option: false };
-      }
-    } else {
-      console.warn("Permissão de notificação foi bloqueada.");
-      return { option: false };
-    }
-  } catch (err) {
-    console.error("Erro ao obter o token de notificação:", err);
-    throw err;
+  if (permission === "granted") {
+    const token = await getToken(messaging, {
+      vapidKey:
+        "BMuJvknRnFOl3ugMAg9DsSCF9UIxME6fFARGACsuWB2sbLEB6ieKwhEuap-tJ07jHejbVvvTMDjjl-amq7fCblQ",
+      serviceWorkerRegistration: registration,
+    });
+    console.log(token);
+    return { option: true, token: token };
   }
 };
 

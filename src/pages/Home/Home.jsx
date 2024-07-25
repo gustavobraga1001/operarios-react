@@ -14,6 +14,10 @@ import LoadingSpinner from "../../components/Loading/Loading";
 import useAuth from "../../context/AuthProvider/useAuth";
 import useEvents from "../../context/EventsProvider/useEvents";
 import Notification from "../../components/Notification";
+import { onMessage } from "firebase/messaging";
+import { messaging } from "../../context/AuthProvider/services/firebaseConfig";
+import toast, { Toaster } from "react-hot-toast";
+import { Toast } from "@chakra-ui/react";
 
 const Home = () => {
   const [currentHour, setCurrentHour] = useState(new Date().getHours());
@@ -27,6 +31,13 @@ const Home = () => {
   });
   const auth = useAuth();
   const events = useEvents();
+
+  useEffect(() => {
+    onMessage(messaging, (payload) => {
+      console.log(payload);
+      toast(payload.data.body);
+    });
+  });
 
   const {
     data: user,
@@ -90,21 +101,10 @@ const Home = () => {
   //   );
   // }
 
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker
-        .register("/firebase-messaging-sw.js") // Caminho para o seu arquivo de service worker
-        .then((registration) => {
-          console.log("Service Worker registrado com sucesso:", registration);
-        })
-        .catch((err) => {
-          console.error("Erro ao registrar o Service Worker:", err);
-        });
-    });
-  }
 
   return (
     <div className="container-home">
+      <Toaster position="top-rigth" />
       <header>
         <img src={logo} alt="Logo do aplicativo" />
       </header>
@@ -128,7 +128,6 @@ const Home = () => {
           </Link>
         )}
       </main>
-      <Notification />
       <Footer />
     </div>
   );

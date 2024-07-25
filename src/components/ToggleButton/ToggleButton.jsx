@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./ToggleButton.css"; // Certifique-se de adicionar o CSS
 import {
-  requestForToken,
+  generateToken,
   unsubscribeFromNotifications,
 } from "../../context/AuthProvider/services/firebaseConfig";
 import Api from "../../context/AuthProvider/services/api";
@@ -59,7 +59,7 @@ const ToggleButton = ({ permission }) => {
       localStorage.removeItem("device");
     } else {
       // Request for notification permissions and subscribe
-      const permissionGranted = await requestForToken();
+      const permissionGranted = await generateToken();
       if (!permissionGranted.option) {
         return;
       }

@@ -13,12 +13,9 @@ import { useQuery } from "react-query";
 import LoadingSpinner from "../../components/Loading/Loading";
 import useAuth from "../../context/AuthProvider/useAuth";
 import useEvents from "../../context/EventsProvider/useEvents";
-import Notification from "../../components/Notification";
 import { onMessage } from "firebase/messaging";
 import { messaging } from "../../context/AuthProvider/services/firebaseConfig";
 import toast, { Toaster } from "react-hot-toast";
-import { Toast } from "@chakra-ui/react";
-
 const Home = () => {
   const [currentHour, setCurrentHour] = useState(new Date().getHours());
   const [message, setMessage] = useState("");
@@ -32,12 +29,12 @@ const Home = () => {
   const auth = useAuth();
   const events = useEvents();
 
-  useEffect(() => {
-    onMessage(messaging, (payload) => {
-      console.log(payload);
-      toast(payload.data.body);
-    });
-  });
+  // useEffect(() => {
+  //   onMessage(messaging, (payload) => {
+  //     console.log(payload);
+  //     // toast(payload.data.body);
+  //   });
+  // });
 
   const {
     data: user,
@@ -104,7 +101,7 @@ const Home = () => {
 
   return (
     <div className="container-home">
-      <Toaster position="top-rigth" />
+      {/* <Toaster position="top-rigth" /> */}
       <header>
         <img src={logo} alt="Logo do aplicativo" />
       </header>

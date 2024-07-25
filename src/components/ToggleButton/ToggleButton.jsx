@@ -5,7 +5,7 @@ import {
   unsubscribeFromNotifications,
 } from "../../context/AuthProvider/services/firebaseConfig";
 import Api from "../../context/AuthProvider/services/api";
-import Notification from "../Notification";
+// import Notification from "../Notification";
 
 const ToggleButton = ({ permission }) => {
   const [isOnline, setIsOnline] = useState(false);
@@ -77,7 +77,7 @@ const ToggleButton = ({ permission }) => {
       onClick={toggle}
     >
       <div className={`circle ${isOnline ? "right" : "left"}`}></div>
-      <Notification />
+      {/* <Notification /> */}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 // src/App.jsx
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import { Fragment, Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Settings from "../pages/Settings/Settings";
 import Scales from "../pages/Scales/Scales";
@@ -20,8 +20,6 @@ import Help from "../pages/Help/Help";
 import EditScale from "../pages/EditScale/EditScale";
 
 const Private = ({ Item }) => {
-  const auth = useAuth();
-
   const token = localStorage.getItem("accessToken");
   if (!token) {
     return <Login />;

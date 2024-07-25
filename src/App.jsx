@@ -23,9 +23,6 @@ const App = () => {
               console.log(
                 "Nova versão disponível. Atualize a página para obter a nova versão."
               );
-              alert(
-                "O site foi atualizado. Atualize a página para ver as alterações."
-              );
             } else {
               console.log("Conteúdo pré-cacheado pela primeira vez.");
             }

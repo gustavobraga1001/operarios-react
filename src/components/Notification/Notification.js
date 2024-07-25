@@ -4,7 +4,13 @@ import { requestForToken, onMessageListener } from "../firebase";
 
 const Notification = () => {
   const [notification, setNotification] = useState({ title: "", body: "" });
-  const notify = () => toast(<ToastDisplay />);
+
+  // Função para exibir notificação
+  const notify = () => {
+    toast(<ToastDisplay />);
+  };
+
+  // Componente de exibição de toast
   function ToastDisplay() {
     return (
       <div>
@@ -17,21 +23,34 @@ const Notification = () => {
   }
 
   useEffect(() => {
+    // Solicita permissão para notificações ao montar o componente
+    requestForToken()
+      .then(({ option, currentToken }) => {
+        if (!option) {
+          console.warn("Permissão para notificações não foi concedida.");
+        } else {
+          console.log("Token de notificação:", currentToken);
+        }
+      })
+      .catch((err) => console.error("Erro ao solicitar token:", err));
+
+    // Listener para mensagens em primeiro plano
+    onMessageListener()
+      .then((payload) => {
+        setNotification({
+          title: payload?.notification?.title,
+          body: payload?.notification?.body,
+        });
+      })
+      .catch((err) => console.error("Erro ao ouvir mensagens:", err));
+  }, []);
+
+  // Exibe a notificação quando o estado do notification é atualizado
+  useEffect(() => {
     if (notification?.title) {
       notify();
     }
   }, [notification]);
-
-  requestForToken();
-
-  onMessageListener()
-    .then((payload) => {
-      setNotification({
-        title: payload?.notification?.title,
-        body: payload?.notification?.body,
-      });
-    })
-    .catch((err) => console.log("failed: ", err));
 
   return <Toaster />;
 };

@@ -90,6 +90,19 @@ const Home = () => {
   //   );
   // }
 
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker
+        .register("/firebase-messaging-sw.js") // Caminho para o seu arquivo de service worker
+        .then((registration) => {
+          console.log("Service Worker registrado com sucesso:", registration);
+        })
+        .catch((err) => {
+          console.error("Erro ao registrar o Service Worker:", err);
+        });
+    });
+  }
+
   return (
     <div className="container-home">
       <header>

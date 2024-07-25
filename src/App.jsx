@@ -7,32 +7,6 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 const App = () => {
   const client = new QueryClient();
-  // Registra o Service Worker e controla atualizações
-  navigator.serviceWorker
-    .register("/firebase-messaging-sw.js")
-    .then((registration) => {
-      console.log("Service Worker registrado com sucesso:", registration);
-
-      // Verifica se há uma atualização disponível
-      registration.onupdatefound = () => {
-        const installingWorker = registration.installing;
-        installingWorker.onstatechange = () => {
-          if (installingWorker.state === "installed") {
-            if (navigator.serviceWorker.controller) {
-              // Notifica o usuário sobre a atualização
-              console.log(
-                "Nova versão disponível. Atualize a página para obter a nova versão."
-              );
-            } else {
-              console.log("Conteúdo pré-cacheado pela primeira vez.");
-            }
-          }
-        };
-      };
-    })
-    .catch((error) => {
-      console.error("Falha ao registrar o Service Worker:", error);
-    });
 
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {

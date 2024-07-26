@@ -23,6 +23,8 @@ export const requestForToken = () => {
       if (currentToken) {
         console.log("current token for client: ", currentToken);
         // Perform any other necessary action with the token
+
+        return { option: true, token: currentToken };
       } else {
         console.log(
           "No registration token available. Request permission to generate one."

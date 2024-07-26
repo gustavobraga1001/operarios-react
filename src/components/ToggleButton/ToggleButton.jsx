@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./ToggleButton.css"; // Certifique-se de adicionar o CSS
 import Api from "../../context/AuthProvider/services/api";
+import { requestForToken } from "../../../firebase";
 
 const ToggleButton = () => {
   const [isOnline, setIsOnline] = useState(false);
@@ -43,27 +44,27 @@ const ToggleButton = () => {
   const toggle = async () => {
     setIsOnline((prev) => !prev);
 
-    // if (isOnline) {
-    //   // Unsubscribe from notifications
-    //   // await unsubscribeFromNotifications();
-    //   localStorage.setItem("notificationsEnabled", "false");
-    //   const deviceId = localStorage.getItem("device");
+    if (isOnline) {
+      // Unsubscribe from notifications
+      // await unsubscribeFromNotifications();
+      localStorage.setItem("notificationsEnabled", "false");
+      const deviceId = localStorage.getItem("device");
 
-    //   DeleteTokenNotify(deviceId);
+      DeleteTokenNotify(deviceId);
 
-    //   localStorage.removeItem("device");
-    // } else {
-    //   // Request for notification permissions and subscribe
-    //   const permissionGranted = await generateToken();
-    //   if (!permissionGranted.option) {
-    //     return;
-    //   }
-    //   PostTokenNotify(permissionGranted.token);
+      localStorage.removeItem("device");
+    } else {
+      // Request for notification permissions and subscribe
+      const permissionGranted = await requestForToken();
+      if (!permissionGranted.option) {
+        return;
+      }
+      PostTokenNotify(permissionGranted.token);
 
-    //   alert("Notificações ativadas");
+      alert("Notificações ativadas");
 
-    //   localStorage.setItem("notificationsEnabled", "true");
-    // }
+      localStorage.setItem("notificationsEnabled", "true");
+    }
   };
 
   return (
@@ -72,7 +73,6 @@ const ToggleButton = () => {
       onClick={toggle}
     >
       <div className={`circle ${isOnline ? "right" : "left"}`}></div>
-      {/* <Notification /> */}
     </div>
   );
 };

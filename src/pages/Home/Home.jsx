@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./Home.css";
 import Saudacao from "../../components/Saudacao/Saudacao";
 import Footer from "../../components/Footer/Footer";
@@ -13,15 +13,11 @@ import { useQuery } from "react-query";
 import LoadingSpinner from "../../components/Loading/Loading";
 import useAuth from "../../context/AuthProvider/useAuth";
 import useEvents from "../../context/EventsProvider/useEvents";
-import { onMessage } from "firebase/messaging";
-import { messaging } from "../../context/AuthProvider/services/firebaseConfig";
-import toast, { Toaster } from "react-hot-toast";
 import Notification from "../../components/Notification";
 const Home = () => {
   const [currentHour, setCurrentHour] = useState(new Date().getHours());
   const [message, setMessage] = useState("");
   const [image, setImage] = useState("");
-  const [token, setToken] = useState("");
   const [messageDays, setMessageDays] = useState({
     message: "",
     days: "",
@@ -30,22 +26,11 @@ const Home = () => {
   const auth = useAuth();
   const events = useEvents();
 
-  // useEffect(() => {
-  //   onMessage(messaging, (payload) => {
-  //     console.log(payload);
-  //     // toast(payload.data.body);
-  //   });
-  // });
-
-  const {
-    data: user,
-    isLoading,
-    isErrorUser,
-  } = useQuery(["user"], () => auth.getUser(), {
+  const { data: user, isLoading } = useQuery(["user"], () => auth.getUser(), {
     staleTime: 50000,
   });
 
-  const { data: eventsWorker, isErrorEvents } = useQuery(
+  const { data: eventsWorker } = useQuery(
     ["events_worker"],
     () => events.getEvents(),
     {
@@ -93,15 +78,8 @@ const Home = () => {
     return <LoadingSpinner />;
   }
 
-  // if (isErrorUser || isErrorEvents) {
-  //   return (
-  //     <h1>Ocorreu um erro em nosso servidor tente novamente mais tarde</h1>
-  //   );
-  // }
-
   return (
     <div className="container-home">
-      {/* <Toaster position="top-rigth" /> */}
       <header>
         <img src={logo} alt="Logo do aplicativo" />
       </header>

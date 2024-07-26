@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { AuthProvider } from "./context/AuthProvider/index";
 import { EventsProvider } from "./context/EventsProvider";
 import RoutesApp from "./Routes";
@@ -9,16 +8,17 @@ const App = () => {
   const client = new QueryClient();
 
   if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker
-        .register("/firebase-messaging-sw.js") // Caminho para o seu arquivo de service worker
-        .then((registration) => {
-          console.log("Service Worker registrado com sucesso:", registration);
-        })
-        .catch((err) => {
-          console.error("Erro ao registrar o Service Worker:", err);
-        });
-    });
+    navigator.serviceWorker
+      .register("/firebase-messaging-sw.js")
+      .then(function (registration) {
+        console.log(
+          "Service Worker registration successful with scope: ",
+          registration.scope
+        );
+      })
+      .catch(function (err) {
+        console.log("Service Worker registration failed: ", err);
+      });
   }
 
   return (

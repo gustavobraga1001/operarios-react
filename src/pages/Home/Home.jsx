@@ -16,6 +16,7 @@ import useEvents from "../../context/EventsProvider/useEvents";
 import { onMessage } from "firebase/messaging";
 import { messaging } from "../../context/AuthProvider/services/firebaseConfig";
 import toast, { Toaster } from "react-hot-toast";
+import Notification from "../../components/Notification";
 const Home = () => {
   const [currentHour, setCurrentHour] = useState(new Date().getHours());
   const [message, setMessage] = useState("");
@@ -98,7 +99,6 @@ const Home = () => {
   //   );
   // }
 
-
   return (
     <div className="container-home">
       {/* <Toaster position="top-rigth" /> */}
@@ -126,6 +126,7 @@ const Home = () => {
         )}
       </main>
       <Footer />
+      <Notification />
     </div>
   );
 };

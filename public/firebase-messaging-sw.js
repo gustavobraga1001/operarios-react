@@ -1,5 +1,3 @@
-// firebase-messaging-sw.js
-
 importScripts(
   "https://www.gstatic.com/firebasejs/9.1.0/firebase-app-compat.js"
 );
@@ -21,7 +19,7 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
-  console.log("Mensagem em segundo plano recebida: ", payload);
+  console.log("Received background message ", payload);
 
   const notificationTitle = payload.data.title;
   const notificationOptions = {

@@ -85,11 +85,15 @@ export const unsubscribeFromNotifications = async () => {
     }
   }
 };
-
-// // Listener para mensagens em primeiro plano
-// onMessage(messaging, (payload) => {
-//   console.log(
-//     "Mensagem recebida enquanto o app está em primeiro plano:",
-//     payload
-//   );
-// });
+// Listener para mensagens em primeiro plano
+export const onMessageListener = () =>
+  new Promise((resolve, reject) => {
+    onMessage(messaging, (payload) => {
+      console.log("Mensagem recebida em primeiro plano: ", payload);
+      if (payload) {
+        resolve(payload);
+      } else {
+        reject("Payload sem notificação");
+      }
+    });
+  });

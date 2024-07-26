@@ -25,6 +25,7 @@ messaging.onBackgroundMessage((payload) => {
   const notificationOptions = {
     body: payload.data.body,
     icon: payload.data.icon,
+    click_action: "https://operarios-react.vercel.app/calendar",
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);

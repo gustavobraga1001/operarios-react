@@ -2,6 +2,23 @@
 export const manifestForPlugIn = {
   registerType: "prompt",
   includeAssests: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
+  registerType: "prompt", // Prompt para atualizações
+      injectRegister: "auto",
+      workbox: {
+        skipWaiting: true, // Aplicar atualizações imediatamente
+        clientsClaim: true, // Assumir controle dos clientes
+        runtimeCaching: [
+          {
+            handler: "NetworkFirst",
+            options: {
+              cacheName: "api-cache",
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24, // 1 dia
+              },
+            },
+          },
+        ],
   manifest: {
     name: "Operários",
     short_name: "Operários",

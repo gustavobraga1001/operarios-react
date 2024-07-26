@@ -1,33 +1,21 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
+import { manifestForPlugIn } from "./manifest";
+import mkcert from "vite-plugin-mkcert";
 
+// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    react(),
-    VitePWA({
-      registerType: "prompt", // Prompt para atualizações
-      injectRegister: "auto",
-      workbox: {
-        skipWaiting: true, // Aplicar atualizações imediatamente
-        clientsClaim: true, // Assumir controle dos clientes
-        runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/api.example.com\/.*$/,
-            handler: "NetworkFirst",
-            options: {
-              cacheName: "api-cache",
-              expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24, // 1 dia
-              },
-            },
-          },
-        ],
-      },
-    }),
-  ],
   server: {
-    https: true,
+    proxy: {
+      "/api": {
+        target: "http://192.168.11.239:8080",
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
+    https: true, // Ativa HTTPS para o servidor de desenvolvimento
   },
+  plugins: [react(), VitePWA(manifestForPlugIn), mkcert()],
 });

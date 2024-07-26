@@ -1,30 +1,29 @@
 export const manifestForPlugIn = {
-  // Manifesto PWA
   manifest: {
     name: "Operários",
     short_name: "Operários",
     description: "Aplicação para operários e líderes da Igreja Bom Pastor",
     icons: [
       {
-        src: "/android-chrome-192x192.png", // Ajustado para PNG
+        src: "/android-chrome-192x192.jng",
         sizes: "192x192",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/android-chrome-512x512.png", // Ajustado para PNG
+        src: "/android-chrome-512x512.jng",
         sizes: "512x512",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/apple-touch-icon.png", // Ajustado para PNG
+        src: "/apple-touch-icon.jng",
         sizes: "192x192",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/maskable_icon.png", // Ajustado para PNG
+        src: "/maskable_icon.jng",
         sizes: "512x512",
         type: "image/png",
         purpose: "any",
@@ -37,14 +36,12 @@ export const manifestForPlugIn = {
     start_url: "/",
     orientation: "portrait",
   },
-
-  // Configurações do Workbox
   workbox: {
-    skipWaiting: true, // Aplicar atualizações imediatamente
-    clientsClaim: true, // Assumir controle dos clientes
+    skipWaiting: true,
+    clientsClaim: true,
     runtimeCaching: [
       {
-        urlPattern: ({ request }) => request.mode === "navigate", // Cache de navegação
+        urlPattern: ({ request }) => request.mode === "navigate",
         handler: "NetworkFirst",
         options: {
           cacheName: "pages-cache",
@@ -55,7 +52,7 @@ export const manifestForPlugIn = {
         },
       },
       {
-        urlPattern: /^https:\/\/api\.example\.com\/.*$/, // Cache para requisições de API
+        urlPattern: /^https:\/\/api\.example\.com\/.*$/, // Substitua pela URL real da sua API
         handler: "NetworkFirst",
         options: {
           cacheName: "api-cache",
@@ -67,8 +64,6 @@ export const manifestForPlugIn = {
       },
     ],
   },
-
-  // Configuração de registro do Service Worker
-  registerType: "prompt", // Prompt para atualizações
+  registerType: "prompt",
   injectRegister: "auto",
 };

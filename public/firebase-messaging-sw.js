@@ -23,10 +23,10 @@ const messaging = firebase.messaging();
 messaging.onBackgroundMessage((payload) => {
   console.log("Mensagem em segundo plano recebida: ", payload);
 
-  const notificationTitle = payload.notification.title;
+  const notificationTitle = payload.data.title;
   const notificationOptions = {
-    body: payload.notification.body,
-    icon: payload.notification.icon,
+    body: payload.data.body,
+    icon: payload.data.icon,
     data: {
       click_action: "https://operarios-react.vercel.app/calendar",
     },

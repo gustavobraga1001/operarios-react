@@ -27,7 +27,7 @@ messaging.onBackgroundMessage((payload) => {
     body: payload.data.body || "Corpo padrão",
     icon: payload.data.icon || "/default-icon.png",
     data: {
-      click_action: "https://localhost:5173/calendar",
+      click_action: "https://operarios-react.vercel.app/calendar",
     },
   };
 

@@ -3,7 +3,6 @@ import Footer from "../../components/Footer/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../context/AuthProvider/useAuth";
 import "./Settings.css";
-import CardSettings from "../../components/CardSettings/CardSettings";
 import { BellSimpleSlash, Info, UserList } from "@phosphor-icons/react";
 import LoadingSpinner from "../../components/Loading/Loading";
 import { useQuery } from "react-query";
@@ -12,17 +11,6 @@ import ToggleButton from "../../components/ToggleButton/ToggleButton";
 const Settings = () => {
   const navigate = useNavigate();
   const auth = useAuth();
-  const [permission, setPermission] = useState();
-
-  useEffect(() => {
-    const permission = Notification.permission;
-
-    if (permission === "granted") {
-      setPermission(true);
-    } else {
-      setPermission(false);
-    }
-  }, [permission]);
 
   const { data: user, isLoading } = useQuery(["user"], () => auth.getUser(), {
     staleTime: 50000,
@@ -65,7 +53,7 @@ const Settings = () => {
             <BellSimpleSlash size={32} color="#ffc100" />
             <p>Desativar Notificações</p>
           </div>
-          <ToggleButton permission={permission} />
+          <ToggleButton />
         </div>
         <Link to={"/help"}>
           <div className="settings-option">

@@ -76,9 +76,10 @@ Api.interceptors.response.use(
 
           try {
             // Chama a API de refresh token
-            const response = await axios.post(`${apiUrl}/auth/refresh-token`, {
+            const response = await axios.post(`${apiUrl}auth/refresh-token`, {
               token: refreshToken,
             });
+            console.log(response)
 
             const tokens = response.data;
 
@@ -143,7 +144,7 @@ const handleLogout = async () => {
     const deviceId = localStorage.getItem("device");
     const refreshToken = getRefreshToken();
 
-    const request = await axios.post(`${apiUrl}/auth/logout`, {
+    const request = await axios.post(`${apiUrl}auth/logout`, {
       device_id: deviceId,
       refresh_token: refreshToken,
     });
